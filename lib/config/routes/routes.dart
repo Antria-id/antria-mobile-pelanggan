@@ -5,9 +5,12 @@ import 'package:antria_mobile_pelanggan/features/presentation/pages/home_page.da
 import 'package:antria_mobile_pelanggan/features/presentation/pages/info_restaurant.dart';
 import 'package:antria_mobile_pelanggan/features/presentation/pages/login_page.dart';
 import 'package:antria_mobile_pelanggan/features/presentation/pages/queue_page.dart';
+import 'package:antria_mobile_pelanggan/features/presentation/pages/rating_page.dart';
 import 'package:antria_mobile_pelanggan/features/presentation/pages/sign_up_page.dart';
 import 'package:antria_mobile_pelanggan/features/presentation/pages/splash_page.dart';
+import 'package:antria_mobile_pelanggan/features/presentation/pages/success_order.dart';
 import 'package:antria_mobile_pelanggan/features/presentation/pages/taking_queue.dart';
+import 'package:antria_mobile_pelanggan/features/presentation/pages/thanks_page.dart';
 import 'package:flutter/material.dart';
 
 class AppRoutes {
@@ -43,6 +46,15 @@ class AppRoutes {
 
       case '/information-restoran':
         return _materialRoute(const InfoRestaurantPage());
+
+      case '/success-order-page':
+        return _materialRoute(const SuccessOrderPage());
+
+      case '/rating-page':
+        return _materialRoute(const RatingPage());
+
+      case '/thanks-page':
+        return _materialRoute(const ThanksPage());
 
       default:
         return _materialRoute(const LoginPage());

@@ -28,9 +28,6 @@ class RecomendationResto extends StatelessWidget {
       child: Container(
         height: 102,
         width: 376,
-        margin: const EdgeInsets.only(
-          top: 16,
-        ),
         decoration: BoxDecoration(
           color: whiteColor,
           borderRadius: BorderRadius.circular(

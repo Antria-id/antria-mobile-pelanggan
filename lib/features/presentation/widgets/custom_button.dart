@@ -6,13 +6,14 @@ class CustomButton extends StatelessWidget {
   final double width;
   final Function() onPressed;
   final EdgeInsets margin;
-  const CustomButton({
-    super.key,
-    required this.title,
-    this.width = double.infinity,
-    required this.onPressed,
-    this.margin = EdgeInsets.zero,
-  });
+  final double radius;
+  const CustomButton(
+      {super.key,
+      required this.title,
+      this.width = double.infinity,
+      required this.onPressed,
+      this.margin = EdgeInsets.zero,
+      this.radius = 18});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,7 @@ class CustomButton extends StatelessWidget {
           backgroundColor: primaryColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(
-              18,
+              radius,
             ),
           ),
         ),

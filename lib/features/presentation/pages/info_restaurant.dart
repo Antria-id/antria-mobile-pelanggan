@@ -249,6 +249,12 @@ class _InfoRestaurantPageState extends State<InfoRestaurantPage> {
     }
 
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: primaryColor,
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        toolbarHeight: 0,
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Stack(

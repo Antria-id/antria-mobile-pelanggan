@@ -1,8 +1,6 @@
 import 'package:antria_mobile_pelanggan/config/themes/themes.dart';
 import 'package:flutter/material.dart';
 
-import '../widgets/bottom_navigation.dart';
-
 class TakingQueuePage extends StatelessWidget {
   const TakingQueuePage({super.key});
 
@@ -83,11 +81,9 @@ class TakingQueuePage extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        Navigator.push(
+        Navigator.pushNamed(
           context,
-          MaterialPageRoute(
-            builder: (context) => const BottomNavigationWidget(),
-          ),
+          '/rating-page',
         );
       },
       child: Container(
@@ -130,6 +126,12 @@ class TakingQueuePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: primaryColor,
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        toolbarHeight: 0,
+      ),
       body: SafeArea(
         child: ListView(
           children: [

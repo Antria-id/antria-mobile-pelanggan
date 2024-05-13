@@ -188,7 +188,7 @@ class _CardMenuState extends State<CardMenu> {
                                   8,
                                 ),
                               ),
-                              child: Icon(
+                              child: const Icon(
                                 Icons.remove,
                                 size: 20,
                               ),

@@ -160,6 +160,7 @@ class QueuePage extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(
         top: 48,
+        bottom: 90,
       ),
       width: double.infinity,
       height: 380,
@@ -179,6 +180,7 @@ class QueuePage extends StatelessWidget {
       child: ListView.builder(
         itemCount: menuItems.length,
         itemBuilder: (BuildContext context, int index) {
+          bool isLastItem = index == menuItems.length - 1;
           return Column(
             children: [
               QueueCustomerCard(
@@ -186,6 +188,10 @@ class QueuePage extends StatelessWidget {
                 imageUrl: menuItems[index]['imageUrl'],
                 number: menuItems[index]['number'],
               ),
+              if (isLastItem)
+                const SizedBox(
+                  height: 70,
+                ),
             ],
           );
         },
@@ -196,6 +202,12 @@ class QueuePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: primaryColor,
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        toolbarHeight: 0,
+      ),
       body: SafeArea(
         child: ListView(
           children: [

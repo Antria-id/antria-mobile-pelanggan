@@ -7,7 +7,13 @@ class HistoryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text('History Page'),
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.pushNamedAndRemoveUntil(
+                context, '/login-page', (route) => false);
+          },
+          child: Text('Logout'),
+        ),
       ),
     );
   }
