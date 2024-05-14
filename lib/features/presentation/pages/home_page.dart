@@ -154,20 +154,19 @@ class HomePage extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            ListView(
+            ListView.separated(
+              itemCount: menuItems.length,
+              itemBuilder: (context, index) {
+                final menuItem = menuItems[index];
+                return RecomendationResto(
+                  name: menuItem['name'],
+                  address: menuItem['address'],
+                  imageUrl: menuItem['imageUrl'],
+                );
+              },
+              separatorBuilder: (context, index) => SizedBox(height: 16),
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              children: List.generate(
-                menuItems.length,
-                (index) {
-                  final menuItem = menuItems[index];
-                  return RecomendationResto(
-                    name: menuItem['name'],
-                    address: menuItem['address'],
-                    imageUrl: menuItem['imageUrl'],
-                  );
-                },
-              ),
             ),
           ],
         ),

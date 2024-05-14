@@ -1,7 +1,6 @@
 import 'package:antria_mobile_pelanggan/config/themes/themes.dart';
 import 'package:antria_mobile_pelanggan/features/data/models/request/register_request_model.dart';
 import 'package:antria_mobile_pelanggan/features/presentation/bloc/register/bloc/register_bloc.dart';
-import 'package:antria_mobile_pelanggan/features/presentation/widgets/bottom_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';

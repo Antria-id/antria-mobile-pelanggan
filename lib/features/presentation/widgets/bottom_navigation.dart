@@ -2,7 +2,6 @@ import 'package:antria_mobile_pelanggan/config/themes/themes.dart';
 import 'package:antria_mobile_pelanggan/features/presentation/pages/chat_page.dart';
 import 'package:antria_mobile_pelanggan/features/presentation/pages/history_page.dart';
 import 'package:antria_mobile_pelanggan/features/presentation/pages/home_page.dart';
-import 'package:antria_mobile_pelanggan/features/presentation/pages/info_restaurant.dart';
 import 'package:antria_mobile_pelanggan/features/presentation/pages/queue_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +20,6 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
     const QueuePage(),
     const ChatPage(),
     const HistoryPage(),
-    const InfoRestaurantPage(),
   ];
 
   void onItemTapped(int index) {
@@ -56,30 +54,30 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     IconButton(
-                      icon: const Icon(
+                      icon: Icon(
                         Icons.home,
                         size: 30,
+                        color: selectedIndex == 0 ? whiteColor : greyColor,
                       ),
-                      color: whiteColor,
                       onPressed: () => onItemTapped(0),
                     ),
                     IconButton(
-                      icon: const Icon(
+                      icon: Icon(
                         Icons.list,
                         size: 34,
+                        color: selectedIndex == 1 ? whiteColor : greyColor,
                       ),
-                      color: whiteColor,
                       onPressed: () => onItemTapped(1),
                     ),
                     InkWell(
                       onTap: () => onItemTapped(2),
-                      child: const Stack(
+                      child: Stack(
                         alignment: Alignment.topRight,
                         children: [
                           Icon(
                             CupertinoIcons.chat_bubble_text_fill,
                             size: 28,
-                            color: whiteColor,
+                            color: selectedIndex == 2 ? whiteColor : greyColor,
                           ),
                           CircleAvatar(
                             radius: 6,
@@ -96,11 +94,11 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
                       ),
                     ),
                     IconButton(
-                      icon: const Icon(
+                      icon: Icon(
                         Icons.history,
                         size: 30,
+                        color: selectedIndex == 3 ? whiteColor : greyColor,
                       ),
-                      color: whiteColor,
                       onPressed: () => onItemTapped(3),
                     ),
                   ],
