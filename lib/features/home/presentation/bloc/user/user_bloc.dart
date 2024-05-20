@@ -1,6 +1,6 @@
 import 'package:antria_mobile_pelanggan/core/services/services_locater.dart';
-import 'package:antria_mobile_pelanggan/features/data/models/response/user_response_model.dart';
-import 'package:antria_mobile_pelanggan/features/domain/usecase/home/get_local_user_usecase.dart';
+import 'package:antria_mobile_pelanggan/features/home/data/models/user/user_response_model.dart';
+import 'package:antria_mobile_pelanggan/features/home/domain/usecases/home/get_local_user_usecase.dart';
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 

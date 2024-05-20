@@ -13,7 +13,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget header() {
       return BlocProvider(
-        create: (context) => UserBloc()..add(UserFetchDataEvent()),
+        create: (context) => UserBloc()..add(const UserFetchDataEvent()),
         child: Container(
           width: double.infinity,
           height: 262,
@@ -61,7 +61,7 @@ class HomePage extends StatelessWidget {
                                   height: 6,
                                 ),
                                 Text(
-                                  profileData.username ?? 'Tolol',
+                                  profileData.username ?? 'Member',
                                   style: whiteTextStyle.copyWith(
                                     fontSize: 24,
                                     fontWeight: bold,
@@ -71,14 +71,31 @@ class HomePage extends StatelessWidget {
                               ],
                             ),
                           ),
-                          Container(
-                            width: 56,
-                            height: 56,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                image: AssetImage(
-                                  'assets/images/profile.png',
+                          InkWell(
+                            onTap: () {
+                              Navigator.pushNamed(context, '/profile-page');
+                            },
+                            child: Container(
+                              width: 56,
+                              height: 56,
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                              ),
+                              child: ClipOval(
+                                child: FadeInImage(
+                                  placeholder: const AssetImage(
+                                      'assets/images/profile.png'),
+                                  image: const NetworkImage(
+                                    'https://image.popmama.com/content-images/community/20240328/community-3f6b6668a4af9cf86db3fc1e3893935e.png',
+                                  ),
+                                  fit: BoxFit.cover,
+                                  imageErrorBuilder:
+                                      (context, error, stackTrace) {
+                                    return Image.asset(
+                                      'assets/images/profile.png',
+                                      fit: BoxFit.cover,
+                                    );
+                                  },
                                 ),
                               ),
                             ),
@@ -113,7 +130,7 @@ class HomePage extends StatelessWidget {
                               fontSize: 14,
                               color: fontGreycolor,
                             ),
-                            suffixIcon: Icon(Icons.search),
+                            suffixIcon: const Icon(Icons.search),
                           ),
                         ),
                       ),
@@ -130,97 +147,88 @@ class HomePage extends StatelessWidget {
       );
     }
 
-    return BlocProvider(
-      create: (context) => GetRestaurantBloc()..add(RestaurantUserEvent()),
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: primaryColor,
-          elevation: 0,
-          automaticallyImplyLeading: false,
-          toolbarHeight: 0,
-        ),
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Stack(
-              children: [
-                BlocBuilder<GetRestaurantBloc, GetRestaurantState>(
-                  builder: (context, state) {
-                    if (state is RestaurantErrorState) {
-                      return Center(
-                        child: Text(state.message),
+    return BlocProvider<GetRestaurantBloc>(
+        create: (context) => GetRestaurantBloc()
+          ..add(
+            RestaurantUserEvent(),
+          ),
+        child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: primaryColor,
+            elevation: 0,
+            automaticallyImplyLeading: false,
+            toolbarHeight: 0,
+          ),
+          body: SafeArea(
+            child: SingleChildScrollView(
+              child: Stack(
+                children: [
+                  BlocBuilder<GetRestaurantBloc, GetRestaurantState>(
+                    builder: (context, state) {
+                      if (state is RestaurantErrorState) {
+                        return Center(
+                          child: Text(state.message),
+                        );
+                      } else if (state is RestaurantLoadedState) {
+                        return Column(
+                          children: [
+                            header(),
+                            ListRestaurant(menuItems: state.response),
+                          ],
+                        );
+                      }
+                      return const Center(
+                        child: CircularProgressIndicator(),
                       );
-                    } else if (state is RestaurantLoadedState) {
-                      return Column(
+                    },
+                  ),
+                  Positioned(
+                    top: 160,
+                    left: 0,
+                    right: 0,
+                    child: Container(
+                      height: 200,
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
                         children: [
-                          header(),
-                          ListRestaurant(menuItems: state.response)
+                          Container(
+                            margin: const EdgeInsets.only(left: 20),
+                            width: 356,
+                            height: 178,
+                            decoration: const BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage('assets/images/banner1.png'),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.only(left: 20),
+                            width: 356,
+                            height: 178,
+                            decoration: const BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage('assets/images/banner1.png'),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.only(left: 20, right: 20),
+                            width: 356,
+                            height: 178,
+                            decoration: const BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage('assets/images/banner1.png'),
+                              ),
+                            ),
+                          ),
                         ],
-                      );
-                    }
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  },
-                ),
-                Positioned(
-                  top: 160,
-                  left: 0,
-                  right: 0,
-                  child: Container(
-                    height: 200,
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.only(
-                            left: 20,
-                          ),
-                          width: 356,
-                          height: 178,
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage('assets/images/banner1.png'),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(
-                            left: 20,
-                          ),
-                          width: 356,
-                          height: 178,
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage(
-                                'assets/images/banner1.png',
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(
-                            left: 20,
-                            right: 20,
-                          ),
-                          width: 356,
-                          height: 178,
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage(
-                                'assets/images/banner1.png',
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-        ),
-      ),
-    );
+        ));
   }
 }

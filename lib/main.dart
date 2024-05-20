@@ -1,4 +1,8 @@
 import 'package:antria_mobile_pelanggan/core/services/services_locater.dart';
+import 'package:antria_mobile_pelanggan/features/info_restaurant/presentation/bloc/info_restaurant/info_restaurant_bloc.dart';
+import 'package:antria_mobile_pelanggan/features/info_restaurant/presentation/bloc/menu_restaurant/menu_restaurant_bloc.dart';
+import 'package:antria_mobile_pelanggan/features/profile/presentation/bloc/logout/logout_bloc.dart';
+import 'package:antria_mobile_pelanggan/features/profile/presentation/bloc/pelanggan_profile/pelanggan_profile_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:antria_mobile_pelanggan/config/routes/routes.dart';
 import 'package:flutter/services.dart';
@@ -31,6 +35,10 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => RegisterBloc()),
         BlocProvider(create: (_) => GetRestaurantBloc()),
         BlocProvider(create: (_) => UserBloc()),
+        BlocProvider(create: (_) => InfoRestaurantBloc()),
+        BlocProvider(create: (_) => MenuRestaurantBloc()),
+        BlocProvider(create: (_) => PelangganProfileBloc()),
+        BlocProvider(create: (_) => LogoutBloc()),
       ],
       child: const MaterialApp(
         onGenerateRoute: AppRoutes.onGenerateRoutes,

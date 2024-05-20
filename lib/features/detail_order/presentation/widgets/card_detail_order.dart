@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../../../config/themes/themes.dart';
-import '../../../info_restaurant/presentation/pages/info_restaurant.dart';
 
 class CardDetailOrder extends StatelessWidget {
   final String name;

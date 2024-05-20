@@ -5,6 +5,7 @@ import 'package:antria_mobile_pelanggan/features/detail_order/presentation/pages
 import 'package:antria_mobile_pelanggan/features/history/presentation/pages/history_page.dart';
 import 'package:antria_mobile_pelanggan/features/home/presentation/pages/home_page.dart';
 import 'package:antria_mobile_pelanggan/features/info_restaurant/presentation/pages/info_restaurant.dart';
+import 'package:antria_mobile_pelanggan/features/profile/presentation/pages/profile_page.dart';
 import 'package:antria_mobile_pelanggan/features/queue/presentation/pages/queue_page.dart';
 import 'package:antria_mobile_pelanggan/features/rating/presentation/pages/rating_page.dart';
 import 'package:antria_mobile_pelanggan/features/success_order/presentation/pages/success_order.dart';
@@ -21,6 +22,9 @@ class AppRoutes {
       case '/':
         return _materialRoute(SplashPage());
 
+      case '/login-page':
+        return _materialRoute(const LoginPage());
+
       case '/sign-up':
         return _materialRoute(const RegisterPage());
 
@@ -32,6 +36,9 @@ class AppRoutes {
 
       case '/queue-page':
         return _materialRoute(const QueuePage());
+
+      case '/profile-page':
+        return _materialRoute(const ProfilePage());
 
       case '/detail-order':
         return _materialRoute(const DetailOrderPage());
@@ -45,8 +52,11 @@ class AppRoutes {
       case '/taking-queue-page':
         return _materialRoute(const TakingQueuePage());
 
-      case '/information-restoran':
-        return _materialRoute(const InfoRestaurantPage());
+      case '/information-restaurant':
+        final mitraId = settings.arguments as int;
+        return _materialRoute(
+          InfoRestaurantPage(mitraId: mitraId),
+        );
 
       case '/success-order-page':
         return _materialRoute(const SuccessOrderPage());

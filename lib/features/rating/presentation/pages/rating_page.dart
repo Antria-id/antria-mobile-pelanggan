@@ -1,5 +1,7 @@
 import 'package:antria_mobile_pelanggan/config/themes/themes.dart';
+import 'package:antria_mobile_pelanggan/features/rating/presentation/widgets/review_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import '../../../../shared/custom_button.dart';
 
@@ -11,12 +13,6 @@ class RatingPage extends StatefulWidget {
 }
 
 class _RatingPageState extends State<RatingPage> {
-  Color starColor1 = greyColor;
-  Color starColor2 = greyColor;
-  Color starColor3 = greyColor;
-  Color starColor4 = greyColor;
-  Color starColor5 = greyColor;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,125 +22,63 @@ class _RatingPageState extends State<RatingPage> {
         automaticallyImplyLeading: false,
         toolbarHeight: 0,
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              'assets/icons/icon_rating.png',
-              height: 162,
-              width: 168,
+      body: SingleChildScrollView(
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: 40,
             ),
-            const SizedBox(
-              height: 40,
-            ),
-            Text(
-              'Berikan Penilaianmu Tentang Kami',
-              style: blackTextStyle.copyWith(
-                fontSize: 20,
-                fontWeight: medium,
-              ),
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            Row(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                IconButton(
-                  onPressed: () {
-                    setState(() {
-                      starColor1 = const Color(0xFFF2C94C);
-                      starColor2 = greyColor;
-                      starColor3 = greyColor;
-                      starColor4 = greyColor;
-                      starColor5 = greyColor;
-                    });
-                  },
-                  icon: Icon(
-                    Icons.star,
-                    color: starColor1,
-                    size: 30,
+                Image.asset(
+                  'assets/icons/icon_rating.png',
+                  height: 162,
+                  width: 168,
+                ),
+                const SizedBox(
+                  height: 40,
+                ),
+                Text(
+                  'Berikan Penilaianmu Tentang Kami',
+                  style: blackTextStyle.copyWith(
+                    fontSize: 20,
+                    fontWeight: medium,
                   ),
                 ),
-                IconButton(
-                  onPressed: () {
-                    setState(() {
-                      starColor1 = const Color(0xFFF2C94C);
-                      starColor2 = const Color(0xFFF2C94C);
-                      starColor3 = greyColor;
-                      starColor4 = greyColor;
-                      starColor5 = greyColor;
-                    });
-                  },
-                  icon: Icon(
-                    Icons.star,
-                    color: starColor2,
-                    size: 30,
-                  ),
+                const SizedBox(
+                  height: 30,
                 ),
-                IconButton(
-                  onPressed: () {
-                    setState(() {
-                      starColor1 = const Color(0xFFF2C94C);
-                      starColor2 = const Color(0xFFF2C94C);
-                      starColor3 = const Color(0xFFF2C94C);
-                      starColor4 = greyColor;
-                      starColor5 = greyColor;
-                    });
-                  },
-                  icon: Icon(
-                    Icons.star,
-                    color: starColor3,
-                    size: 30,
+                RatingBar.builder(
+                  initialRating: 0,
+                  direction: Axis.horizontal,
+                  itemCount: 5,
+                  itemSize: 32.0,
+                  itemPadding: const EdgeInsets.symmetric(
+                    horizontal: 4,
                   ),
-                ),
-                IconButton(
-                  onPressed: () {
-                    setState(() {
-                      starColor1 = const Color(0xFFF2C94C);
-                      starColor2 = const Color(0xFFF2C94C);
-                      starColor3 = const Color(0xFFF2C94C);
-                      starColor4 = const Color(0xFFF2C94C);
-                      starColor5 = greyColor;
-                    });
-                  },
-                  icon: Icon(
+                  itemBuilder: (context, _) => const Icon(
                     Icons.star,
-                    color: starColor4,
-                    size: 30,
+                    color: Colors.amber,
                   ),
+                  ignoreGestures: false,
+                  onRatingUpdate: (double value) {},
                 ),
-                IconButton(
+                const ReviewField(),
+                CustomButton(
+                  title: 'Kirim Rating',
                   onPressed: () {
-                    setState(() {
-                      starColor1 = const Color(0xFFF2C94C);
-                      starColor2 = const Color(0xFFF2C94C);
-                      starColor3 = const Color(0xFFF2C94C);
-                      starColor4 = const Color(0xFFF2C94C);
-                      starColor5 = const Color(0xFFF2C94C);
-                    });
+                    Navigator.pushNamed(context, '/thanks-page');
                   },
-                  icon: Icon(
-                    Icons.star,
-                    color: starColor5,
-                    size: 30,
+                  width: 354,
+                  radius: 40,
+                  margin: const EdgeInsets.only(
+                    top: 20,
                   ),
                 ),
               ],
             ),
-            CustomButton(
-              title: 'Kirim Rating',
-              onPressed: () {
-                Navigator.pushNamed(context, '/thanks-page');
-              },
-              width: 354,
-              radius: 40,
-              margin: const EdgeInsets.only(
-                top: 40,
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );
