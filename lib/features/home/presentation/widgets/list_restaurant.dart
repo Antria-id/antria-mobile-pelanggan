@@ -2,7 +2,6 @@ import 'package:antria_mobile_pelanggan/config/themes/themes.dart';
 import 'package:antria_mobile_pelanggan/features/home/data/models/response/get_restaurant_model.dart';
 import 'package:antria_mobile_pelanggan/features/home/presentation/bloc/get_restaurant/get_restaurant_bloc.dart';
 import 'package:antria_mobile_pelanggan/features/home/presentation/widgets/recomendation_resto.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -71,7 +70,7 @@ class ListRestaurant extends StatelessWidget {
                     shrinkWrap: true,
                   );
                 }
-                return Center(
+                return const Center(
                   child: CircularProgressIndicator(),
                 );
               },

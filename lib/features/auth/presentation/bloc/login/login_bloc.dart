@@ -9,7 +9,7 @@ part 'login_state.dart';
 part 'login_bloc.freezed.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  LoginBloc() : super(LoginInitialState()) {
+  LoginBloc() : super(const LoginInitialState()) {
     on<LoginEvent>((event, emit) async {
       final user = event.user;
       emit(const LoginState.loading());

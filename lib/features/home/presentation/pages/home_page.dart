@@ -1,9 +1,9 @@
 import 'package:antria_mobile_pelanggan/config/themes/themes.dart';
+import 'package:antria_mobile_pelanggan/features/profile/presentation/bloc/pelanggan_profile/pelanggan_profile_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../bloc/get_restaurant/get_restaurant_bloc.dart';
-import '../bloc/user/user_bloc.dart';
 import '../widgets/list_restaurant.dart';
 
 class HomePage extends StatelessWidget {
@@ -13,7 +13,8 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget header() {
       return BlocProvider(
-        create: (context) => UserBloc()..add(const UserFetchDataEvent()),
+        create: (context) =>
+            PelangganProfileBloc()..add(const GetPelangganFetchDataEvent()),
         child: Container(
           width: double.infinity,
           height: 262,
@@ -28,14 +29,14 @@ class HomePage extends StatelessWidget {
               ),
             ),
           ),
-          child: BlocBuilder<UserBloc, UserState>(
+          child: BlocBuilder<PelangganProfileBloc, PelangganProfileState>(
             builder: (context, state) {
-              if (state is UserErrorState) {
+              if (state is PelangganProfileStateErrorState) {
                 return Center(
                   child: Text('Error: ${state.message}'),
                 );
-              } else if (state is UserLoadedState) {
-                final profileData = state.user;
+              } else if (state is PelangganProfileStateLoadedState) {
+                final profileData = state.pelangganModel;
                 return Container(
                   margin: const EdgeInsets.only(
                     top: 10,
@@ -81,22 +82,25 @@ class HomePage extends StatelessWidget {
                               decoration: const BoxDecoration(
                                 shape: BoxShape.circle,
                               ),
-                              child: ClipOval(
-                                child: FadeInImage(
-                                  placeholder: const AssetImage(
-                                      'assets/images/profile.png'),
-                                  image: const NetworkImage(
-                                    'https://image.popmama.com/content-images/community/20240328/community-3f6b6668a4af9cf86db3fc1e3893935e.png',
+                              child: Stack(
+                                alignment: Alignment.bottomRight,
+                                children: [
+                                  CircleAvatar(
+                                    radius: 50,
+                                    backgroundColor: primaryColor,
+                                    child: Image.network(
+                                      profileData.profilePicture!,
+                                      errorBuilder:
+                                          (context, error, stackTrace) =>
+                                              const CircleAvatar(
+                                        radius: 50,
+                                        backgroundImage: NetworkImage(
+                                          'https://icon-library.com/images/avatar-icon-images/avatar-icon-images-4.jpg',
+                                        ),
+                                      ),
+                                    ),
                                   ),
-                                  fit: BoxFit.cover,
-                                  imageErrorBuilder:
-                                      (context, error, stackTrace) {
-                                    return Image.asset(
-                                      'assets/images/profile.png',
-                                      fit: BoxFit.cover,
-                                    );
-                                  },
-                                ),
+                                ],
                               ),
                             ),
                           ),
@@ -150,7 +154,7 @@ class HomePage extends StatelessWidget {
     return BlocProvider<GetRestaurantBloc>(
         create: (context) => GetRestaurantBloc()
           ..add(
-            RestaurantUserEvent(),
+            const RestaurantUserEvent(),
           ),
         child: Scaffold(
           appBar: AppBar(

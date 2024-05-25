@@ -10,7 +10,7 @@ part 'menu_restaurant_bloc.freezed.dart';
 
 class MenuRestaurantBloc
     extends Bloc<MenuRestaurantEvent, MenuRestaurantState> {
-  MenuRestaurantBloc() : super(MenuRestaurantInitialState()) {
+  MenuRestaurantBloc() : super(const MenuRestaurantInitialState()) {
     on<MenuRestaurantEvent>((event, emit) async {
       emit(const MenuRestaurantState.loading());
       var result = await serviceLocator<MenuGetRestaurantUsecase>()

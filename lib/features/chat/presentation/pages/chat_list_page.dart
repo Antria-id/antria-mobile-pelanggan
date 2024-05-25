@@ -15,7 +15,7 @@ class ChatListPage extends StatelessWidget {
         automaticallyImplyLeading: false,
         toolbarHeight: 0,
       ),
-      backgroundColor: whiteColor,
+      backgroundColor: backgroundGreyColor,
       body: ChatListWidget(),
     );
   }

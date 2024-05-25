@@ -59,34 +59,25 @@ class ProfilePage extends StatelessWidget {
                                     Stack(
                                       alignment: Alignment.bottomRight,
                                       children: [
-                                        Container(
-                                          width: 100,
-                                          height: 100,
-                                          decoration: const BoxDecoration(
-                                            shape: BoxShape.circle,
-                                          ),
-                                          child: ClipOval(
-                                            child: FadeInImage(
-                                              placeholder: const AssetImage(
-                                                  'assets/images/profile.png'),
-                                              image: NetworkImage(
-                                                profileData.profilePicture!,
+                                        CircleAvatar(
+                                          radius: 50,
+                                          backgroundColor: primaryColor,
+                                          child: Image.network(
+                                            profileData.profilePicture!,
+                                            errorBuilder:
+                                                (context, error, stackTrace) =>
+                                                    const CircleAvatar(
+                                              radius: 50,
+                                              backgroundImage: NetworkImage(
+                                                'https://icon-library.com/images/avatar-icon-images/avatar-icon-images-4.jpg',
                                               ),
-                                              fit: BoxFit.cover,
-                                              imageErrorBuilder:
-                                                  (context, error, stackTrace) {
-                                                return Image.asset(
-                                                  'assets/images/profile.png',
-                                                  fit: BoxFit.cover,
-                                                );
-                                              },
                                             ),
                                           ),
                                         ),
                                         InkWell(
                                           onTap: () => Navigator.pushNamed(
                                             context,
-                                            '/edit-profile',
+                                            '/edit-profile-page',
                                           ),
                                           child: const CircleAvatar(
                                             radius: 15,
@@ -147,7 +138,7 @@ class ProfilePage extends StatelessWidget {
               text: 'Contact Support',
               onTap: () => Navigator.pushNamed(
                 context,
-                '/contact-support',
+                '/contact-support-page',
               ),
             ),
             const SizedBox(

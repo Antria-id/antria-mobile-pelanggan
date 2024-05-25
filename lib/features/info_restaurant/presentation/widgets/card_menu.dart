@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
 import '../../../../config/themes/themes.dart';
-import '../../../detail_order/presentation/pages/detail_order.dart';
 
 class CardMenu extends StatefulWidget {
   final String title;
@@ -47,7 +45,7 @@ class _CardMenuState extends State<CardMenu> {
             width: double.infinity,
             height: 100,
             child: ClipRRect(
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(12),
                 topRight: Radius.circular(12),
               ),
@@ -103,7 +101,7 @@ class _CardMenuState extends State<CardMenu> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 8,
                 ),
                 Text(
@@ -234,7 +232,7 @@ class _CardMenuState extends State<CardMenu> {
                                 8,
                               ),
                             ),
-                            child: Icon(
+                            child: const Icon(
                               Icons.add,
                               size: 20,
                             ),

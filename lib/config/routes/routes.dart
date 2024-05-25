@@ -1,10 +1,13 @@
 import 'package:antria_mobile_pelanggan/features/auth/presentation/pages/login_page.dart';
 import 'package:antria_mobile_pelanggan/features/auth/presentation/pages/register_page.dart';
-import 'package:antria_mobile_pelanggan/features/chat/presentation/pages/chat_list_screen.dart';
+import 'package:antria_mobile_pelanggan/features/chat/presentation/pages/chat_list_page.dart';
+import 'package:antria_mobile_pelanggan/features/chat/presentation/pages/chat_page.dart';
 import 'package:antria_mobile_pelanggan/features/detail_order/presentation/pages/detail_order.dart';
 import 'package:antria_mobile_pelanggan/features/history/presentation/pages/history_page.dart';
 import 'package:antria_mobile_pelanggan/features/home/presentation/pages/home_page.dart';
 import 'package:antria_mobile_pelanggan/features/info_restaurant/presentation/pages/info_restaurant.dart';
+import 'package:antria_mobile_pelanggan/features/profile/presentation/pages/contact_support_page.dart';
+import 'package:antria_mobile_pelanggan/features/profile/presentation/pages/edit_profile_page.dart';
 import 'package:antria_mobile_pelanggan/features/profile/presentation/pages/profile_page.dart';
 import 'package:antria_mobile_pelanggan/features/queue/presentation/pages/queue_page.dart';
 import 'package:antria_mobile_pelanggan/features/rating/presentation/pages/rating_page.dart';
@@ -20,7 +23,7 @@ class AppRoutes {
     // Corrected return type
     switch (settings.name) {
       case '/':
-        return _materialRoute(SplashPage());
+        return _materialRoute(const SplashPage());
 
       case '/login-page':
         return _materialRoute(const LoginPage());
@@ -29,7 +32,7 @@ class AppRoutes {
         return _materialRoute(const RegisterPage());
 
       case '/splash-page':
-        return _materialRoute(SplashPage());
+        return _materialRoute(const SplashPage());
 
       case '/home-page':
         return _materialRoute(const HomePage());
@@ -40,11 +43,20 @@ class AppRoutes {
       case '/profile-page':
         return _materialRoute(const ProfilePage());
 
+      case '/edit-profile-page':
+        return _materialRoute(const EditProfilePage());
+
+      case '/contact-support-page':
+        return _materialRoute(const ContactSupportPage());
+
       case '/detail-order':
         return _materialRoute(const DetailOrderPage());
 
-      case '/chat-page':
+      case '/chat-list-page':
         return _materialRoute(const ChatListPage());
+
+      case '/chat-page':
+        return _materialRoute(const ChatPage());
 
       case '/history-page':
         return _materialRoute(const HistoryPage());

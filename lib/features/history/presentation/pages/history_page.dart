@@ -12,7 +12,7 @@ class HistoryPage extends StatelessWidget {
             Navigator.pushNamedAndRemoveUntil(
                 context, '/login-page', (route) => false);
           },
-          child: Text('Logout'),
+          child: const Text('Logout'),
         ),
       ),
     );

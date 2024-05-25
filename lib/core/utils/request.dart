@@ -60,4 +60,8 @@ class Request {
       {required Map<String, int> queryParameters}) async {
     return await dio.get(path);
   }
+
+  Future<Response> put(String path, {Object? data}) async {
+    return await dio.put(path, data: data);
+  }
 }

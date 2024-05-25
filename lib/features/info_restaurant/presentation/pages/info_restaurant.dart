@@ -129,7 +129,7 @@ class _InfoRestaurantPageState extends State<InfoRestaurantPage> {
                   ],
                 );
               }
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(),
               );
             },
@@ -210,14 +210,14 @@ class _InfoRestaurantPageState extends State<InfoRestaurantPage> {
                         ],
                       );
                     }
-                    return Center(
+                    return const Center(
                       child: CircularProgressIndicator(),
                     );
                   },
                 ),
               ),
               if (showCart)
-                Align(
+                const Align(
                   alignment: Alignment.bottomCenter,
                   child: CartOrder(),
                 ),

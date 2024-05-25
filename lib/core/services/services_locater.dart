@@ -11,6 +11,7 @@ import 'package:antria_mobile_pelanggan/features/home/data/repositories/home_rep
 import 'package:antria_mobile_pelanggan/features/home/data/repositories/restaurant_repository_impl.dart';
 import 'package:antria_mobile_pelanggan/features/home/domain/repositories/home_repository/home_repository.dart';
 import 'package:antria_mobile_pelanggan/features/home/domain/repositories/restaurant_repository/restaurant_repository.dart';
+import 'package:antria_mobile_pelanggan/features/home/domain/usecases/home/check_login_status_usecase.dart';
 import 'package:antria_mobile_pelanggan/features/home/domain/usecases/home/get_local_user_usecase.dart';
 import 'package:antria_mobile_pelanggan/features/home/domain/usecases/restaurant/get_restaurant.dart';
 import 'package:antria_mobile_pelanggan/features/info_restaurant/data/datasources/info_restaurant/restaurant_remote_datasources.dart';
@@ -25,12 +26,16 @@ import 'package:antria_mobile_pelanggan/features/profile/data/datasources/profil
 import 'package:antria_mobile_pelanggan/features/profile/data/repositories/pelanggan_repository_impl.dart';
 import 'package:antria_mobile_pelanggan/features/profile/domain/repositories/pelanggan_repository.dart';
 import 'package:antria_mobile_pelanggan/features/profile/domain/usecases/get_pelanggan_profile_usecase.dart';
+import 'package:antria_mobile_pelanggan/features/profile/domain/usecases/update_pelanggan_usecase.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final serviceLocator = GetIt.instance;
 
 Future<void> setUpServiceLocator() async {
+  serviceLocator.registerFactory<CheckUserLoginStatus>(
+    () => CheckUserLoginStatusImpl(),
+  );
   //usecase
   serviceLocator.registerFactory<LoginUsecase>(() => LoginUsecase());
 
@@ -38,6 +43,9 @@ Future<void> setUpServiceLocator() async {
 
   serviceLocator.registerFactory<GetPelangganProfileUsecase>(
       () => GetPelangganProfileUsecase());
+
+  serviceLocator
+      .registerFactory<UpdatePelangganUsecase>(() => UpdatePelangganUsecase());
 
   serviceLocator
       .registerFactory<GetRestaurantUsecase>(() => GetRestaurantUsecase());
@@ -92,6 +100,7 @@ Future<void> setUpServiceLocator() async {
   //external
   final sharedPreferences = await SharedPreferences.getInstance();
   serviceLocator.registerFactory<SharedPreferences>(() => sharedPreferences);
+
   // request
   serviceLocator.registerSingleton<Request>(Request());
 }

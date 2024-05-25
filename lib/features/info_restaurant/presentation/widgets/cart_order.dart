@@ -11,7 +11,7 @@ class CartOrder extends StatelessWidget {
         Navigator.pushNamed(context, '/detail-order');
       },
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
         child: Container(
           width: 320,
           height: 54,
@@ -22,7 +22,7 @@ class CartOrder extends StatelessWidget {
             color: primaryColor,
           ),
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 14, vertical: 4),
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -39,7 +39,7 @@ class CartOrder extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           height: 4,
                         ),
                         Text(

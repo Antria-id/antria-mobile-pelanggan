@@ -17,7 +17,7 @@ class LogoutButtonWidget extends StatelessWidget {
         );
       },
       style: ElevatedButton.styleFrom(
-        fixedSize: Size(324, 56),
+        fixedSize: const Size(324, 56),
         backgroundColor: Colors.red,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(

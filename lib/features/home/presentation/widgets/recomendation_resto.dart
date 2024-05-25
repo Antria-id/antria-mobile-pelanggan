@@ -34,8 +34,8 @@ class RecomendationResto extends StatelessWidget {
             margin: const EdgeInsets.only(
               right: 16,
             ),
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.only(
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(
                   8,
                 ),

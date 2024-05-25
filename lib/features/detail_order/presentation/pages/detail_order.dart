@@ -161,7 +161,7 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
               return FractionallySizedBox(
                 heightFactor: 0.5,
                 child: Padding(
-                  padding: EdgeInsets.all(12.0),
+                  padding: const EdgeInsets.all(12.0),
                   child: Column(
                     children: [
                       Expanded(

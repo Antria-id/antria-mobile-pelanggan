@@ -1,6 +1,5 @@
 import 'package:antria_mobile_pelanggan/features/info_restaurant/data/models/get_menu_model.dart';
 import 'package:antria_mobile_pelanggan/features/info_restaurant/presentation/bloc/menu_restaurant/menu_restaurant_bloc.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -67,7 +66,7 @@ class _MenuState extends State<Menu> {
                 },
               );
             }
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           },

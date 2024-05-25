@@ -2,7 +2,7 @@ import 'package:antria_mobile_pelanggan/config/themes/themes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../features/chat/presentation/pages/chat_list_screen.dart';
+import '../features/chat/presentation/pages/chat_list_page.dart';
 import '../features/history/presentation/pages/history_page.dart';
 import '../features/home/presentation/pages/home_page.dart';
 import '../features/queue/presentation/pages/queue_page.dart';
@@ -80,7 +80,7 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
                             size: 28,
                             color: selectedIndex == 2 ? whiteColor : greyColor,
                           ),
-                          CircleAvatar(
+                          const CircleAvatar(
                             radius: 6,
                             backgroundColor: Color(0xffFF0000),
                             child: Text(

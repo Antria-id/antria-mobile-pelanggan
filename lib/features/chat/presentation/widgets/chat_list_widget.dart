@@ -5,25 +5,25 @@ import 'chat_card_widget.dart';
 class ChatListWidget extends StatelessWidget {
   final List<Map<String, dynamic>> chatList = [
     {
-      'nama': 'Customer#1234',
+      'nama': 'Mie Gacoan Bojongsoang',
       'image': 'https://i.postimg.cc/nLq2tk6y/IMG-2585-1.png',
       'message': 'Halo apakah pesanan saya sudah siap?',
       'count_chat': '1',
     },
     {
-      'nama': 'Customer#1234',
+      'nama': 'Mie Gacoan Bojongsoang',
       'image': 'https://i.postimg.cc/nLq2tk6y/IMG-2585-1.png',
       'message': 'Halo apakah pesanan saya sudah siap?',
       'count_chat': '1',
     },
     {
-      'nama': 'Customer#1234',
+      'nama': 'Mie Gacoan Bojongsoang',
       'image': 'https://i.postimg.cc/nLq2tk6y/IMG-2585-1.png',
       'message': 'Halo apakah pesanan saya sudah siap?',
       'count_chat': '1',
     },
     {
-      'nama': 'Customer#1234',
+      'nama': 'Mie Gacoan Bojongsoang',
       'image': 'https://i.postimg.cc/nLq2tk6y/IMG-2585-1.png',
       'message': 'Halo apakah pesanan saya sudah siap?',
       'count_chat': '1',
@@ -52,7 +52,10 @@ class ChatListWidget extends StatelessWidget {
           image: chat['image'],
           countChat: chat['count_chat'],
           onTap: () {
-            Navigator.pushNamed(context, '/chat');
+            Navigator.pushNamed(
+              context,
+              '/chat-page',
+            );
           },
         );
       },

@@ -129,7 +129,7 @@ class CardDetailOrder extends StatelessWidget {
             ),
             width: 60,
             height: 40,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: greyColor,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(

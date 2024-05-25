@@ -23,14 +23,17 @@ class CardChatWidget extends StatelessWidget {
       child: Stack(
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(
+            padding: const EdgeInsets.symmetric(
               horizontal: 10,
               vertical: 20,
             ),
             child: Container(
               width: 360,
               height: 86,
-              decoration: BoxDecoration(
+              margin: const EdgeInsets.symmetric(
+                horizontal: 10,
+              ),
+              decoration: const BoxDecoration(
                 borderRadius: BorderRadius.all(
                   Radius.circular(10),
                 ),
@@ -38,36 +41,41 @@ class CardChatWidget extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  CircleAvatar(
-                    radius: 22,
-                    backgroundImage: NetworkImage(image),
-                    onBackgroundImageError: (exception, stackTrace) {
-                      const Icon(Icons.person_2_rounded);
-                    },
+                  Container(
+                    margin: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                    ),
+                    child: CircleAvatar(
+                      radius: 22,
+                      backgroundImage: NetworkImage(image),
+                      onBackgroundImageError: (exception, stackTrace) {
+                        const Icon(Icons.person_2_rounded);
+                      },
+                    ),
                   ),
-                  SizedBox(
-                    width: 12,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          nama,
-                          style: blackTextStyle,
-                        ),
-                        SizedBox(
-                          height: 4,
-                        ),
-                        Text(
-                          message,
-                          style: greyTextStyle.copyWith(
-                            fontWeight: FontWeight.w500,
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            nama,
+                            style: blackTextStyle,
                           ),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
+                          const SizedBox(
+                            height: 4,
+                          ),
+                          Text(
+                            message,
+                            style: greyTextStyle.copyWith(
+                              fontWeight: FontWeight.w500,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
                     ),
                   )
                 ],
