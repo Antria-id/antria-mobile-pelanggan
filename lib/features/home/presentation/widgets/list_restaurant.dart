@@ -48,7 +48,7 @@ class ListRestaurant extends StatelessWidget {
                   );
                 } else if (state is RestaurantLoadedState) {
                   return ListView.separated(
-                    itemCount: menuItems.length,
+                    itemCount: 5,
                     itemBuilder: (context, index) {
                       final menuItem = menuItems[index];
                       return RecomendationResto(

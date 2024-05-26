@@ -18,15 +18,15 @@ class CardChatWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Stack(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 10,
-              vertical: 20,
-            ),
+    return Stack(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 10,
+            vertical: 20,
+          ),
+          child: InkWell(
+            onTap: onTap,
             child: Container(
               width: 360,
               height: 86,
@@ -82,24 +82,24 @@ class CardChatWidget extends StatelessWidget {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Align(
-              alignment: Alignment.topRight,
-              child: CircleAvatar(
-                backgroundColor: const Color(0xff88FFA9),
-                radius: 14,
-                child: Text(
-                  countChat.toString(),
-                  style: blackTextStyle.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Align(
+            alignment: Alignment.topRight,
+            child: CircleAvatar(
+              backgroundColor: const Color(0xff88FFA9),
+              radius: 14,
+              child: Text(
+                countChat.toString(),
+                style: blackTextStyle.copyWith(
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),
-          )
-        ],
-      ),
+          ),
+        )
+      ],
     );
   }
 }

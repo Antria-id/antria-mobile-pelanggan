@@ -178,9 +178,11 @@ class QueuePage extends StatelessWidget {
         ),
       ),
       child: ListView.builder(
+        padding: const EdgeInsets.only(
+          bottom: 80,
+        ),
         itemCount: menuItems.length,
         itemBuilder: (BuildContext context, int index) {
-          bool isLastItem = index == menuItems.length - 1;
           return Column(
             children: [
               QueueCustomerCard(
@@ -188,10 +190,6 @@ class QueuePage extends StatelessWidget {
                 imageUrl: menuItems[index]['imageUrl'],
                 number: menuItems[index]['number'],
               ),
-              if (isLastItem)
-                const SizedBox(
-                  height: 20,
-                ),
             ],
           );
         },

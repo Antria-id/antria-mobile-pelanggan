@@ -1,12 +1,13 @@
 import 'dart:io';
 import 'package:antria_mobile_pelanggan/config/themes/themes.dart';
+import 'package:antria_mobile_pelanggan/core/utils/constant.dart';
 import 'package:antria_mobile_pelanggan/features/auth/presentation/widgets/form_text_field.dart';
 import 'package:antria_mobile_pelanggan/features/profile/data/models/update_pelanggan_request_mode.dart';
 import 'package:antria_mobile_pelanggan/features/profile/presentation/bloc/pelanggan_profile/pelanggan_profile_bloc.dart';
 import 'package:antria_mobile_pelanggan/features/profile/presentation/bloc/update_profile/update_pelanggan_bloc.dart';
-import 'package:antria_mobile_pelanggan/features/profile/presentation/widgets/select_image.dart';
 import 'package:antria_mobile_pelanggan/shared/custom_appbar.dart';
 import 'package:antria_mobile_pelanggan/shared/custom_button.dart';
+import 'package:antria_mobile_pelanggan/shared/select_image.dart';
 import 'package:antria_mobile_pelanggan/shared/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,7 +21,7 @@ class EditProfileFormWidget extends StatefulWidget {
 
 class _EditProfileFormWidgetState extends State<EditProfileFormWidget> {
   final formKey = GlobalKey<FormState>();
-  String selectedImagePath = '';
+  File? selectedImage;
   String email = '';
   String username = '';
   String name = '';
@@ -66,24 +67,19 @@ class _EditProfileFormWidgetState extends State<EditProfileFormWidget> {
                       alignment: Alignment.bottomRight,
                       children: [
                         CircleAvatar(
-                          backgroundColor: primaryColor,
                           radius: 50,
-                          child: (selectedImagePath == '' &&
-                                  state.pelangganModel.profilePicture != '')
-                              ? Image.network(
-                                  state.pelangganModel.profilePicture ?? '',
+                          backgroundColor: primaryColor,
+                          backgroundImage: (selectedImage == null &&
+                                  state.pelangganModel.profilePicture!
+                                      .isNotEmpty)
+                              ? NetworkImage(
+                                  '${APIUrl.baseUrl}${APIUrl.imagePath}${state.pelangganModel.profilePicture}',
                                 )
-                              : (selectedImagePath != '')
-                                  ? Image.file(
-                                      File(selectedImagePath),
-                                      height: 60,
-                                      width: 60,
-                                    )
-                                  : Image.asset(
+                              : (selectedImage != null)
+                                  ? FileImage(selectedImage!)
+                                  : const AssetImage(
                                       'assets/icons/user-empty.png',
-                                      width: 60,
-                                      height: 60,
-                                    ),
+                                    ) as ImageProvider,
                         ),
                         InkWell(
                           onTap: () {
@@ -104,10 +100,11 @@ class _EditProfileFormWidgetState extends State<EditProfileFormWidget> {
                                       children: [
                                         GestureDetector(
                                           onTap: () async {
-                                            selectedImagePath =
+                                            final path =
                                                 await selectImageFromGallery();
-                                            if (selectedImagePath != '') {
+                                            if (path != null) {
                                               setState(() {
+                                                selectedImage = File(path);
                                                 Navigator.pop(context);
                                               });
                                             }
@@ -139,11 +136,14 @@ class _EditProfileFormWidgetState extends State<EditProfileFormWidget> {
                                         ),
                                         GestureDetector(
                                           onTap: () async {
-                                            selectedImagePath =
+                                            final path =
                                                 await selectImageFromCamera();
-                                            setState(() {
-                                              Navigator.pop(context);
-                                            });
+                                            if (path != null) {
+                                              setState(() {
+                                                selectedImage = File(path);
+                                                Navigator.pop(context);
+                                              });
+                                            }
                                           },
                                           child: Container(
                                             padding: const EdgeInsets.symmetric(
@@ -290,7 +290,7 @@ class _EditProfileFormWidgetState extends State<EditProfileFormWidget> {
                               },
                               type: TextInputType.phone,
                               hintText: 'Nomor Telepon',
-                              validator: validatorForm.validatePhone,
+                              // validator: validatorForm.validatePhone,
                             ),
                             const SizedBox(
                               height: 20,
@@ -310,7 +310,7 @@ class _EditProfileFormWidgetState extends State<EditProfileFormWidget> {
                                 address = value.trim();
                               },
                               hintText: 'Alamat',
-                              validator: validatorForm.validateAlamat,
+                              // validator: validatorForm.validateAlamat,
                             ),
                           ],
                         ),
@@ -336,21 +336,38 @@ class _EditProfileFormWidgetState extends State<EditProfileFormWidget> {
           },
           builder: (context, state) {
             return Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                child: CustomButton(
-                  title: 'Simpan Perubahan',
-                  onPressed: () {
-                    if (formKey.currentState!.validate()) {
-                      final currentState =
-                          context.read<PelangganProfileBloc>().state;
-                      if (currentState is PelangganProfileStateLoadedState) {
-                        final existingModel = currentState.pelangganModel;
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+              child: CustomButton(
+                title: 'Simpan Perubahan',
+                onPressed: () {
+                  if (formKey.currentState!.validate()) {
+                    final currentState =
+                        context.read<PelangganProfileBloc>().state;
+                    if (currentState is PelangganProfileStateLoadedState) {
+                      final existingModel = currentState.pelangganModel;
+                      if (existingModel.profilePicture!.isNotEmpty) {
                         final updateEvent = UpdatePelangganEvent.onUpdateTapped(
                           requestUser: UpdatePelangganRequestModel(
-                            profilePicture: selectedImagePath.isNotEmpty
-                                ? selectedImagePath
-                                : existingModel.profilePicture,
+                            email:
+                                email.isNotEmpty ? email : existingModel.email,
+                            username: username.isNotEmpty
+                                ? username
+                                : existingModel.username,
+                            nama: name.isNotEmpty ? name : existingModel.nama,
+                            handphone: phone.isNotEmpty
+                                ? phone
+                                : existingModel.handphone,
+                            alamat: address.isNotEmpty
+                                ? address
+                                : existingModel.alamat,
+                          ),
+                        );
+                        context.read<UpdatePelangganBloc>().add(updateEvent);
+                      } else {
+                        final updateEvent = UpdatePelangganEvent.onUpdateTapped(
+                          requestUser: UpdatePelangganRequestModel(
+                            profilePicture: selectedImage?.path ??
+                                existingModel.profilePicture,
                             email:
                                 email.isNotEmpty ? email : existingModel.email,
                             username: username.isNotEmpty
@@ -368,8 +385,10 @@ class _EditProfileFormWidgetState extends State<EditProfileFormWidget> {
                         context.read<UpdatePelangganBloc>().add(updateEvent);
                       }
                     }
-                  },
-                ));
+                  }
+                },
+              ),
+            );
           },
         ),
       ),

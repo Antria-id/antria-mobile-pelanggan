@@ -26,7 +26,12 @@ import 'package:antria_mobile_pelanggan/features/profile/data/datasources/profil
 import 'package:antria_mobile_pelanggan/features/profile/data/repositories/pelanggan_repository_impl.dart';
 import 'package:antria_mobile_pelanggan/features/profile/domain/repositories/pelanggan_repository.dart';
 import 'package:antria_mobile_pelanggan/features/profile/domain/usecases/get_pelanggan_profile_usecase.dart';
+import 'package:antria_mobile_pelanggan/features/profile/domain/usecases/logout_user_usecase.dart';
 import 'package:antria_mobile_pelanggan/features/profile/domain/usecases/update_pelanggan_usecase.dart';
+import 'package:antria_mobile_pelanggan/features/rating/data/datasources/reviews_remote_datasource.dart';
+import 'package:antria_mobile_pelanggan/features/rating/data/repositories/reviews_repository_impl.dart';
+import 'package:antria_mobile_pelanggan/features/rating/domain/repositories/reviews_repository.dart';
+import 'package:antria_mobile_pelanggan/features/rating/domain/usecases/reviews_usecase.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -47,6 +52,8 @@ Future<void> setUpServiceLocator() async {
   serviceLocator
       .registerFactory<UpdatePelangganUsecase>(() => UpdatePelangganUsecase());
 
+  serviceLocator.registerFactory<LogoutUserUsecase>(() => LogoutUserUsecase());
+
   serviceLocator
       .registerFactory<GetRestaurantUsecase>(() => GetRestaurantUsecase());
 
@@ -58,6 +65,8 @@ Future<void> setUpServiceLocator() async {
 
   serviceLocator.registerFactory<MenuGetRestaurantUsecase>(
       () => MenuGetRestaurantUsecase());
+
+  serviceLocator.registerFactory<ReviewsUsecase>(() => ReviewsUsecase());
 
   //datasource
   serviceLocator
@@ -78,6 +87,9 @@ Future<void> setUpServiceLocator() async {
   serviceLocator.registerFactory<MenuRestaurantRemoteDatasource>(
       () => MenuRestaurantRemoteDatasourceImpl());
 
+  serviceLocator.registerFactory<ReviewsRemoteDatasource>(
+      () => ReviewsRemoteDatasourceImpl());
+
   //repositories
   serviceLocator.registerFactory<AuthRepository>(() => AuthRepositoryImpl());
 
@@ -96,6 +108,9 @@ Future<void> setUpServiceLocator() async {
 
   serviceLocator.registerFactory<MenuRestaurantRepository>(
       () => MenuRestaurantRepositoryImpl());
+
+  serviceLocator
+      .registerFactory<ReviewsRepository>(() => ReviewsRepositoryImpl());
 
   //external
   final sharedPreferences = await SharedPreferences.getInstance();

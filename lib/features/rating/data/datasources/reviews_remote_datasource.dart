@@ -5,40 +5,16 @@ import 'package:antria_mobile_pelanggan/core/utils/constant.dart';
 import 'package:antria_mobile_pelanggan/core/utils/request.dart';
 import 'package:antria_mobile_pelanggan/features/home/data/models/user/user_response_model.dart';
 import 'package:antria_mobile_pelanggan/features/profile/data/models/pelanggan_model.dart';
-import 'package:antria_mobile_pelanggan/features/profile/data/models/update_pelanggan_request_mode.dart';
+import 'package:antria_mobile_pelanggan/features/rating/data/models/request/reviews_request_model.dart';
 import 'package:dartz/dartz.dart';
-import 'package:dio/dio.dart';
 
-abstract class ProfileUserDatasource {
+abstract class ReviewsRemoteDatasource {
   Future<Either<Failure, PelangganModel>> getPelanggan();
-  Future<Either<Failure, PelangganModel>> updatePelanggan(
-      {required UpdatePelangganRequestModel requestModel});
-  Future<Either<Failure, void>> deleteUserFromLocalStorage();
+  Future<Either<Failure, ReviewsRequest>> addReviews(
+      {required ReviewsRequest reviewsRequest});
 }
 
-class ProfileUserDatasourceImpl extends ProfileUserDatasource {
-  @override
-  Future<Either<Failure, void>> deleteUserFromLocalStorage() async {
-    try {
-      final deletionSuccess =
-          await serviceLocator<UserCacheService>().deleteUser();
-      if (deletionSuccess) {
-        return const Right(null);
-      } else {
-        return const Left(
-          LocalDatabaseQueryFailure(
-            'Unable to delete user from the shared prefs',
-          ),
-        );
-      }
-    } catch (e, stackTrace) {
-      return Left(
-        ParsingFailure(
-            'Parsing failure occurred in HomeLocalUserDatasourceImpl: $e\nStack trace: $stackTrace'),
-      );
-    }
-  }
-
+class ReviewsRemoteDatasourceImpl extends ReviewsRemoteDatasource {
   @override
   Future<Either<Failure, PelangganModel>> getPelanggan() async {
     try {
@@ -71,8 +47,8 @@ class ProfileUserDatasourceImpl extends ProfileUserDatasource {
   }
 
   @override
-  Future<Either<Failure, PelangganModel>> updatePelanggan(
-      {required UpdatePelangganRequestModel requestModel}) async {
+  Future<Either<Failure, ReviewsRequest>> addReviews(
+      {required ReviewsRequest reviewsRequest}) async {
     try {
       final Request request = serviceLocator<Request>();
       final UserCacheService userCacheService =
@@ -84,34 +60,19 @@ class ProfileUserDatasourceImpl extends ProfileUserDatasource {
         );
       }
       final int id = user.sub!;
-
-      MultipartFile? profilePicture;
-      if (requestModel.profilePicture != null) {
-        profilePicture = await MultipartFile.fromFile(
-          requestModel.profilePicture!,
+      reviewsRequest.pelangganId = id;
+      final response = await request.post(APIUrl.postReviewPath,
+          data: reviewsRequest.toJson());
+      if (response.statusCode == 201) {
+        final ReviewsRequest reviewsRequest =
+            ReviewsRequest.fromJson(response.data);
+        return Right(
+          reviewsRequest,
         );
       }
-
-      final formData = FormData.fromMap({
-        'username': requestModel.username,
-        'email': requestModel.email,
-        'nama': requestModel.nama,
-        'alamat': requestModel.alamat,
-        'handphone': requestModel.handphone,
-        if (profilePicture != null) 'profile_picture': profilePicture,
-      });
-
-      final response = await request.put(
-        APIUrl.getPelangganPath(id),
-        data: formData,
+      return Left(
+        ConnectionFailure(response.data['message']),
       );
-
-      if (response.statusCode == 200) {
-        final PelangganModel pelangganResponse =
-            PelangganModel.fromJson(response.data);
-        return Right(pelangganResponse);
-      }
-      return Left(ConnectionFailure(response.data['message']));
     } catch (e) {
       return const Left(
         ParsingFailure('Unable to parse the response'),

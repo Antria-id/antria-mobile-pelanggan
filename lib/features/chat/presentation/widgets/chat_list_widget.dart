@@ -28,6 +28,24 @@ class ChatListWidget extends StatelessWidget {
       'message': 'Halo apakah pesanan saya sudah siap?',
       'count_chat': '1',
     },
+    {
+      'nama': 'Mie Gacoan Bojongsoang',
+      'image': 'https://i.postimg.cc/nLq2tk6y/IMG-2585-1.png',
+      'message': 'Halo apakah pesanan saya sudah siap?',
+      'count_chat': '1',
+    },
+    {
+      'nama': 'Mie Gacoan Bojongsoang',
+      'image': 'https://i.postimg.cc/nLq2tk6y/IMG-2585-1.png',
+      'message': 'Halo apakah pesanan saya sudah siap?',
+      'count_chat': '1',
+    },
+    {
+      'nama': 'Mie Gacoan Bojongsoang',
+      'image': 'https://i.postimg.cc/nLq2tk6y/IMG-2585-1.png',
+      'message': 'Halo apakah pesanan saya sudah siap?',
+      'count_chat': '1',
+    },
   ];
 
   int getTotalUnreadCount() {
@@ -43,6 +61,7 @@ class ChatListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
+      padding: EdgeInsets.only(bottom: 50),
       itemCount: chatList.length,
       itemBuilder: (context, index) {
         final chat = chatList[index];

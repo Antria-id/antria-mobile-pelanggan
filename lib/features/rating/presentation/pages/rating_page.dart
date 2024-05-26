@@ -1,8 +1,11 @@
 import 'package:antria_mobile_pelanggan/config/themes/themes.dart';
+import 'package:antria_mobile_pelanggan/features/rating/data/models/request/reviews_request_model.dart';
+import 'package:antria_mobile_pelanggan/features/rating/presentation/bloc/reviews/reviews_bloc.dart';
 import 'package:antria_mobile_pelanggan/features/rating/presentation/widgets/review_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-
+import 'package:fluttertoast/fluttertoast.dart';
 import '../../../../shared/custom_button.dart';
 
 class RatingPage extends StatefulWidget {
@@ -13,6 +16,9 @@ class RatingPage extends StatefulWidget {
 }
 
 class _RatingPageState extends State<RatingPage> {
+  late String commentText = '';
+  late double rate = 0;
+  late TextEditingController commentController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,7 +56,7 @@ class _RatingPageState extends State<RatingPage> {
                   height: 30,
                 ),
                 RatingBar.builder(
-                  initialRating: 0,
+                  initialRating: rate,
                   direction: Axis.horizontal,
                   itemCount: 5,
                   itemSize: 32.0,
@@ -62,19 +68,72 @@ class _RatingPageState extends State<RatingPage> {
                     color: Colors.amber,
                   ),
                   ignoreGestures: false,
-                  onRatingUpdate: (double value) {},
-                ),
-                const ReviewField(),
-                CustomButton(
-                  title: 'Kirim Rating',
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/thanks-page');
+                  onRatingUpdate: (rating) {
+                    setState(() {
+                      rate = rating;
+                    });
                   },
-                  width: 354,
-                  radius: 40,
-                  margin: const EdgeInsets.only(
-                    top: 20,
-                  ),
+                  unratedColor: greyColor,
+                ),
+                ReviewField(
+                  controller: commentController,
+                  onChanged: (value) {
+                    commentText = value.trim();
+                  },
+                ),
+                BlocConsumer<ReviewsBloc, ReviewsState>(
+                  listener: (context, state) {
+                    if (state is ReviewsLoadedState) {
+                      Fluttertoast.showToast(
+                        msg: "Reviews Berhasil",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.TOP,
+                        timeInSecForIosWeb: 1,
+                        backgroundColor: Colors.green,
+                        textColor: Colors.white,
+                        fontSize: 16.0,
+                      );
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, '/thanks-page', (route) => false);
+                    }
+                    if (state is ReviewsErrorState) {
+                      Fluttertoast.showToast(
+                        msg: "Reviews Gagal Ditambahkan, Coba Lagi",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.TOP,
+                        timeInSecForIosWeb: 1,
+                        backgroundColor: Colors.red,
+                        textColor: Colors.white,
+                        fontSize: 16.0,
+                      );
+                    }
+                  },
+                  builder: (context, state) {
+                    if (state is ReviewsLoadingState) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                    return CustomButton(
+                      title: 'Kirim Rating',
+                      onPressed: () {
+                        context.read<ReviewsBloc>().add(
+                              ReviewsEvent.onReviewsTapped(
+                                reviewsRequest: ReviewsRequest(
+                                  komentar: commentController.text,
+                                  rating: rate.toInt() * 10,
+                                  mitraId: 6,
+                                ),
+                              ),
+                            );
+                      },
+                      width: 354,
+                      radius: 40,
+                      margin: const EdgeInsets.only(
+                        top: 20,
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
