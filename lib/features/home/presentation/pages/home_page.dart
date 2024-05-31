@@ -1,4 +1,5 @@
 import 'package:antria_mobile_pelanggan/config/themes/themes.dart';
+import 'package:antria_mobile_pelanggan/features/home/presentation/widgets/search_bar.dart';
 import 'package:antria_mobile_pelanggan/features/profile/presentation/bloc/pelanggan_profile/pelanggan_profile_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,6 +9,19 @@ import '../widgets/list_restaurant.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
+
+  String getGreeting() {
+    final hour = TimeOfDay.now().hour;
+    if (hour < 12) {
+      return 'Selamat Pagi';
+    } else if (hour < 15) {
+      return 'Selamat Siang';
+    } else if (hour < 18) {
+      return 'Selamat Sore';
+    } else {
+      return 'Selamat Malam';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +67,7 @@ class HomePage extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Hi, Good Morning',
+                                  'Hi, ${getGreeting()}',
                                   style: whiteTextStyle.copyWith(
                                     fontSize: 12,
                                   ),
@@ -111,33 +125,7 @@ class HomePage extends StatelessWidget {
                           top: 20,
                         ),
                       ),
-                      Container(
-                        width: 322,
-                        child: TextFormField(
-                          decoration: InputDecoration(
-                            contentPadding: const EdgeInsets.symmetric(
-                              vertical: 6,
-                              horizontal: 12,
-                            ),
-                            filled: true,
-                            fillColor: greyColor,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(
-                                8,
-                              ),
-                              borderSide: const BorderSide(
-                                color: Colors.transparent,
-                              ),
-                            ),
-                            hintText: 'Search',
-                            hintStyle: const TextStyle(
-                              fontSize: 14,
-                              color: fontGreycolor,
-                            ),
-                            suffixIcon: const Icon(Icons.search),
-                          ),
-                        ),
-                      ),
+                      const SearchBarHome(),
                     ],
                   ),
                 );
@@ -170,14 +158,22 @@ class HomePage extends StatelessWidget {
                   BlocBuilder<GetRestaurantBloc, GetRestaurantState>(
                     builder: (context, state) {
                       if (state is RestaurantErrorState) {
-                        return Center(
-                          child: Text(state.message),
+                        return Container(
+                          height: 800,
+                          child: const Center(
+                            child: Text(
+                              'Error fetching data...',
+                            ),
+                          ),
                         );
                       } else if (state is RestaurantLoadedState) {
                         return Column(
                           children: [
                             header(),
-                            ListRestaurant(menuItems: state.response),
+                            ListRestaurant(
+                              isHome: true,
+                              menuItems: state.response,
+                            ),
                           ],
                         );
                       }

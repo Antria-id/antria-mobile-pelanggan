@@ -1,17 +1,14 @@
-import 'package:antria_mobile_pelanggan/config/themes/themes.dart';
 import 'package:antria_mobile_pelanggan/features/home/data/models/response/get_restaurant_model.dart';
 import 'package:antria_mobile_pelanggan/features/home/presentation/bloc/get_restaurant/get_restaurant_bloc.dart';
 import 'package:antria_mobile_pelanggan/features/home/presentation/widgets/recomendation_resto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ListRestaurant extends StatelessWidget {
+class ListSearchRestaurant extends StatelessWidget {
   final List<GetRestaurantResponse> menuItems;
-  final bool isHome;
-  const ListRestaurant({
+  const ListSearchRestaurant({
     super.key,
     required this.menuItems,
-    required this.isHome,
   });
 
   @override
@@ -23,22 +20,12 @@ class ListRestaurant extends StatelessWidget {
         ),
       child: Container(
         margin: const EdgeInsets.symmetric(
-          vertical: 80,
+          vertical: 20,
           horizontal: 10,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(
-              height: 20,
-            ),
-            Text(
-              'Rekomendasi Untukmu',
-              style: greyTextStyle.copyWith(
-                fontSize: 20,
-                fontWeight: medium,
-              ),
-            ),
             const SizedBox(
               height: 10,
             ),
@@ -50,7 +37,7 @@ class ListRestaurant extends StatelessWidget {
                   );
                 } else if (state is RestaurantLoadedState) {
                   return ListView.separated(
-                    itemCount: isHome ? 5 : menuItems.length,
+                    itemCount: menuItems.length,
                     itemBuilder: (context, index) {
                       final menuItem = menuItems[index];
                       return RecomendationResto(
@@ -69,7 +56,7 @@ class ListRestaurant extends StatelessWidget {
                     },
                     separatorBuilder: (context, index) =>
                         const SizedBox(height: 16),
-                    physics: const NeverScrollableScrollPhysics(),
+                    physics: const BouncingScrollPhysics(),
                     shrinkWrap: true,
                   );
                 }

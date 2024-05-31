@@ -39,6 +39,10 @@ class _InfoRestaurantPageState extends State<InfoRestaurantPage> {
                 );
               } else if (state is InfoRestaurantLoadedState) {
                 final infoRestaurant = state.response;
+                double initialRating = infoRestaurant.review != null
+                    ? infoRestaurant.review! / 10.0
+                    : 0.0;
+                print(initialRating);
                 return Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -110,18 +114,29 @@ class _InfoRestaurantPageState extends State<InfoRestaurantPage> {
                             const SizedBox(
                               height: 8,
                             ),
-                            RatingBar.builder(
-                              initialRating: 5,
-                              direction: Axis.horizontal,
-                              itemCount: 5,
-                              itemSize: 16.0,
-                              itemBuilder: (context, _) => const Icon(
-                                Icons.star,
-                                color: Colors.amber,
-                              ),
-                              ignoreGestures: true,
-                              onRatingUpdate: (double value) {},
-                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  '${initialRating}',
+                                ),
+                                const SizedBox(
+                                  width: 6,
+                                ),
+                                RatingBar.builder(
+                                  initialRating: initialRating,
+                                  direction: Axis.horizontal,
+                                  itemCount: 5,
+                                  allowHalfRating: true,
+                                  itemSize: 16.0,
+                                  itemBuilder: (context, _) => const Icon(
+                                    Icons.star,
+                                    color: Colors.amber,
+                                  ),
+                                  ignoreGestures: true,
+                                  onRatingUpdate: (double value) {},
+                                ),
+                              ],
+                            )
                           ],
                         ),
                       ),

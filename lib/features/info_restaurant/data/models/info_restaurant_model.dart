@@ -1,3 +1,7 @@
+// To parse this JSON data, do
+//
+//     final getInfoRestaurantResponse = getInfoRestaurantResponseFromJson(jsonString);
+
 import 'dart:convert';
 
 GetInfoRestaurantResponse getInfoRestaurantResponseFromJson(String str) =>
@@ -7,6 +11,7 @@ String getInfoRestaurantResponseToJson(GetInfoRestaurantResponse data) =>
     json.encode(data.toJson());
 
 class GetInfoRestaurantResponse {
+  final int? review;
   final int? id;
   final String? namaToko;
   final String? deskripsiToko;
@@ -19,6 +24,7 @@ class GetInfoRestaurantResponse {
   final DateTime? updatedAt;
 
   GetInfoRestaurantResponse({
+    this.review,
     this.id,
     this.namaToko,
     this.deskripsiToko,
@@ -33,6 +39,7 @@ class GetInfoRestaurantResponse {
 
   factory GetInfoRestaurantResponse.fromJson(Map<String, dynamic> json) =>
       GetInfoRestaurantResponse(
+        review: json["review"],
         id: json["id"],
         namaToko: json["nama_toko"],
         deskripsiToko: json["deskripsi_toko"],
@@ -50,6 +57,7 @@ class GetInfoRestaurantResponse {
       );
 
   Map<String, dynamic> toJson() => {
+        "review": review,
         "id": id,
         "nama_toko": namaToko,
         "deskripsi_toko": deskripsiToko,

@@ -61,7 +61,7 @@ class ChatListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
-      padding: EdgeInsets.only(bottom: 50),
+      padding: const EdgeInsets.only(bottom: 50),
       itemCount: chatList.length,
       itemBuilder: (context, index) {
         final chat = chatList[index];

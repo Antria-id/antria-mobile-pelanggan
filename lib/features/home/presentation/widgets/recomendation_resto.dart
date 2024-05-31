@@ -6,6 +6,7 @@ class RecomendationResto extends StatelessWidget {
   final String address;
   final String imageUrl;
   final VoidCallback onPressed;
+  final double rating;
 
   const RecomendationResto({
     super.key,
@@ -13,6 +14,7 @@ class RecomendationResto extends StatelessWidget {
     required this.address,
     required this.imageUrl,
     required this.onPressed,
+    required this.rating,
   });
 
   @override
@@ -86,6 +88,27 @@ class RecomendationResto extends StatelessWidget {
                       fontWeight: light,
                     ),
                   ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    children: [
+                      Image.asset(
+                        'assets/icons/star.png',
+                        width: 22,
+                        height: 22,
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                      Text(
+                        '${rating}',
+                        style: blackTextStyle.copyWith(
+                          fontWeight: semiBold,
+                        ),
+                      ),
+                    ],
+                  )
                 ],
               ),
             ),

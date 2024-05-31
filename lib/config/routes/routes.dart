@@ -11,6 +11,7 @@ import 'package:antria_mobile_pelanggan/features/profile/presentation/pages/edit
 import 'package:antria_mobile_pelanggan/features/profile/presentation/pages/profile_page.dart';
 import 'package:antria_mobile_pelanggan/features/queue/presentation/pages/queue_page.dart';
 import 'package:antria_mobile_pelanggan/features/rating/presentation/pages/rating_page.dart';
+import 'package:antria_mobile_pelanggan/features/search_page/presentation/pages/search_page.dart';
 import 'package:antria_mobile_pelanggan/features/success_order/presentation/pages/success_order.dart';
 import 'package:antria_mobile_pelanggan/features/taking_queue/presentation/pages/taking_queue.dart';
 import 'package:antria_mobile_pelanggan/features/thanks_page/presentation/pages/thanks_page.dart';
@@ -36,6 +37,9 @@ class AppRoutes {
 
       case '/home-page':
         return _materialRoute(const HomePage());
+
+      case '/search-page':
+        return _materialRoute(const SearchPage());
 
       case '/queue-page':
         return _materialRoute(const QueuePage());
