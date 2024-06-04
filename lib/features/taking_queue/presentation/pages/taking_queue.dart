@@ -83,7 +83,7 @@ class TakingQueuePage extends StatelessWidget {
       onTap: () {
         Navigator.pushNamed(
           context,
-          '/rating-page',
+          '/success-order-page',
         );
       },
       child: Container(
@@ -112,7 +112,7 @@ class TakingQueuePage extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 14,
                 ),
               ],

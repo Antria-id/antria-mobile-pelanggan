@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import '../../../../shared/custom_button.dart';
 
 class RatingPage extends StatefulWidget {
   const RatingPage({Key? key}) : super(key: key);
@@ -114,23 +113,40 @@ class _RatingPageState extends State<RatingPage> {
                         child: CircularProgressIndicator(),
                       );
                     }
-                    return CustomButton(
-                      title: 'Kirim Rating',
-                      onPressed: () {
-                        context.read<ReviewsBloc>().add(
-                              ReviewsEvent.onReviewsTapped(
-                                reviewsRequest: ReviewsRequest(
-                                  komentar: commentController.text,
-                                  rating: rate.toInt() * 10,
-                                  mitraId: 6,
-                                ),
-                              ),
-                            );
-                      },
-                      width: 354,
-                      radius: 40,
-                      margin: const EdgeInsets.only(
-                        top: 20,
+                    return Align(
+                      alignment: Alignment.bottomRight,
+                      child: Container(
+                        margin: const EdgeInsets.only(
+                          right: 24,
+                        ),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            context.read<ReviewsBloc>().add(
+                                  ReviewsEvent.onReviewsTapped(
+                                    reviewsRequest: ReviewsRequest(
+                                      komentar: commentController.text,
+                                      rating: rate.toInt() * 10,
+                                      mitraId: 11,
+                                    ),
+                                  ),
+                                );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: const Size(116, 30),
+                            backgroundColor: const Color(0xff953684),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              side: BorderSide.none,
+                            ),
+                          ),
+                          child: const Text(
+                            'Kirim',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 15,
+                            ),
+                          ),
+                        ),
                       ),
                     );
                   },

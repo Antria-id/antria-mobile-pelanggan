@@ -48,7 +48,7 @@ class SuccessOrderPage extends StatelessWidget {
               },
               width: 354,
               radius: 40,
-              margin: EdgeInsets.only(
+              margin: const EdgeInsets.only(
                 top: 40,
               ),
             ),

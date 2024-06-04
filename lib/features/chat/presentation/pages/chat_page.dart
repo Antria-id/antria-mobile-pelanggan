@@ -21,16 +21,17 @@ class ChatPage extends StatelessWidget {
               onPressed: () {
                 Navigator.pop(context);
               },
-              icon: Icon(
+              icon: const Icon(
                 Icons.arrow_back_ios,
                 color: Colors.white,
                 size: 20,
               ),
             ),
-            CircleAvatar(
+            const CircleAvatar(
               radius: 20,
-              backgroundImage: const NetworkImage(
-                  'https://i.postimg.cc/nLq2tk6y/IMG-2585-1.png'),
+              backgroundImage: NetworkImage(
+                'https://i.postimg.cc/nLq2tk6y/IMG-2585-1.png',
+              ),
             ),
             const SizedBox(
               width: 12,

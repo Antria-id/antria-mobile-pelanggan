@@ -33,8 +33,13 @@ class ProfilePage extends StatelessWidget {
                         PelangganProfileState>(
                       builder: (context, state) {
                         if (state is PelangganProfileStateErrorState) {
-                          return Center(
-                            child: Text('Error: ${state.message}'),
+                          return Container(
+                            height: 800,
+                            child: const Center(
+                              child: Text(
+                                'Error fetching data...',
+                              ),
+                            ),
                           );
                         } else if (state is PelangganProfileStateLoadedState) {
                           final profileData = state.pelangganModel;

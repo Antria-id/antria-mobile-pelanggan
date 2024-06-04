@@ -174,10 +174,11 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
                         ),
                       ),
                       CustomButton(
-                          title: 'Choose',
-                          onPressed: () {
-                            Navigator.pop(context);
-                          }),
+                        title: 'Pilih',
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
                     ],
                   ),
                 ),
@@ -277,7 +278,7 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
             height: 56,
             child: TextButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/taking-queue-page');
+                Navigator.pushNamed(context, '/queue-page');
               },
               style: TextButton.styleFrom(
                 backgroundColor: primaryColor,

@@ -1,72 +1,10 @@
 import 'package:antria_mobile_pelanggan/config/themes/themes.dart';
 import 'package:antria_mobile_pelanggan/features/queue/presentation/widgets/queue_customer_card.dart';
+import 'package:antria_mobile_pelanggan/features/queue/presentation/widgets/status_customer_card.dart';
 import 'package:flutter/material.dart';
 
 class QueuePage extends StatelessWidget {
   const QueuePage({super.key});
-
-  Widget header() {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(
-            top: 16,
-            bottom: 26,
-          ),
-          child: Text(
-            'Antrian Anda',
-            style: blackTextStyle.copyWith(
-              fontSize: 16,
-              fontWeight: semiBold,
-            ),
-          ),
-        ),
-        Container(
-          width: 352,
-          height: 148,
-          decoration: BoxDecoration(
-            color: primaryColor,
-            borderRadius: BorderRadius.circular(
-              10,
-            ),
-          ),
-          child: Column(
-            children: [
-              Container(
-                margin: const EdgeInsets.only(
-                  top: 14,
-                ),
-                child: Image.asset(
-                  'assets/icons/icon_queue.png',
-                ),
-              ),
-              const SizedBox(
-                height: 18,
-              ),
-              Container(
-                height: 36,
-                width: 182,
-                decoration: BoxDecoration(
-                  color: whiteColor,
-                  borderRadius: BorderRadius.circular(
-                    10,
-                  ),
-                ),
-                child: Center(
-                  child: Text(
-                    'Menunggu Antrian',
-                    style: purpleTextStyle.copyWith(
-                      fontWeight: semiBold,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
 
   Widget information() {
     return Container(
@@ -209,7 +147,7 @@ class QueuePage extends StatelessWidget {
       body: SafeArea(
         child: ListView(
           children: [
-            header(),
+            const StatusCustomerCard(),
             information(),
             customer(context),
           ],

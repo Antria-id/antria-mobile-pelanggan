@@ -34,9 +34,7 @@ class _InfoRestaurantPageState extends State<InfoRestaurantPage> {
           child: BlocBuilder<InfoRestaurantBloc, InfoRestaurantState>(
             builder: (context, state) {
               if (state is InfoRestaurantErrorState) {
-                return Center(
-                  child: Text(state.message),
-                );
+                return const SizedBox();
               } else if (state is InfoRestaurantLoadedState) {
                 final infoRestaurant = state.response;
                 double initialRating = infoRestaurant.review != null
@@ -205,8 +203,13 @@ class _InfoRestaurantPageState extends State<InfoRestaurantPage> {
                 child: BlocBuilder<MenuRestaurantBloc, MenuRestaurantState>(
                   builder: (context, state) {
                     if (state is MenuRestaurantErrorState) {
-                      return Center(
-                        child: Text(state.message),
+                      return Container(
+                        height: 800,
+                        child: const Center(
+                          child: Text(
+                            'Error fetching data...',
+                          ),
+                        ),
                       );
                     } else if (state is MenuRestaurantLoadedState) {
                       return Column(

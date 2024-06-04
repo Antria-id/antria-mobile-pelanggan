@@ -1,11 +1,11 @@
 import 'package:antria_mobile_pelanggan/config/themes/themes.dart';
+import 'package:antria_mobile_pelanggan/features/profile/presentation/pages/profile_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../features/chat/presentation/pages/chat_list_page.dart';
 import '../features/history/presentation/pages/history_page.dart';
 import '../features/home/presentation/pages/home_page.dart';
-import '../features/queue/presentation/pages/queue_page.dart';
 
 class BottomNavigationWidget extends StatefulWidget {
   const BottomNavigationWidget({Key? key}) : super(key: key);
@@ -18,9 +18,9 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
   int selectedIndex = 0;
   final List<Widget> screens = [
     const HomePage(),
-    const QueuePage(),
     const ChatListPage(),
     const HistoryPage(),
+    const ProfilePage(),
   ];
 
   void onItemTapped(int index) {
@@ -62,23 +62,15 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
                       ),
                       onPressed: () => onItemTapped(0),
                     ),
-                    IconButton(
-                      icon: Icon(
-                        Icons.list,
-                        size: 34,
-                        color: selectedIndex == 1 ? whiteColor : greyColor,
-                      ),
-                      onPressed: () => onItemTapped(1),
-                    ),
                     InkWell(
-                      onTap: () => onItemTapped(2),
+                      onTap: () => onItemTapped(1),
                       child: Stack(
                         alignment: Alignment.topRight,
                         children: [
                           Icon(
                             CupertinoIcons.chat_bubble_text_fill,
                             size: 28,
-                            color: selectedIndex == 2 ? whiteColor : greyColor,
+                            color: selectedIndex == 1 ? whiteColor : greyColor,
                           ),
                           const CircleAvatar(
                             radius: 6,
@@ -97,6 +89,14 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
                     IconButton(
                       icon: Icon(
                         Icons.history,
+                        size: 30,
+                        color: selectedIndex == 2 ? whiteColor : greyColor,
+                      ),
+                      onPressed: () => onItemTapped(2),
+                    ),
+                    IconButton(
+                      icon: Icon(
+                        Icons.account_circle_rounded,
                         size: 30,
                         color: selectedIndex == 3 ? whiteColor : greyColor,
                       ),
