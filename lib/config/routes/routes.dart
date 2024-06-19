@@ -3,7 +3,9 @@ import 'package:antria_mobile_pelanggan/features/auth/presentation/pages/registe
 import 'package:antria_mobile_pelanggan/features/chat/presentation/pages/chat_list_page.dart';
 import 'package:antria_mobile_pelanggan/features/chat/presentation/pages/chat_page.dart';
 import 'package:antria_mobile_pelanggan/features/detail_order/presentation/pages/detail_order.dart';
+import 'package:antria_mobile_pelanggan/features/detail_order/presentation/pages/success_payment.dart';
 import 'package:antria_mobile_pelanggan/features/history/presentation/pages/history_page.dart';
+import 'package:antria_mobile_pelanggan/features/history/presentation/pages/order_recipt_page.dart';
 import 'package:antria_mobile_pelanggan/features/home/presentation/pages/home_page.dart';
 import 'package:antria_mobile_pelanggan/features/info_restaurant/presentation/pages/info_restaurant.dart';
 import 'package:antria_mobile_pelanggan/features/profile/presentation/pages/contact_support_page.dart';
@@ -56,6 +58,9 @@ class AppRoutes {
       case '/detail-order':
         return _materialRoute(const DetailOrderPage());
 
+      case '/success-payment':
+        return _materialRoute(const SuccessPayment());
+
       case '/chat-list-page':
         return _materialRoute(const ChatListPage());
 
@@ -64,6 +69,9 @@ class AppRoutes {
 
       case '/history-page':
         return _materialRoute(const HistoryPage());
+
+      case '/order-recipt-page':
+        return _materialRoute(const OrderRecipt());
 
       case '/taking-queue-page':
         return _materialRoute(const TakingQueuePage());

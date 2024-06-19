@@ -9,6 +9,9 @@ class SearchBarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.only(
+        top: 20,
+      ),
       width: 322,
       child: TextFormField(
         onChanged: (value) {

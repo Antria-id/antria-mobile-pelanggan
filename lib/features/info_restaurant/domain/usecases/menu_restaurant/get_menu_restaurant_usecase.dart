@@ -4,7 +4,7 @@ import 'package:antria_mobile_pelanggan/features/info_restaurant/data/models/get
 import 'package:antria_mobile_pelanggan/features/info_restaurant/domain/repositories/menu_restaurant_repository.dart';
 import 'package:dartz/dartz.dart';
 
-class MenuGetRestaurantUsecase {
+class GetMenuUsecase {
   Future<Either<Failure, List<GetMenuResponse>>> getMenuRestaurant(
       int mitraId) async {
     final response = await serviceLocator<MenuRestaurantRepository>()

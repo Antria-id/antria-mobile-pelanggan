@@ -1,3 +1,4 @@
+import 'package:antria_mobile_pelanggan/core/network/network_checker.dart';
 import 'package:antria_mobile_pelanggan/core/services/user_cache_services.dart';
 import 'package:antria_mobile_pelanggan/core/utils/request.dart';
 import 'package:antria_mobile_pelanggan/features/auth/data/datasources/auth_remote_data_source.dart';
@@ -15,6 +16,7 @@ import 'package:antria_mobile_pelanggan/features/home/domain/usecases/home/check
 import 'package:antria_mobile_pelanggan/features/home/domain/usecases/home/get_local_user_usecase.dart';
 import 'package:antria_mobile_pelanggan/features/home/domain/usecases/restaurant/get_restaurant.dart';
 import 'package:antria_mobile_pelanggan/features/info_restaurant/data/datasources/info_restaurant/restaurant_remote_datasources.dart';
+import 'package:antria_mobile_pelanggan/features/info_restaurant/data/datasources/menu_restaurant/menu_local_restaurant_datasource.dart';
 import 'package:antria_mobile_pelanggan/features/info_restaurant/data/datasources/menu_restaurant/menu_remote_restaurant_datasource.dart';
 import 'package:antria_mobile_pelanggan/features/info_restaurant/data/repositories/info_restaurant_repository_impl.dart';
 import 'package:antria_mobile_pelanggan/features/info_restaurant/data/repositories/menu_restaurant_repository_impl.dart';
@@ -22,6 +24,7 @@ import 'package:antria_mobile_pelanggan/features/info_restaurant/domain/reposito
 import 'package:antria_mobile_pelanggan/features/info_restaurant/domain/repositories/menu_restaurant_repository.dart';
 import 'package:antria_mobile_pelanggan/features/info_restaurant/domain/usecases/info_restaurant/get_info_restaurant_usecase.dart';
 import 'package:antria_mobile_pelanggan/features/info_restaurant/domain/usecases/menu_restaurant/get_menu_restaurant_usecase.dart';
+import 'package:antria_mobile_pelanggan/features/info_restaurant/domain/usecases/order_list/order_list_restaurant.dart';
 import 'package:antria_mobile_pelanggan/features/profile/data/datasources/profile_remote_datasource.dart';
 import 'package:antria_mobile_pelanggan/features/profile/data/repositories/pelanggan_repository_impl.dart';
 import 'package:antria_mobile_pelanggan/features/profile/domain/repositories/pelanggan_repository.dart';
@@ -33,6 +36,7 @@ import 'package:antria_mobile_pelanggan/features/rating/data/repositories/review
 import 'package:antria_mobile_pelanggan/features/rating/domain/repositories/reviews_repository.dart';
 import 'package:antria_mobile_pelanggan/features/rating/domain/usecases/reviews_usecase.dart';
 import 'package:get_it/get_it.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final serviceLocator = GetIt.instance;
@@ -63,10 +67,11 @@ Future<void> setUpServiceLocator() async {
   serviceLocator.registerFactory<GetInfoRestaurantUsecase>(
       () => GetInfoRestaurantUsecase());
 
-  serviceLocator.registerFactory<MenuGetRestaurantUsecase>(
-      () => MenuGetRestaurantUsecase());
+  serviceLocator.registerFactory<GetMenuUsecase>(() => GetMenuUsecase());
 
   serviceLocator.registerFactory<ReviewsUsecase>(() => ReviewsUsecase());
+
+  serviceLocator.registerFactory<OrderListUsecase>(() => OrderListUsecase());
 
   //datasource
   serviceLocator
@@ -86,6 +91,9 @@ Future<void> setUpServiceLocator() async {
 
   serviceLocator.registerFactory<MenuRestaurantRemoteDatasource>(
       () => MenuRestaurantRemoteDatasourceImpl());
+
+  serviceLocator
+      .registerFactory<MenuLocalDatasource>(() => MenuLocalDatasourceImpl());
 
   serviceLocator.registerFactory<ReviewsRemoteDatasource>(
       () => ReviewsRemoteDatasourceImpl());
@@ -112,10 +120,16 @@ Future<void> setUpServiceLocator() async {
   serviceLocator
       .registerFactory<ReviewsRepository>(() => ReviewsRepositoryImpl());
 
+  ///! Core
+  /// sl.registerLazySingleton(() => InputConverter());
+  serviceLocator.registerLazySingleton<NetworkChecker>(
+      () => NetworkCheckerImpl(serviceLocator()));
+
   //external
   final sharedPreferences = await SharedPreferences.getInstance();
   serviceLocator.registerFactory<SharedPreferences>(() => sharedPreferences);
 
   // request
   serviceLocator.registerSingleton<Request>(Request());
+  serviceLocator.registerLazySingleton(() => InternetConnectionChecker());
 }

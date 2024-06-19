@@ -27,6 +27,12 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: primaryColor,
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        toolbarHeight: 0,
+      ),
       backgroundColor: whiteColor,
       body: SafeArea(
         child: SingleChildScrollView(
@@ -185,7 +191,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                   ),
                                 ),
                                 child: const Text(
-                                  'Sign Up',
+                                  'Daftar',
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 15,

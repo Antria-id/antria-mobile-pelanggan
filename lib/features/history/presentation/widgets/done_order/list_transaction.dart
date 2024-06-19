@@ -1,4 +1,4 @@
-import 'package:antria_mobile_pelanggan/features/history/presentation/widgets/transaction_card.dart';
+import 'package:antria_mobile_pelanggan/features/history/presentation/widgets/done_order/transaction_card.dart';
 import 'package:flutter/material.dart';
 
 class ListTransaction extends StatelessWidget {
@@ -36,7 +36,12 @@ class ListTransaction extends StatelessWidget {
               invoice: transaction[index]['invoice'],
               tanggal: transaction[index]['tanggal'],
               income: transaction[index]['income'],
-              onTap: () {},
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  '/order-recipt-page',
+                );
+              },
             );
           },
           separatorBuilder: (BuildContext context, int index) {

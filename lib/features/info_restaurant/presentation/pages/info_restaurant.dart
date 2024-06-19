@@ -1,9 +1,10 @@
 import 'package:antria_mobile_pelanggan/config/themes/themes.dart';
 import 'package:antria_mobile_pelanggan/features/info_restaurant/presentation/bloc/info_restaurant/info_restaurant_bloc.dart';
-import 'package:antria_mobile_pelanggan/features/info_restaurant/presentation/bloc/menu_restaurant/menu_restaurant_bloc.dart';
+import 'package:antria_mobile_pelanggan/features/info_restaurant/presentation/bloc/menu/menu_bloc.dart';
+import 'package:antria_mobile_pelanggan/features/info_restaurant/presentation/bloc/orderlist/order_list_bloc.dart';
 import 'package:antria_mobile_pelanggan/features/info_restaurant/presentation/widgets/cart_order.dart';
 import 'package:antria_mobile_pelanggan/features/info_restaurant/presentation/widgets/custom_buttton_service.dart';
-import 'package:antria_mobile_pelanggan/features/info_restaurant/presentation/widgets/menu.dart';
+import 'package:antria_mobile_pelanggan/features/info_restaurant/presentation/widgets/list_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -40,7 +41,6 @@ class _InfoRestaurantPageState extends State<InfoRestaurantPage> {
                 double initialRating = infoRestaurant.review != null
                     ? infoRestaurant.review! / 10.0
                     : 0.0;
-                print(initialRating);
                 return Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -153,33 +153,40 @@ class _InfoRestaurantPageState extends State<InfoRestaurantPage> {
 
     Widget service() {
       return Container(
-        margin: const EdgeInsets.only(
-          top: 20,
-          left: 22,
+        margin: const EdgeInsets.symmetric(
+          vertical: 20,
+          horizontal: 22,
         ),
         child: Row(
           children: [
-            CustomButtonService(
-              title: 'Dine In',
-              isSelected: isSelectedDineIn,
-              onTap: () {
-                setState(() {
-                  isSelectedDineIn = true;
-                  isSelectedTakeaway = false;
-                });
-              },
+            Flexible(
+              child: CustomButtonService(
+                title: 'Dine In',
+                isSelected: isSelectedDineIn,
+                onTap: () {
+                  setState(() {
+                    isSelectedDineIn = true;
+                    isSelectedTakeaway = false;
+                  });
+                },
+              ),
             ),
-            CustomButtonService(
-              title: 'Takeaway',
-              isSelected: isSelectedTakeaway,
-              onTap: () {
-                setState(
-                  () {
-                    isSelectedTakeaway = !isSelectedTakeaway;
-                    isSelectedDineIn = false;
-                  },
-                );
-              },
+            const SizedBox(
+              width: 10,
+            ), // Add some spacing between buttons if needed
+            Flexible(
+              child: CustomButtonService(
+                title: 'Takeaway',
+                isSelected: isSelectedTakeaway,
+                onTap: () {
+                  setState(
+                    () {
+                      isSelectedTakeaway = true;
+                      isSelectedDineIn = false;
+                    },
+                  );
+                },
+              ),
             ),
           ],
         ),
@@ -194,15 +201,19 @@ class _InfoRestaurantPageState extends State<InfoRestaurantPage> {
         toolbarHeight: 0,
       ),
       body: BlocProvider(
-        create: (context) => MenuRestaurantBloc()
-          ..add(MenuRestaurantUserEvent(mitraId: widget.mitraId)),
+        create: (context) => MenuBloc()
+          ..add(
+            MenuFetchData(
+              mitraId: widget.mitraId,
+            ),
+          ),
         child: SafeArea(
           child: Stack(
             children: [
               SingleChildScrollView(
-                child: BlocBuilder<MenuRestaurantBloc, MenuRestaurantState>(
+                child: BlocBuilder<MenuBloc, MenuState>(
                   builder: (context, state) {
-                    if (state is MenuRestaurantErrorState) {
+                    if (state is MenuError) {
                       return Container(
                         height: 800,
                         child: const Center(
@@ -211,18 +222,28 @@ class _InfoRestaurantPageState extends State<InfoRestaurantPage> {
                           ),
                         ),
                       );
-                    } else if (state is MenuRestaurantLoadedState) {
+                    } else if (state is MenuLoaded) {
                       return Column(
                         children: [
                           header(),
                           service(),
-                          Menu(
-                            menuItems: state.response,
+                          ListMenu(
+                            productList: state.menu,
                             mitraId: widget.mitraId,
-                            onPress: () {
+                            onBuyButtonPressed: () {
                               setState(() {
                                 showCart = true;
                               });
+                              final orderListBloc =
+                                  BlocProvider.of<OrderListBloc>(context);
+                              if (orderListBloc.state is OrderListLoaded &&
+                                  (orderListBloc.state as OrderListLoaded)
+                                      .products
+                                      .isNotEmpty) {
+                                setState(() {
+                                  showCart = true;
+                                });
+                              }
                             },
                           ),
                         ],
@@ -234,11 +255,21 @@ class _InfoRestaurantPageState extends State<InfoRestaurantPage> {
                   },
                 ),
               ),
-              if (showCart)
-                const Align(
-                  alignment: Alignment.bottomCenter,
-                  child: CartOrder(),
-                ),
+              BlocListener<OrderListBloc, OrderListState>(
+                listener: (context, state) {
+                  if (state is OrderListLoaded) {
+                    setState(() {
+                      showCart = state.products.isNotEmpty;
+                    });
+                  }
+                },
+                child: showCart
+                    ? const Align(
+                        alignment: Alignment.bottomCenter,
+                        child: CartOrder(),
+                      )
+                    : Container(),
+              ),
             ],
           ),
         ),

@@ -1,3 +1,4 @@
+import 'package:antria_mobile_pelanggan/config/themes/themes.dart';
 import 'package:antria_mobile_pelanggan/features/home/presentation/bloc/get_restaurant/get_restaurant_bloc.dart';
 import 'package:antria_mobile_pelanggan/features/search_page/presentation/widgets/list_seacrh_restaurant.dart';
 import 'package:flutter/material.dart';
@@ -45,20 +46,30 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        backgroundColor: primaryColor,
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        toolbarHeight: 0,
+      ),
       body: SafeArea(
         child: Column(
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Icon(
-                    Icons.arrow_back_ios,
-                    size: 28,
+                Container(
+                  margin: EdgeInsets.only(
+                    top: 20,
+                  ),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Icon(
+                      Icons.arrow_back_ios,
+                      size: 28,
+                    ),
                   ),
                 ),
                 SizedBox(
