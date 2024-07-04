@@ -9,13 +9,13 @@ class SearchBarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(
+      margin: const EdgeInsets.only(
         top: 20,
       ),
       width: 322,
       child: TextFormField(
         onChanged: (value) {
-          onSearch(value); // Notify parent widget with the entered keyword
+          onSearch(value);
         },
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.symmetric(
@@ -23,11 +23,9 @@ class SearchBarWidget extends StatelessWidget {
             horizontal: 12,
           ),
           filled: true,
-          fillColor: whiteColor,
+          fillColor: whiteColor ?? Colors.white,
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(
-              8,
-            ),
+            borderRadius: BorderRadius.circular(8),
             borderSide: const BorderSide(
               color: Colors.transparent,
             ),
@@ -35,7 +33,7 @@ class SearchBarWidget extends StatelessWidget {
           hintText: 'Search',
           hintStyle: const TextStyle(
             fontSize: 14,
-            color: fontGreycolor,
+            color: fontGreycolor ?? Colors.grey,
           ),
           suffixIcon: const Icon(Icons.search),
         ),

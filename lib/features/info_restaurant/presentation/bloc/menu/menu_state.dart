@@ -11,6 +11,8 @@ final class MenuInitial extends MenuState {}
 
 final class MenuLoading extends MenuState {}
 
+final class MenuClear extends MenuState {}
+
 final class MenuLoaded extends MenuState {
   final List<GetMenuResponse> menu;
 

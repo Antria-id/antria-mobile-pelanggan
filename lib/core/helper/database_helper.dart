@@ -92,10 +92,10 @@ class DatabaseHelper {
         'pemesanan': pemesanan,
         'takeaway': takeaway,
         'status': status,
-        'pelangganId': pelangganId,
-        'mitraId': mitraId,
-        'createdAt': createdAt.toIso8601String(),
-        'updatedAt': updatedAt.toIso8601String(),
+        'pelanggan_id': pelangganId,
+        'mitra_id': mitraId,
+        'created_at': createdAt.toIso8601String(),
+        'updated_at': updatedAt.toIso8601String(),
       },
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
@@ -211,5 +211,13 @@ class DatabaseHelper {
     JOIN product ON orderList.product_id = product.id
   ''');
     return result;
+  }
+
+  Future<void> deleteAllProducts() async {
+    final db = await instance.database;
+
+    await db.delete('product');
+
+    await db.delete('orderList');
   }
 }

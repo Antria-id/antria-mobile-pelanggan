@@ -1,63 +1,72 @@
-// import 'package:antria_mobile_pelanggan/core/error/failure.dart';
-// import 'package:antria_mobile_pelanggan/features/history/data/models/detail_transaction_model.dart';
-// import 'package:dartz/dartz.dart';
+import 'package:antria_mobile_pelanggan/core/error/failure.dart';
+import 'package:antria_mobile_pelanggan/core/services/services_locater.dart';
+import 'package:antria_mobile_pelanggan/core/services/user_cache_services.dart';
+import 'package:antria_mobile_pelanggan/core/utils/constant.dart';
+import 'package:antria_mobile_pelanggan/core/utils/request.dart';
+import 'package:antria_mobile_pelanggan/features/history/data/models/detail_transaction_model.dart';
+import 'package:antria_mobile_pelanggan/features/history/data/models/history_transaction_response.dart';
+import 'package:antria_mobile_pelanggan/features/home/data/models/user/user_response_model.dart';
+import 'package:dartz/dartz.dart';
 
-// abstract class RiwayatTransaksiRemoteDatasource {
-//   Future<Either<Failure, List<RiwayatTransaksiResponse>>> getRiwayatTransaksi();
-//   Future<Either<Failure, DetailTransactionModel>> getDetailTransaksi(
-//       {required String invoice});
-// }
+abstract class HistoryTransactionRemoteDatasource {
+  Future<Either<Failure, List<HistoryTransactionResponse>>> getHistoryOrder();
+  Future<Either<Failure, DetailTransactionModel>> getDetailOrder(
+      {required String invoice});
+}
 
-// class RiwayatTransaksiRemoteDatasourceImpl
-//     implements RiwayatTransaksiRemoteDatasource {
-//   final Request request = serviceLocator<Request>();
-//   @override
-//   Future<Either<Failure, List<RiwayatTransaksiResponse>>>
-//       getRiwayatTransaksi() async {
-//     try {
-//       final UserCacheService userCacheService =
-//           serviceLocator<UserCacheService>();
-//       final UserModel? user = await userCacheService.getUser();
-//       if (user == null) {
-//         return const Left(ParsingFailure('User not found'));
-//       }
-//       final int mitraId = user.mitraId!;
-//       final response = await request.get(APIUrl.getPesananPath(mitraId));
+class HistoryTransactionRemoteDatasourceImpl
+    implements HistoryTransactionRemoteDatasource {
+  final Request request = serviceLocator<Request>();
 
-//       if (response.statusCode == 200) {
-//         final dynamic responseData = response.data;
-//         if (responseData is List<dynamic>) {
-//           final List<RiwayatTransaksiResponse> pesanan = responseData
-//               .map((json) => RiwayatTransaksiResponse.fromJson(json))
-//               .toList();
-//           return Right(pesanan);
-//         } else {
-//           return const Left(ParsingFailure('Invalid response format'));
-//         }
-//       } else {
-//         return Left(ConnectionFailure(response.data['message']));
-//       }
-//     } catch (e) {
-//       return Left(ParsingFailure('Unable to parse the response: $e'));
-//     }
-//   }
+  @override
+  Future<Either<Failure, List<HistoryTransactionResponse>>>
+      getHistoryOrder() async {
+    try {
+      final UserCacheService userCacheService =
+          serviceLocator<UserCacheService>();
+      final UserModel? user = await userCacheService.getUser();
+      if (user == null) {
+        return const Left(ParsingFailure('User not found'));
+      }
+      final response = await request.get(APIUrl.getPesananPath);
 
-//   @override
-//   Future<Either<Failure, DetailTransactionModel>> getDetailTransaksi(
-//       {required String invoice}) async {
-//     try {
-//       final response =
-//           await request.get(APIUrl.getPesananByInvoicePath(invoice));
-//       if (response.statusCode == 200) {
-//         final DetailTransactionModel DetailTransactionModel =
-//             DetailTransactionModel.fromJson(response.data);
-//         return Right(DetailTransactionModel);
-//       }
-//       return Left(
-//         ConnectionFailure(response.data['message']),
-//       );
-//     } catch (e) {
-//       return Left(ParsingFailure('Unable to parse the response: $e'));
-//     }
-//   }
-// }
+      if (response.statusCode == 200) {
+        final dynamic responseData = response.data;
+        if (responseData is List<dynamic>) {
+          final List<HistoryTransactionResponse> pesanan = responseData
+              .map((json) => HistoryTransactionResponse.fromJson(json))
+              .toList();
+          final List<HistoryTransactionResponse> filteredPesanan = pesanan
+              .where((transaction) => transaction.pelangganId == user.sub)
+              .toList();
+          return Right(filteredPesanan);
+        } else {
+          return const Left(ParsingFailure('Invalid response format'));
+        }
+      } else {
+        return Left(ConnectionFailure(response.data['message']));
+      }
+    } catch (e) {
+      return Left(ParsingFailure('Unable to parse the response: $e'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, DetailTransactionModel>> getDetailOrder(
+      {required String invoice}) async {
+    try {
+      final response =
+          await request.get(APIUrl.getPesananByInvoicePath(invoice));
+      if (response.statusCode == 200) {
+        final DetailTransactionModel detailTransactionModel =
+            DetailTransactionModel.fromJson(response.data);
+        return Right(detailTransactionModel);
+      }
+      return Left(
+        ConnectionFailure(response.data['message']),
+      );
+    } catch (e) {
+      return Left(ParsingFailure('Unable to parse the response: $e'));
+    }
+  }
+}

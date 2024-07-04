@@ -1,4 +1,5 @@
 import 'package:antria_mobile_pelanggan/config/themes/themes.dart';
+import 'package:antria_mobile_pelanggan/core/utils/constant.dart';
 import 'package:antria_mobile_pelanggan/features/profile/presentation/bloc/pelanggan_profile/pelanggan_profile_bloc.dart';
 import 'package:antria_mobile_pelanggan/features/profile/presentation/widgets/edit_profile_card.dart';
 import 'package:antria_mobile_pelanggan/features/profile/presentation/widgets/logout_button_widget.dart';
@@ -69,18 +70,14 @@ class ProfilePage extends StatelessWidget {
                                       children: [
                                         CircleAvatar(
                                           radius: 50,
-                                          backgroundColor: primaryColor,
-                                          child: Image.network(
-                                            profileData.profilePicture!,
-                                            errorBuilder:
-                                                (context, error, stackTrace) =>
-                                                    const CircleAvatar(
-                                              radius: 50,
-                                              backgroundImage: NetworkImage(
-                                                'https://icon-library.com/images/avatar-icon-images/avatar-icon-images-4.jpg',
-                                              ),
-                                            ),
-                                          ),
+                                          backgroundImage: profileData
+                                                  .profilePicture!.isNotEmpty
+                                              ? NetworkImage(
+                                                  '${APIUrl.baseUrl}${APIUrl.imagePath}${profileData.profilePicture}',
+                                                )
+                                              : const NetworkImage(
+                                                  'https://icon-library.com/images/avatar-icon-images/avatar-icon-images-4.jpg',
+                                                ),
                                         ),
                                       ],
                                     ),

@@ -24,7 +24,9 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
               .getMenuRestaurant(event.mitraId);
           result.fold(
             (failure) {
-              emit(MenuError(message: failure.message));
+              emit(
+                MenuError(message: failure.message),
+              );
             },
             (data) {
               emit(
@@ -48,6 +50,23 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
               );
             },
           );
+        }
+      } else if (event is ClearMenu) {
+        try {
+          var result =
+              await serviceLocator<OrderListUsecase>().deleteAllProducts();
+          result.fold(
+            (failure) {
+              emit(MenuError(message: failure.message));
+            },
+            (_) {
+              emit(
+                MenuClear(),
+              );
+            },
+          );
+        } catch (e) {
+          emit(MenuError(message: e.toString()));
         }
       }
     });

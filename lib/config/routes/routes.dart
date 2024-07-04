@@ -71,7 +71,12 @@ class AppRoutes {
         return _materialRoute(const HistoryPage());
 
       case '/order-recipt-page':
-        return _materialRoute(const OrderRecipt());
+        final invoice = settings.arguments as String;
+        return _materialRoute(
+          OrderRecipt(
+            invoice: invoice,
+          ),
+        );
 
       case '/taking-queue-page':
         return _materialRoute(const TakingQueuePage());

@@ -56,7 +56,7 @@ class RecomendationResto extends StatelessWidget {
                 fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) {
                   return Image.asset(
-                    'assets/images/restoran1.png',
+                    'assets/images/empty_store.png',
                     fit: BoxFit.cover,
                   );
                 },
@@ -87,6 +87,7 @@ class RecomendationResto extends StatelessWidget {
                       fontSize: 12,
                       fontWeight: light,
                     ),
+                    overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(
                     height: 20,

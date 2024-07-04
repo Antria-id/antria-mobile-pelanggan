@@ -21,7 +21,7 @@ class ListMenu extends StatelessWidget {
     if (productList.isEmpty) {
       return const Center(
         child: Text(
-          'Error fetching data...',
+          'Menu Belum Tersedia',
         ),
       );
     }

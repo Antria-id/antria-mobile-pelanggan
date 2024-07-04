@@ -35,4 +35,8 @@ class OrderListUsecase {
       quantity,
     );
   }
+
+  Future<Either<Failure, void>> deleteAllProducts() {
+    return serviceLocator<MenuLocalDatasource>().deleteAllProducts();
+  }
 }

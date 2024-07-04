@@ -25,6 +25,20 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<Map<String, dynamic>> banner = [
+      {
+        'imageUrl': 'assets/images/banner1.png',
+      },
+      {
+        'imageUrl': 'assets/images/banner1.png',
+      },
+      {
+        'imageUrl': 'assets/images/banner1.png',
+      },
+      {
+        'imageUrl': 'assets/images/banner1.png',
+      },
+    ];
     Widget header() {
       return BlocProvider(
         create: (context) =>
@@ -193,26 +207,6 @@ class HomePage extends StatelessWidget {
                         children: [
                           Container(
                             margin: const EdgeInsets.only(left: 20),
-                            width: 356,
-                            height: 178,
-                            decoration: const BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage('assets/images/banner1.png'),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            margin: const EdgeInsets.only(left: 20),
-                            width: 356,
-                            height: 178,
-                            decoration: const BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage('assets/images/banner1.png'),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            margin: const EdgeInsets.only(left: 20, right: 20),
                             width: 356,
                             height: 178,
                             decoration: const BoxDecoration(

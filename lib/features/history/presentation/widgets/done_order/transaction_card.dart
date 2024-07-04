@@ -2,13 +2,13 @@ import 'package:antria_mobile_pelanggan/config/themes/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class TransaksiCardWidget extends StatelessWidget {
+class TransactionCardWidget extends StatelessWidget {
   final String invoice;
   final String tanggal;
   final int income;
   final VoidCallback onTap;
 
-  const TransaksiCardWidget({
+  const TransactionCardWidget({
     super.key,
     required this.invoice,
     required this.tanggal,

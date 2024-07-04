@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class DetailPaymentRecipt extends StatelessWidget {
+  final String invoice;
   final int totalPrice;
   final int serviceFee;
   final int totalPayment;
@@ -13,6 +14,7 @@ class DetailPaymentRecipt extends StatelessWidget {
     required this.serviceFee,
     required this.totalPayment,
     required this.paymentMethod,
+    required this.invoice,
   });
 
   @override
@@ -66,7 +68,7 @@ class DetailPaymentRecipt extends StatelessWidget {
                   ),
                   const Spacer(),
                   Text(
-                    'INVCGA1RO2131026032024',
+                    invoice,
                     style: valueStyle,
                   ),
                 ],
@@ -75,7 +77,7 @@ class DetailPaymentRecipt extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    'Total Pembayaran',
+                    'Total Harga',
                     style: titleStyle,
                   ),
                   const Spacer(),

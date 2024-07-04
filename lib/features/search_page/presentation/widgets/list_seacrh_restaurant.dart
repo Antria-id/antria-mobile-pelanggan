@@ -44,7 +44,9 @@ class ListSearchRestaurant extends StatelessWidget {
                         name: menuItem.namaToko!,
                         address: menuItem.alamat!,
                         imageUrl: menuItem.gambarToko!,
-                        rating: menuItem.review! / 10,
+                        rating: menuItem.review != null
+                            ? menuItem.review! / 10
+                            : 0.0,
                         onPressed: () {
                           Navigator.pushNamed(
                             context,

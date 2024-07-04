@@ -6,6 +6,11 @@ import 'package:antria_mobile_pelanggan/features/auth/data/repositories/auth_rep
 import 'package:antria_mobile_pelanggan/features/auth/domain/repositories/auth_repository.dart';
 import 'package:antria_mobile_pelanggan/features/auth/domain/usecases/login/login_usecase.dart';
 import 'package:antria_mobile_pelanggan/features/auth/domain/usecases/register/register_ucecase.dart';
+import 'package:antria_mobile_pelanggan/features/history/data/datasources/history_transaction_remote_datasource.dart';
+import 'package:antria_mobile_pelanggan/features/history/data/repositories/history_transaction_repository_impl.dart';
+import 'package:antria_mobile_pelanggan/features/history/domain/repositories/history_transaction_repository.dart';
+import 'package:antria_mobile_pelanggan/features/history/domain/usecases/get_detail_transaction_usecase.dart';
+import 'package:antria_mobile_pelanggan/features/history/domain/usecases/get_history_transaction_usecase.dart';
 import 'package:antria_mobile_pelanggan/features/home/data/datasources/home_local_datasource.dart';
 import 'package:antria_mobile_pelanggan/features/home/data/datasources/restaurant_remote_data_source.dart';
 import 'package:antria_mobile_pelanggan/features/home/data/repositories/home_repository_impl.dart';
@@ -73,6 +78,12 @@ Future<void> setUpServiceLocator() async {
 
   serviceLocator.registerFactory<OrderListUsecase>(() => OrderListUsecase());
 
+  serviceLocator.registerFactory<GetHistoryTransactionUsecase>(
+      () => GetHistoryTransactionUsecase());
+
+  serviceLocator.registerFactory<GetDetailTransactionUsecase>(
+      () => GetDetailTransactionUsecase());
+
   //datasource
   serviceLocator
       .registerFactory<AuthRemoteDatasource>(() => AuthRemoteDatasourceImpl());
@@ -98,6 +109,9 @@ Future<void> setUpServiceLocator() async {
   serviceLocator.registerFactory<ReviewsRemoteDatasource>(
       () => ReviewsRemoteDatasourceImpl());
 
+  serviceLocator.registerFactory<HistoryTransactionRemoteDatasource>(
+      () => HistoryTransactionRemoteDatasourceImpl());
+
   //repositories
   serviceLocator.registerFactory<AuthRepository>(() => AuthRepositoryImpl());
 
@@ -119,6 +133,9 @@ Future<void> setUpServiceLocator() async {
 
   serviceLocator
       .registerFactory<ReviewsRepository>(() => ReviewsRepositoryImpl());
+
+  serviceLocator.registerFactory<HistoryTransactionRepository>(
+      () => HistoryTransactionRepositoryImpl());
 
   ///! Core
   /// sl.registerLazySingleton(() => InputConverter());

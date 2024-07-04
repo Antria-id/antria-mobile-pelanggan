@@ -1,6 +1,7 @@
 import 'package:antria_mobile_pelanggan/config/themes/themes.dart';
 import 'package:antria_mobile_pelanggan/features/detail_order/presentation/widgets/list_card_order.dart';
 import 'package:antria_mobile_pelanggan/features/detail_order/presentation/widgets/list_payment_method.dart';
+import 'package:antria_mobile_pelanggan/features/detail_order/presentation/widgets/status_service.dart';
 import 'package:antria_mobile_pelanggan/features/info_restaurant/presentation/bloc/orderlist/order_list_bloc.dart';
 import 'package:antria_mobile_pelanggan/shared/custom_button.dart';
 import 'package:flutter/material.dart';
@@ -23,236 +24,258 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: primaryColor,
-        elevation: 0,
         automaticallyImplyLeading: false,
-        toolbarHeight: 0,
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
           },
           icon: const Icon(
             Icons.arrow_back_ios_new_rounded,
+            color: whiteColor,
           ),
         ),
+        title: Text(
+          'Detail Order',
+          style: whiteTextStyle.copyWith(
+            fontWeight: bold,
+          ),
+        ),
+        centerTitle: true,
+        elevation: 0,
       ),
       backgroundColor: backgroundGreyColor,
       body: BlocProvider(
         create: (context) =>
             OrderListBloc()..add(GetProductsInOrderListEvent()),
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 20,
-            ),
-            Center(
-              child: Text(
-                'Menu Terpilih',
-                style: blackTextStyle.copyWith(
-                  fontSize: 20,
-                  fontWeight: bold,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 20,
+              ),
+              Center(
+                child: Text(
+                  'Menu Terpilih',
+                  style: blackTextStyle.copyWith(
+                    fontSize: 20,
+                    fontWeight: bold,
+                  ),
                 ),
               ),
-            ),
-            const ListCardOrder(),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 10,
-                vertical: 30,
-              ),
-              child: BlocConsumer<OrderListBloc, OrderListState>(
-                builder: (context, state) {
-                  if (state is OrderListLoading) {
-                    return Container();
-                  } else if (state is OrderListLoaded) {
-                    final products = state.products;
-                    int totalitemPrice = 0;
+              const ListCardOrder(),
+              const StatusService(),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 30,
+                ),
+                child: BlocConsumer<OrderListBloc, OrderListState>(
+                  builder: (context, state) {
+                    if (state is OrderListLoading) {
+                      return Container();
+                    } else if (state is OrderListLoaded) {
+                      final products = state.products;
+                      int totalitemPrice = 0;
 
-                    for (var product in products) {
-                      int quantity = product['quantity'] ?? 0;
-                      int harga = product['harga'] ?? 0;
+                      for (var product in products) {
+                        int quantity = product['quantity'] ?? 0;
+                        int harga = product['harga'] ?? 0;
 
-                      totalitemPrice += quantity * harga;
-                    }
-                    String formattedPrice = NumberFormat.currency(
-                      locale: 'id_ID',
-                      symbol: 'Rp ',
-                      decimalDigits: 0,
-                    ).format(totalitemPrice);
+                        totalitemPrice += quantity * harga;
+                      }
+                      String formattedPrice = NumberFormat.currency(
+                        locale: 'id_ID',
+                        symbol: 'Rp ',
+                        decimalDigits: 0,
+                      ).format(totalitemPrice);
 
-                    int totalBiaya = totalitemPrice + biayaLayanan;
-                    String formattedTotalBiaya = NumberFormat.currency(
-                      locale: 'id_ID',
-                      symbol: 'Rp ',
-                      decimalDigits: 0,
-                    ).format(totalBiaya);
+                      int totalBiaya = totalitemPrice + biayaLayanan;
+                      String formattedTotalBiaya = NumberFormat.currency(
+                        locale: 'id_ID',
+                        symbol: 'Rp ',
+                        decimalDigits: 0,
+                      ).format(totalBiaya);
 
-                    String formattedBiayaLayanan = NumberFormat.currency(
-                      locale: 'id_ID',
-                      symbol: 'Rp ',
-                      decimalDigits: 0,
-                    ).format(biayaLayanan);
+                      String formattedBiayaLayanan = NumberFormat.currency(
+                        locale: 'id_ID',
+                        symbol: 'Rp ',
+                        decimalDigits: 0,
+                      ).format(biayaLayanan);
 
-                    return Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Harga Item',
-                              style: blackTextStyle.copyWith(
-                                fontSize: 14,
-                              ),
-                            ),
-                            Text(
-                              formattedPrice,
-                              style: blackTextStyle.copyWith(
-                                fontSize: 14,
-                                fontWeight: semiBold,
-                              ),
-                            )
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Biaya Layanan',
-                              style: blackTextStyle.copyWith(
-                                fontSize: 14,
-                              ),
-                            ),
-                            Text(
-                              formattedBiayaLayanan,
-                              style: blackTextStyle.copyWith(
-                                fontSize: 14,
-                                fontWeight: semiBold,
-                              ),
-                            )
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        const Divider(
-                          thickness: 0.5,
-                          color: greyColor,
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Harga total',
-                              style: blackTextStyle.copyWith(
-                                fontSize: 14,
-                              ),
-                            ),
-                            Text(
-                              formattedTotalBiaya,
-                              style: blackTextStyle.copyWith(
-                                fontSize: 14,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 30,
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            showModalBottomSheet(
-                              context: context,
-                              builder: (context) {
-                                return FractionallySizedBox(
-                                  heightFactor: 0.5,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(12.0),
-                                    child: Column(
-                                      children: [
-                                        Expanded(
-                                          child: ListPaymentMethod(
-                                            onPaymentMethodChanged:
-                                                (String value) {
-                                              setState(() {
-                                                paymentMethod = value;
-                                              });
-                                            },
-                                          ),
-                                        ),
-                                        CustomButton(
-                                          title: 'Pilih',
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              },
-                            );
-                          },
-                          style: ElevatedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            minimumSize: const Size(337, 67),
-                            backgroundColor: primaryColor,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                          ),
-                          child: Row(
+                      return Column(
+                        children: [
+                          Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Metode Payment',
-                                    style: whiteTextStyle.copyWith(
-                                      fontWeight: bold,
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 4,
-                                  ),
-                                  Text(
-                                    paymentMethod,
-                                    style: whiteTextStyle,
-                                  ),
-                                ],
+                              Text(
+                                'Harga Item',
+                                style: blackTextStyle.copyWith(
+                                  fontSize: 14,
+                                ),
                               ),
                               Text(
-                                formattedTotalBiaya,
-                                style: whiteTextStyle.copyWith(
-                                  fontWeight: bold,
+                                formattedPrice,
+                                style: blackTextStyle.copyWith(
+                                  fontSize: 14,
+                                  fontWeight: semiBold,
                                 ),
                               )
                             ],
                           ),
-                        ),
-                        const SizedBox(
-                          height: 30,
-                        ),
-                      ],
-                    );
-                  }
-                  return Container();
-                },
-                listener: (BuildContext context, OrderListState state) {
-                  if (state is DecrementQuantity ||
-                      state is IncrementQuantity) {
-                    BlocProvider.of<OrderListBloc>(context)
-                        .add(GetProductsInOrderListEvent());
-                  }
-                },
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Biaya Layanan',
+                                style: blackTextStyle.copyWith(
+                                  fontSize: 14,
+                                ),
+                              ),
+                              Text(
+                                formattedBiayaLayanan,
+                                style: blackTextStyle.copyWith(
+                                  fontSize: 14,
+                                  fontWeight: semiBold,
+                                ),
+                              )
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          const Divider(
+                            thickness: 0.5,
+                            color: greyColor,
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Harga total',
+                                style: blackTextStyle.copyWith(
+                                  fontSize: 14,
+                                ),
+                              ),
+                              Text(
+                                formattedTotalBiaya,
+                                style: blackTextStyle.copyWith(
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 60,
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              showModalBottomSheet(
+                                context: context,
+                                builder: (context) {
+                                  return FractionallySizedBox(
+                                    heightFactor: 0.5,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(12.0),
+                                      child: Column(
+                                        children: [
+                                          Expanded(
+                                            child: ListPaymentMethod(
+                                              onPaymentMethodChanged:
+                                                  (String value) {
+                                                setState(() {
+                                                  paymentMethod = value;
+                                                });
+                                              },
+                                            ),
+                                          ),
+                                          CustomButton(
+                                            title: 'Pilih',
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16),
+                              minimumSize: const Size(337, 67),
+                              backgroundColor: primaryColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                            child: Row(
+                              children: [
+                                Transform.rotate(
+                                  angle: 90 * 3.1415926535 / 180,
+                                  child: const Icon(
+                                    Icons.arrow_forward_ios_sharp,
+                                    size: 24,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 20,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Metode Payment',
+                                      style: whiteTextStyle.copyWith(
+                                        fontWeight: bold,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 4,
+                                    ),
+                                    Text(
+                                      paymentMethod,
+                                      style: whiteTextStyle,
+                                    ),
+                                  ],
+                                ),
+                                const Spacer(),
+                                Text(
+                                  formattedTotalBiaya,
+                                  style: whiteTextStyle.copyWith(
+                                    fontWeight: bold,
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 30,
+                          ),
+                        ],
+                      );
+                    }
+                    return Container();
+                  },
+                  listener: (BuildContext context, OrderListState state) {
+                    if (state is DecrementQuantity ||
+                        state is IncrementQuantity) {
+                      BlocProvider.of<OrderListBloc>(context)
+                          .add(GetProductsInOrderListEvent());
+                    }
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: Padding(
@@ -261,7 +284,7 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
           onPressed: () {
             Navigator.pushNamed(
               context,
-              '/queue-page',
+              '/success-payment',
             );
           },
           style: TextButton.styleFrom(

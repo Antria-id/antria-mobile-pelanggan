@@ -1,42 +1,30 @@
+import 'package:antria_mobile_pelanggan/features/history/data/models/detail_transaction_model.dart';
 import 'package:antria_mobile_pelanggan/features/history/presentation/widgets/done_order/detail_order_recipt.dart';
 import 'package:flutter/material.dart';
 
 class ListOrderRecipt extends StatelessWidget {
-  const ListOrderRecipt({super.key});
+  final List<DetailTransactionModel> orderRecipt;
+  const ListOrderRecipt({
+    super.key,
+    required this.orderRecipt,
+  });
 
   @override
   Widget build(BuildContext context) {
-    List<Map<String, dynamic>> orderRecipt = [
-      {
-        'name': 'Mie Gacoan',
-        'desc': 'Level 0-5',
-        'price': 10000,
-        'quantity': 3
-      },
-      {
-        'name': 'Mie Gacoan',
-        'desc': 'Level 0-5',
-        'price': 10000,
-        'quantity': 3
-      },
-      {
-        'name': 'Mie Gacoan',
-        'desc': 'Level 0-5',
-        'price': 10000,
-        'quantity': 3
-      },
-    ];
+    final allOrders =
+        orderRecipt.expand((invoice) => invoice.oderlist!).toList();
     return ListView.separated(
       padding: const EdgeInsets.only(
         bottom: 70,
       ),
-      itemCount: orderRecipt.length,
+      itemCount: allOrders.length,
       itemBuilder: (context, index) {
+        final order = allOrders[index];
         return DetailOrderRecipt(
-          name: orderRecipt[index]['name'],
-          desc: orderRecipt[index]['desc'],
-          price: orderRecipt[index]['price'],
-          quantity: orderRecipt[index]['quantity'],
+          name: order.produk!.namaProduk!,
+          desc: order.produk!.deskripsiProduk!,
+          price: order.produk!.harga!,
+          quantity: order.quantity!,
         );
       },
       separatorBuilder: (BuildContext context, int index) {

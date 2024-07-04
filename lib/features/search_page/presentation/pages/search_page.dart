@@ -14,14 +14,12 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  late List<GetRestaurantResponse> allRestaurants;
-  late List<GetRestaurantResponse> searchResults;
+  List<GetRestaurantResponse> allRestaurants = [];
+  List<GetRestaurantResponse> searchResults = [];
 
   @override
   void initState() {
     super.initState();
-    allRestaurants = [];
-    searchResults = [];
     context
         .read<GetRestaurantBloc>()
         .add(const GetRestaurantEvent.ongetRestaurant());
@@ -59,9 +57,7 @@ class _SearchPageState extends State<SearchPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  margin: EdgeInsets.only(
-                    top: 20,
-                  ),
+                  margin: EdgeInsets.only(top: 20),
                   child: GestureDetector(
                     onTap: () {
                       Navigator.pop(context);
@@ -72,9 +68,7 @@ class _SearchPageState extends State<SearchPage> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  width: 8,
-                ),
+                SizedBox(width: 8),
                 SearchBarWidget(
                   onSearch: onSearch,
                 ),
@@ -89,7 +83,7 @@ class _SearchPageState extends State<SearchPage> {
                     ),
                   );
                 } else if (state is RestaurantLoadedState) {
-                  allRestaurants = state.response;
+                  allRestaurants = state.response ?? [];
                   return searchResults.isNotEmpty
                       ? Expanded(
                           child: SingleChildScrollView(

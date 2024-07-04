@@ -1,10 +1,51 @@
+import 'dart:async';
 import 'package:antria_mobile_pelanggan/config/themes/themes.dart';
 import 'package:antria_mobile_pelanggan/features/queue/presentation/widgets/queue_customer_card.dart';
 import 'package:antria_mobile_pelanggan/features/queue/presentation/widgets/status_customer_card.dart';
 import 'package:flutter/material.dart';
 
-class QueuePage extends StatelessWidget {
+class QueuePage extends StatefulWidget {
   const QueuePage({super.key});
+
+  @override
+  _QueuePageState createState() => _QueuePageState();
+}
+
+class _QueuePageState extends State<QueuePage> {
+  late Timer _timer;
+  Duration _duration = const Duration(minutes: 30);
+
+  @override
+  void initState() {
+    super.initState();
+    startTimer();
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
+  void startTimer() {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (_duration.inSeconds == 0) {
+        timer.cancel();
+      } else {
+        setState(() {
+          _duration = Duration(seconds: _duration.inSeconds - 1);
+        });
+      }
+    });
+  }
+
+  String get formattedTime {
+    String minutes =
+        _duration.inMinutes.remainder(60).toString().padLeft(2, '0');
+    String seconds =
+        _duration.inSeconds.remainder(60).toString().padLeft(2, '0');
+    return '$minutes:$seconds';
+  }
 
   Widget information() {
     return Container(
@@ -57,7 +98,7 @@ class QueuePage extends StatelessWidget {
                   height: 2,
                 ),
                 Text(
-                  '30 menit',
+                  formattedTime,
                   style: blackTextStyle.copyWith(
                     fontSize: 24,
                     fontWeight: semiBold,

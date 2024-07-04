@@ -15,3 +15,5 @@ final class MenuFetchData extends MenuEvent {
   @override
   List<Object> get props => [mitraId];
 }
+
+final class ClearMenu extends MenuEvent {}

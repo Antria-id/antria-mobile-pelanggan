@@ -1,28 +1,34 @@
+import 'package:antria_mobile_pelanggan/features/history/data/models/history_transaction_response.dart';
 import 'package:antria_mobile_pelanggan/features/history/presentation/widgets/done_order/transaction_card.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class ListTransaction extends StatelessWidget {
-  const ListTransaction({super.key});
+  final List<HistoryTransactionResponse> transaksiList;
+  const ListTransaction({super.key, required this.transaksiList});
+
+  String formatDate(DateTime? date) {
+    if (date == null) return '';
+    final DateFormat formatter = DateFormat('dd-MM-yyyy');
+    return formatter.format(date);
+  }
+
+  int income(List<Oderlist> orders) {
+    int totalPrice = 0;
+    for (var orderItem in orders) {
+      totalPrice += (orderItem.quantity! * orderItem.produk!.harga!);
+    }
+    totalPrice += 1000;
+    return totalPrice;
+  }
 
   @override
   Widget build(BuildContext context) {
-    List<Map<String, dynamic>> transaction = [
-      {
-        'invoice': 'INVCGA1RO2131026032024',
-        'tanggal': '18-12-2024',
-        'income': 60000,
-      },
-      {
-        'invoice': 'INVCGA1RO2131026032024',
-        'tanggal': '18-12-2024',
-        'income': 60000,
-      },
-      {
-        'invoice': 'INVCGA1RO2131026032024',
-        'tanggal': '18-12-2024',
-        'income': 60000,
-      },
-    ];
+    if (transaksiList.isEmpty) {
+      return const Center(
+        child: Text('Error'),
+      );
+    }
     return SizedBox(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
@@ -30,16 +36,18 @@ class ListTransaction extends StatelessWidget {
           padding: const EdgeInsets.only(
             bottom: 70,
           ),
-          itemCount: transaction.length,
+          itemCount: transaksiList.length,
           itemBuilder: (context, index) {
-            return TransaksiCardWidget(
-              invoice: transaction[index]['invoice'],
-              tanggal: transaction[index]['tanggal'],
-              income: transaction[index]['income'],
+            final transaksi = transaksiList[index];
+            return TransactionCardWidget(
+              invoice: transaksi.invoice!,
+              tanggal: formatDate(transaksi.createdAt),
+              income: income(transaksi.oderlist!),
               onTap: () {
                 Navigator.pushNamed(
                   context,
                   '/order-recipt-page',
+                  arguments: transaksi.invoice,
                 );
               },
             );

@@ -126,7 +126,7 @@ class _RatingPageState extends State<RatingPage> {
                                     reviewsRequest: ReviewsRequest(
                                       komentar: commentController.text,
                                       rating: rate.toInt() * 10,
-                                      mitraId: 11,
+                                      mitraId: 9,
                                     ),
                                   ),
                                 );

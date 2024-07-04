@@ -78,10 +78,14 @@ class CartOrder extends StatelessWidget {
                                   fontWeight: bold,
                                 ),
                               ),
-                              Text(
-                                productNames,
-                                style: whiteTextStyle.copyWith(
-                                  fontSize: 12,
+                              SizedBox(
+                                width: 200,
+                                child: Text(
+                                  productNames,
+                                  style: whiteTextStyle.copyWith(
+                                    fontSize: 12,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                             ],

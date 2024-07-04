@@ -1,7 +1,9 @@
 import 'package:antria_mobile_pelanggan/config/themes/themes.dart';
+import 'package:antria_mobile_pelanggan/features/history/presentation/detail/detail_bloc.dart';
 import 'package:antria_mobile_pelanggan/features/history/presentation/widgets/done_order/detail_payment_recipt.dart';
 import 'package:antria_mobile_pelanggan/features/history/presentation/widgets/done_order/list_order_recipt.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SuccessPayment extends StatelessWidget {
   const SuccessPayment({super.key});
@@ -76,14 +78,33 @@ class SuccessPayment extends StatelessWidget {
               ),
               Container(
                 height: 180,
-                child: Expanded(
-                  child: ListOrderRecipt(),
+                child:
+                    BlocBuilder<DetailTransactionBloc, DetailTransactionState>(
+                  builder: (context, state) {
+                    if (state is DetailTransactionError) {
+                      return Center(
+                        child: Text(
+                          'Error',
+                        ),
+                      );
+                    } else if (state is DetailTransactionLoaded) {
+                      return Expanded(
+                        child: ListOrderRecipt(
+                          orderRecipt: [state.response],
+                        ),
+                      );
+                    }
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  },
                 ),
               ),
               SizedBox(
                 height: 20,
               ),
               DetailPaymentRecipt(
+                invoice: 'dsadsa',
                 totalPrice: 60000,
                 serviceFee: 12000,
                 totalPayment: 72000,

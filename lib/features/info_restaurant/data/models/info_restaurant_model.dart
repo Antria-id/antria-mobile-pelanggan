@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final getInfoRestaurantResponse = getInfoRestaurantResponseFromJson(jsonString);
-
 import 'dart:convert';
 
 GetInfoRestaurantResponse getInfoRestaurantResponseFromJson(String str) =>
@@ -16,10 +12,13 @@ class GetInfoRestaurantResponse {
   final String? namaToko;
   final String? deskripsiToko;
   final String? alamat;
+  final String? linkGmaps;
   final String? hariBuka;
   final String? jamBuka;
   final String? jamTutup;
   final String? gambarToko;
+  final bool? subscription;
+  final String? statusToko;
   final DateTime? createdAt;
   final DateTime? updatedAt;
 
@@ -29,10 +28,13 @@ class GetInfoRestaurantResponse {
     this.namaToko,
     this.deskripsiToko,
     this.alamat,
+    this.linkGmaps,
     this.hariBuka,
     this.jamBuka,
     this.jamTutup,
     this.gambarToko,
+    this.subscription,
+    this.statusToko,
     this.createdAt,
     this.updatedAt,
   });
@@ -44,10 +46,13 @@ class GetInfoRestaurantResponse {
         namaToko: json["nama_toko"],
         deskripsiToko: json["deskripsi_toko"],
         alamat: json["alamat"],
+        linkGmaps: json["linkGmaps"],
         hariBuka: json["hari_buka"],
         jamBuka: json["jam_buka"],
         jamTutup: json["jam_tutup"],
         gambarToko: json["gambar_toko"],
+        subscription: json["subscription"],
+        statusToko: json["status_toko"],
         createdAt: json["created_at"] == null
             ? null
             : DateTime.parse(json["created_at"]),
@@ -62,10 +67,13 @@ class GetInfoRestaurantResponse {
         "nama_toko": namaToko,
         "deskripsi_toko": deskripsiToko,
         "alamat": alamat,
+        "linkGmaps": linkGmaps,
         "hari_buka": hariBuka,
         "jam_buka": jamBuka,
         "jam_tutup": jamTutup,
         "gambar_toko": gambarToko,
+        "subscription": subscription,
+        "status_toko": statusToko,
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
       };

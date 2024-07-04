@@ -1,4 +1,7 @@
 import 'package:antria_mobile_pelanggan/core/services/services_locater.dart';
+import 'package:antria_mobile_pelanggan/features/detail_order/presentation/bloc/detail_order_bloc.dart';
+import 'package:antria_mobile_pelanggan/features/history/presentation/detail/detail_bloc.dart';
+import 'package:antria_mobile_pelanggan/features/history/presentation/history/history_bloc.dart';
 import 'package:antria_mobile_pelanggan/features/info_restaurant/presentation/bloc/info_restaurant/info_restaurant_bloc.dart';
 import 'package:antria_mobile_pelanggan/features/info_restaurant/presentation/bloc/menu/menu_bloc.dart';
 import 'package:antria_mobile_pelanggan/features/info_restaurant/presentation/bloc/orderlist/order_list_bloc.dart';
@@ -45,6 +48,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => UpdatePelangganBloc()),
         BlocProvider(create: (_) => ReviewsBloc()),
         BlocProvider(create: (_) => OrderListBloc()),
+        BlocProvider(create: (_) => HistoryTransactionBloc()),
+        BlocProvider(create: (_) => DetailTransactionBloc()),
       ],
       child: const MaterialApp(
         onGenerateRoute: AppRoutes.onGenerateRoutes,

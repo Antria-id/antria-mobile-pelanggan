@@ -12,6 +12,7 @@ abstract class MenuLocalDatasource {
       int productId, int quantity);
   Future<Either<Failure, void>> decrementOrderQuantity(
       int productId, int quantity);
+  Future<Either<Failure, void>> deleteAllProducts();
 }
 
 class MenuLocalDatasourceImpl implements MenuLocalDatasource {
@@ -100,6 +101,18 @@ class MenuLocalDatasourceImpl implements MenuLocalDatasource {
     } catch (e) {
       return Left(
           LocalDatabaseQueryFailure('Unable to decrement order quantity: $e'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> deleteAllProducts() async {
+    try {
+      final DatabaseHelper databaseHelper = DatabaseHelper.instance;
+      await databaseHelper.deleteAllProducts();
+      return const Right(null);
+    } catch (e) {
+      return Left(
+          LocalDatabaseQueryFailure('Unable to delete all products: $e'));
     }
   }
 }

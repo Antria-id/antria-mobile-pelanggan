@@ -51,7 +51,9 @@ class ListCardOrder extends StatelessWidget {
                 .add(GetProductsInOrderListEvent());
           }
           return const Center(
-            child: CircularProgressIndicator(),
+            child: Text(
+              'Anda Belum memesan',
+            ),
           );
         },
       ),
