@@ -7,6 +7,8 @@ class APIUrl {
   static String getInfoRestaurantPath(int mitraId) => '/mitra/$mitraId';
   static String getMenuRestaurantPath(int mitraId) => '/produk/mitra/$mitraId';
   static String get getPesananPath => '/pesanan';
+  static String getPesananPelangganPath(int pelangganId) =>
+      '/pesanan/pelanggan/$pelangganId/SUCCESS';
   static String getPesananByInvoicePath(String invoice) => '/pesanan/$invoice';
   static String get postReviewPath => '/reviews';
   static String get imagePath => '/image/';

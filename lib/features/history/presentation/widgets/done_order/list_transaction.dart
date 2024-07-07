@@ -1,4 +1,4 @@
-import 'package:antria_mobile_pelanggan/features/history/data/models/history_transaction_response.dart';
+import 'package:antria_mobile_pelanggan/features/history/data/models/done_order/history_transaction_response.dart';
 import 'package:antria_mobile_pelanggan/features/history/presentation/widgets/done_order/transaction_card.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';

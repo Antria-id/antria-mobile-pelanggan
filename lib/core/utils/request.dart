@@ -48,8 +48,8 @@ class Request {
   }
 
   // requests
-  Future<Response> get(String path) async {
-    return await dio.get(path);
+  Future<Response> get(String path, {Object? data}) async {
+    return await dio.get(path, data: data);
   }
 
   Future<Response> post(String path, {Object? data}) async {

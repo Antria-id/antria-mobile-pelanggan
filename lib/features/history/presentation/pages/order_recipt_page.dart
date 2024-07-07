@@ -1,6 +1,6 @@
 import 'package:antria_mobile_pelanggan/config/themes/themes.dart';
-import 'package:antria_mobile_pelanggan/features/history/data/models/detail_transaction_model.dart';
-import 'package:antria_mobile_pelanggan/features/history/presentation/detail/detail_bloc.dart';
+import 'package:antria_mobile_pelanggan/features/history/data/models/done_order/detail_transaction_model.dart';
+import 'package:antria_mobile_pelanggan/features/history/presentation/bloc/detail/detail_bloc.dart';
 import 'package:antria_mobile_pelanggan/features/history/presentation/widgets/done_order/detail_payment_recipt.dart';
 import 'package:antria_mobile_pelanggan/features/history/presentation/widgets/done_order/list_order_recipt.dart';
 import 'package:flutter/material.dart';

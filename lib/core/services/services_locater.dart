@@ -6,11 +6,14 @@ import 'package:antria_mobile_pelanggan/features/auth/data/repositories/auth_rep
 import 'package:antria_mobile_pelanggan/features/auth/domain/repositories/auth_repository.dart';
 import 'package:antria_mobile_pelanggan/features/auth/domain/usecases/login/login_usecase.dart';
 import 'package:antria_mobile_pelanggan/features/auth/domain/usecases/register/register_ucecase.dart';
-import 'package:antria_mobile_pelanggan/features/history/data/datasources/history_transaction_remote_datasource.dart';
+import 'package:antria_mobile_pelanggan/features/history/data/datasources/done_order/history_transaction_remote_datasource.dart';
+import 'package:antria_mobile_pelanggan/features/history/data/datasources/order_progress/order_transaction_remote_datasource.dart';
 import 'package:antria_mobile_pelanggan/features/history/data/repositories/history_transaction_repository_impl.dart';
+import 'package:antria_mobile_pelanggan/features/history/data/repositories/order_transaction_repository_impl.dart';
 import 'package:antria_mobile_pelanggan/features/history/domain/repositories/history_transaction_repository.dart';
-import 'package:antria_mobile_pelanggan/features/history/domain/usecases/get_detail_transaction_usecase.dart';
-import 'package:antria_mobile_pelanggan/features/history/domain/usecases/get_history_transaction_usecase.dart';
+import 'package:antria_mobile_pelanggan/features/history/domain/repositories/order_transaction_respository.dart';
+import 'package:antria_mobile_pelanggan/features/history/domain/usecases/done_order/get_detail_transaction_usecase.dart';
+import 'package:antria_mobile_pelanggan/features/history/domain/usecases/done_order/get_history_transaction_usecase.dart';
 import 'package:antria_mobile_pelanggan/features/home/data/datasources/home_local_datasource.dart';
 import 'package:antria_mobile_pelanggan/features/home/data/datasources/restaurant_remote_data_source.dart';
 import 'package:antria_mobile_pelanggan/features/home/data/repositories/home_repository_impl.dart';
@@ -43,6 +46,8 @@ import 'package:antria_mobile_pelanggan/features/rating/domain/usecases/reviews_
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../features/history/domain/usecases/order_progress/get_order_transaction_usecase.dart';
 
 final serviceLocator = GetIt.instance;
 
@@ -84,6 +89,9 @@ Future<void> setUpServiceLocator() async {
   serviceLocator.registerFactory<GetDetailTransactionUsecase>(
       () => GetDetailTransactionUsecase());
 
+  serviceLocator.registerFactory<GetOrderTransactionUsecase>(
+      () => GetOrderTransactionUsecase());
+
   //datasource
   serviceLocator
       .registerFactory<AuthRemoteDatasource>(() => AuthRemoteDatasourceImpl());
@@ -112,6 +120,9 @@ Future<void> setUpServiceLocator() async {
   serviceLocator.registerFactory<HistoryTransactionRemoteDatasource>(
       () => HistoryTransactionRemoteDatasourceImpl());
 
+  serviceLocator.registerFactory<OrderTransactionRemoteDatasource>(
+      () => OrderTransactionRemoteDatasourceImpl());
+
   //repositories
   serviceLocator.registerFactory<AuthRepository>(() => AuthRepositoryImpl());
 
@@ -136,6 +147,9 @@ Future<void> setUpServiceLocator() async {
 
   serviceLocator.registerFactory<HistoryTransactionRepository>(
       () => HistoryTransactionRepositoryImpl());
+
+  serviceLocator.registerFactory<OrderTransactionRepository>(
+      () => OrderTransactionRepositoryImpl());
 
   ///! Core
   /// sl.registerLazySingleton(() => InputConverter());
