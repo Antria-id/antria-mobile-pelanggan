@@ -5,6 +5,8 @@ import 'package:antria_mobile_pelanggan/features/info_restaurant/presentation/bl
 import 'package:antria_mobile_pelanggan/features/info_restaurant/presentation/bloc/orderlist/order_list_bloc.dart';
 import 'package:antria_mobile_pelanggan/features/info_restaurant/presentation/widgets/cart_order.dart';
 import 'package:antria_mobile_pelanggan/features/info_restaurant/presentation/widgets/list_menu.dart';
+import 'package:antria_mobile_pelanggan/shared/empty_data.dart';
+import 'package:antria_mobile_pelanggan/shared/error_fetch_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -51,7 +53,7 @@ class _InfoRestaurantPageState extends State<InfoRestaurantPage> {
         child: BlocBuilder<InfoRestaurantBloc, InfoRestaurantState>(
           builder: (context, state) {
             if (state is InfoRestaurantErrorState) {
-              return const SizedBox();
+              return const ErrorFetchData();
             } else if (state is InfoRestaurantLoadedState) {
               final infoRestaurant = state.response;
               double initialRating = infoRestaurant.review != null
@@ -214,28 +216,27 @@ class _InfoRestaurantPageState extends State<InfoRestaurantPage> {
                     if (state is MenuError) {
                       return Container(
                         height: 800,
-                        child: const Center(
-                          child: Text(
-                            'Menu Belum Tersedia',
-                          ),
-                        ),
+                        child: const ErrorFetchData(),
                       );
                     } else if (state is MenuLoaded) {
-                      return Column(
-                        children: [
-                          header(),
-                          // service(),
-                          ListMenu(
-                            productList: state.menu,
-                            mitraId: widget.mitraId,
-                            onBuyButtonPressed: () {
-                              setState(() {
-                                showCart = true;
-                              });
-                            },
-                          ),
-                        ],
-                      );
+                      if (state.menu.isEmpty) {
+                        return const EmptyDataWidget();
+                      } else {
+                        return Column(
+                          children: [
+                            header(),
+                            ListMenu(
+                              productList: state.menu,
+                              mitraId: widget.mitraId,
+                              onBuyButtonPressed: () {
+                                setState(() {
+                                  showCart = true;
+                                });
+                              },
+                            ),
+                          ],
+                        );
+                      }
                     }
                     return const Center(
                       child: CircularProgressIndicator(),

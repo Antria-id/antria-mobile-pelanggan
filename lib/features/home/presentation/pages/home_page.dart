@@ -1,6 +1,7 @@
 import 'package:antria_mobile_pelanggan/config/themes/themes.dart';
 import 'package:antria_mobile_pelanggan/features/home/presentation/widgets/search_bar.dart';
 import 'package:antria_mobile_pelanggan/features/profile/presentation/bloc/pelanggan_profile/pelanggan_profile_bloc.dart';
+import 'package:antria_mobile_pelanggan/shared/error_fetch_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -60,9 +61,7 @@ class HomePage extends StatelessWidget {
           child: BlocBuilder<PelangganProfileBloc, PelangganProfileState>(
             builder: (context, state) {
               if (state is PelangganProfileStateErrorState) {
-                return Center(
-                  child: Text('Error: ${state.message}'),
-                );
+                return const SizedBox();
               } else if (state is PelangganProfileStateLoadedState) {
                 final profileData = state.pelangganModel;
                 return Container(
@@ -174,11 +173,7 @@ class HomePage extends StatelessWidget {
                       if (state is RestaurantErrorState) {
                         return Container(
                           height: 800,
-                          child: const Center(
-                            child: Text(
-                              'Error fetching data...',
-                            ),
-                          ),
+                          child: const ErrorFetchData(),
                         );
                       } else if (state is RestaurantLoadedState) {
                         return Column(
@@ -202,20 +197,21 @@ class HomePage extends StatelessWidget {
                     right: 0,
                     child: Container(
                       height: 200,
-                      child: ListView(
+                      child: ListView.builder(
                         scrollDirection: Axis.horizontal,
-                        children: [
-                          Container(
-                            margin: const EdgeInsets.only(left: 20),
+                        itemCount: banner.length,
+                        itemBuilder: (context, index) {
+                          return Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 20),
                             width: 356,
                             height: 178,
-                            decoration: const BoxDecoration(
+                            decoration: BoxDecoration(
                               image: DecorationImage(
-                                image: AssetImage('assets/images/banner1.png'),
+                                image: AssetImage(banner[index]['imageUrl']),
                               ),
                             ),
-                          ),
-                        ],
+                          );
+                        },
                       ),
                     ),
                   ),
