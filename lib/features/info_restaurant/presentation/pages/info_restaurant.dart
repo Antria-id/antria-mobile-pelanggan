@@ -263,12 +263,11 @@ class _InfoRestaurantPageState extends State<InfoRestaurantPage> {
                 Positioned.fill(
                   child: Container(
                     height: 150,
-                    color:
-                        const Color.fromRGBO(158, 158, 158, 1).withOpacity(0.5),
+                    color: const Color(0xff333333).withOpacity(0.5),
                     child: Center(
                       child: Text(
                         'Restoran Tutup..',
-                        style: blackTextStyle.copyWith(
+                        style: whiteTextStyle.copyWith(
                           fontSize: 16,
                           fontWeight: semiBold,
                         ),
