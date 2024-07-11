@@ -5,7 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 class CartOrder extends StatelessWidget {
-  const CartOrder({Key? key}) : super(key: key);
+  final VoidCallback onPress;
+  const CartOrder({Key? key, required this.onPress}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,12 +34,7 @@ class CartOrder extends StatelessWidget {
           ).format(totalPrice);
 
           return GestureDetector(
-            onTap: () {
-              Navigator.pushNamed(
-                context,
-                '/detail-order',
-              );
-            },
+            onTap: onPress,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
               child: Container(

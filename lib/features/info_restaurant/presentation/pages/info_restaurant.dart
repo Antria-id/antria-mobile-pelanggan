@@ -5,7 +5,6 @@ import 'package:antria_mobile_pelanggan/features/info_restaurant/presentation/bl
 import 'package:antria_mobile_pelanggan/features/info_restaurant/presentation/bloc/orderlist/order_list_bloc.dart';
 import 'package:antria_mobile_pelanggan/features/info_restaurant/presentation/widgets/cart_order.dart';
 import 'package:antria_mobile_pelanggan/features/info_restaurant/presentation/widgets/list_menu.dart';
-import 'package:antria_mobile_pelanggan/shared/empty_data.dart';
 import 'package:antria_mobile_pelanggan/shared/error_fetch_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -219,24 +218,20 @@ class _InfoRestaurantPageState extends State<InfoRestaurantPage> {
                         child: const ErrorFetchData(),
                       );
                     } else if (state is MenuLoaded) {
-                      if (state.menu.isEmpty) {
-                        return const EmptyDataWidget();
-                      } else {
-                        return Column(
-                          children: [
-                            header(),
-                            ListMenu(
-                              productList: state.menu,
-                              mitraId: widget.mitraId,
-                              onBuyButtonPressed: () {
-                                setState(() {
-                                  showCart = true;
-                                });
-                              },
-                            ),
-                          ],
-                        );
-                      }
+                      return Column(
+                        children: [
+                          header(),
+                          ListMenu(
+                            productList: state.menu,
+                            mitraId: widget.mitraId,
+                            onBuyButtonPressed: () {
+                              setState(() {
+                                showCart = true;
+                              });
+                            },
+                          ),
+                        ],
+                      );
                     }
                     return const Center(
                       child: CircularProgressIndicator(),
@@ -253,15 +248,33 @@ class _InfoRestaurantPageState extends State<InfoRestaurantPage> {
                   }
                 },
                 child: showCart
-                    ? const Align(
+                    ? Align(
                         alignment: Alignment.bottomCenter,
-                        child: CartOrder(),
+                        child: CartOrder(
+                          onPress: () {
+                            Navigator.pushNamed(context, '/detail-order',
+                                arguments: widget.mitraId);
+                          },
+                        ),
                       )
                     : Container(),
               ),
               if (isClosed)
-                Container(
-                  color: Colors.grey.withOpacity(0.4),
+                Positioned.fill(
+                  child: Container(
+                    height: 150,
+                    color:
+                        const Color.fromRGBO(158, 158, 158, 1).withOpacity(0.5),
+                    child: Center(
+                      child: Text(
+                        'Restoran Tutup..',
+                        style: blackTextStyle.copyWith(
+                          fontSize: 16,
+                          fontWeight: semiBold,
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
             ],
           ),

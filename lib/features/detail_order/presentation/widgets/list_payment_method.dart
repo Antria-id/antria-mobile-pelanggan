@@ -13,8 +13,8 @@ class ListPaymentMethod extends StatefulWidget {
 
 class ListPaymentMethodState extends State<ListPaymentMethod> {
   final List<Map<String, dynamic>> paymentList = [
-    {'label': 'Cash', 'icon': 'assets/icons/cash.png'},
-    {'label': 'E-Wallet', 'icon': 'assets/icons/ewallet.png'},
+    {'label': 'CASH', 'icon': 'assets/icons/cash.png'},
+    {'label': 'EWALLET', 'icon': 'assets/icons/ewallet.png'},
   ];
 
   int selectedIndex = -1;

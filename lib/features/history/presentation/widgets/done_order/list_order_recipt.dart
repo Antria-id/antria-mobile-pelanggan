@@ -15,7 +15,7 @@ class ListOrderRecipt extends StatelessWidget {
         orderRecipt.expand((invoice) => invoice.oderlist!).toList();
     return ListView.separated(
       padding: const EdgeInsets.only(
-        bottom: 70,
+        bottom: 20,
       ),
       itemCount: allOrders.length,
       itemBuilder: (context, index) {

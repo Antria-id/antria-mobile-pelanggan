@@ -1,4 +1,8 @@
 import 'dart:async';
+import 'dart:convert';
+import 'package:antria_mobile_pelanggan/core/services/services_locater.dart';
+import 'package:antria_mobile_pelanggan/core/utils/constant.dart';
+import 'package:antria_mobile_pelanggan/core/utils/request.dart';
 import 'package:antria_mobile_pelanggan/features/info_restaurant/data/models/get_menu_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -48,6 +52,7 @@ class DatabaseHelper {
             payment STRING,
             pemesanan STRING,
             takeaway BOOLEAN,
+            oderList STRING, 
             status STRING,
             pelanggan_id INTEGER,
             mitra_id INTEGER,
@@ -57,6 +62,8 @@ class DatabaseHelper {
       ''');
     });
   }
+
+  List<int> orderId = [];
 
   Future<List<Map<String, dynamic>>> getMenuRestaurant() async {
     final db = await instance.database;
@@ -109,7 +116,6 @@ class DatabaseHelper {
   ) async {
     final db = await instance.database;
 
-    // Check if the product already exists in the orderList
     final List<Map<String, dynamic>> existingOrders = await db.query(
       'orderList',
       where: 'product_id = ?',
@@ -117,7 +123,6 @@ class DatabaseHelper {
     );
 
     if (existingOrders.isNotEmpty) {
-      // Update the existing order quantity
       final int existingQuantity = existingOrders.first['quantity'];
       await db.update(
         'orderList',
@@ -211,6 +216,94 @@ class DatabaseHelper {
     JOIN product ON orderList.product_id = product.id
   ''');
     return result;
+  }
+
+  Future<void> insertPesanan(String invoice, String payment, int pelangganId,
+      String pemesanan, bool takeaway, int mitraId) async {
+    final db = await instance.database;
+
+    for (int id in orderId) {
+      await updatePesananId(invoice, id);
+    }
+
+    final List<Map<String, dynamic>> orderList = await getOrderList();
+    String orderListJson =
+        orderList.map((order) => order.toString()).toList().toString();
+
+    List<Map<String, dynamic>> mappedOrderList = orderList.map((order) {
+      return {
+        'quantity': order['quantity'],
+        'produkId': order['product_id'],
+      };
+    }).toList();
+
+    await db.insert(
+      'pesanan',
+      {
+        'invoice': invoice,
+        'payment': payment,
+        'pemesanan': pemesanan,
+        'takeaway': takeaway,
+        'oderList': orderListJson,
+        'status': 'SUCCESS',
+        'pelanggan_id': pelangganId,
+        'mitra_id': mitraId,
+        'created_at': DateTime.now().toIso8601String(),
+        'updated_at': DateTime.now().toIso8601String(),
+      },
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+
+    Map<String, dynamic> payload = {
+      'pesanan': {
+        'invoice': invoice,
+        'payment': payment,
+        'status': 'SUCCESS',
+        'pemesanan': pemesanan,
+        'takeaway': takeaway,
+        'pelangganId': pelangganId,
+        'mitraId': mitraId,
+      },
+      'order_lists': mappedOrderList,
+    };
+
+    String jsonPayload = json.encode(payload);
+
+    print('Response payload $jsonPayload');
+
+    final Request request = serviceLocator<Request>();
+    try {
+      final response = await request.post(
+        APIUrl.insertPesanan,
+        data: jsonPayload,
+      );
+
+      if (response.statusCode == 201) {
+        print('Pesanan inserted successfully');
+      } else {
+        print(
+            'Failed to insert Pesanan. Error ${response.statusCode}: ${response.data}');
+      }
+    } catch (e) {
+      print('Error inserting Pesanan: $e');
+    }
+
+    await db.delete(
+      'orderList',
+    );
+  }
+
+  Future<void> updatePesananId(String pesananId, int id) async {
+    final db = await instance.database;
+    await db.update(
+      'orderList',
+      {
+        'pesanan_id': pesananId,
+        'updated_at': DateTime.now().toIso8601String(),
+      },
+      where: 'id = ?',
+      whereArgs: [id],
+    );
   }
 
   Future<void> deleteAllProducts() async {

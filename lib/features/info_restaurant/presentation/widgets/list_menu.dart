@@ -2,6 +2,7 @@ import 'package:antria_mobile_pelanggan/core/utils/constant.dart';
 import 'package:antria_mobile_pelanggan/features/info_restaurant/data/models/get_menu_model.dart';
 import 'package:antria_mobile_pelanggan/features/info_restaurant/presentation/bloc/menu/menu_bloc.dart';
 import 'package:antria_mobile_pelanggan/features/info_restaurant/presentation/widgets/card_menu.dart';
+import 'package:antria_mobile_pelanggan/shared/empty_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -19,11 +20,7 @@ class ListMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (productList.isEmpty) {
-      return const Center(
-        child: Text(
-          'Menu Belum Tersedia',
-        ),
-      );
+      return const EmptyDataWidget();
     }
     return BlocProvider(
       create: (context) => MenuBloc()

@@ -34,3 +34,9 @@ class ProductAddedToOrderList extends OrderListState {}
 class IncrementQuantity extends OrderListState {}
 
 class DecrementQuantity extends OrderListState {}
+
+class AddPesanan extends OrderListState {
+  final String invoice;
+
+  AddPesanan({required this.invoice});
+}

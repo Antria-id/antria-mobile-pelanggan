@@ -36,6 +36,18 @@ class OrderListUsecase {
     );
   }
 
+  Future<Either<Failure, void>> insertPesanan(String invoice, String payment,
+      int pelangganId, String pemesanan, bool takeaway, int mitraId) {
+    return serviceLocator<MenuLocalDatasource>().insertPesanan(
+      invoice,
+      payment,
+      pelangganId,
+      pemesanan,
+      takeaway,
+      mitraId,
+    );
+  }
+
   Future<Either<Failure, void>> deleteAllProducts() {
     return serviceLocator<MenuLocalDatasource>().deleteAllProducts();
   }

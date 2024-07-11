@@ -56,10 +56,16 @@ class AppRoutes {
         return _materialRoute(const ContactSupportPage());
 
       case '/detail-order':
-        return _materialRoute(const DetailOrderPage());
+        final mitraId = settings.arguments as int;
+        return _materialRoute(DetailOrderPage(
+          mitraId: mitraId,
+        ));
 
       case '/success-payment':
-        return _materialRoute(const SuccessPayment());
+        final invoice = settings.arguments as String;
+        return _materialRoute(SuccessPayment(
+          invoice: invoice,
+        ));
 
       case '/chat-list-page':
         return _materialRoute(const ChatListPage());

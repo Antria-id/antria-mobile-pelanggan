@@ -1,3 +1,4 @@
+import 'package:antria_mobile_pelanggan/config/themes/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -35,18 +36,6 @@ class DetailPaymentRecipt extends StatelessWidget {
       decimalDigits: 0,
     ).format(totalPayment);
 
-    TextStyle titleStyle = TextStyle(
-      fontSize: 14,
-      fontWeight: FontWeight.w600,
-      color: Colors.black,
-    );
-
-    TextStyle valueStyle = TextStyle(
-      fontSize: 14,
-      fontWeight: FontWeight.w400,
-      color: Colors.black,
-    );
-
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Column(
@@ -54,8 +43,7 @@ class DetailPaymentRecipt extends StatelessWidget {
         children: [
           Text(
             'Detail Pembayaran',
-            style:
-                titleStyle.copyWith(fontSize: 16, fontWeight: FontWeight.bold),
+            style: blackTextStyle.copyWith(fontSize: 16, fontWeight: semiBold),
           ),
           const SizedBox(height: 8),
           Column(
@@ -64,12 +52,12 @@ class DetailPaymentRecipt extends StatelessWidget {
                 children: [
                   Text(
                     'Id Pesanan',
-                    style: titleStyle,
+                    style: blackTextStyle.copyWith(fontWeight: semiBold),
                   ),
                   const Spacer(),
                   Text(
                     invoice,
-                    style: valueStyle,
+                    style: blackTextStyle,
                   ),
                 ],
               ),
@@ -78,12 +66,12 @@ class DetailPaymentRecipt extends StatelessWidget {
                 children: [
                   Text(
                     'Total Harga',
-                    style: titleStyle,
+                    style: blackTextStyle.copyWith(fontWeight: semiBold),
                   ),
                   const Spacer(),
                   Text(
                     formattedTotalPrice,
-                    style: valueStyle,
+                    style: blackTextStyle,
                   ),
                 ],
               ),
@@ -92,12 +80,12 @@ class DetailPaymentRecipt extends StatelessWidget {
                 children: [
                   Text(
                     'Biaya layanan',
-                    style: titleStyle,
+                    style: blackTextStyle.copyWith(fontWeight: semiBold),
                   ),
                   const Spacer(),
                   Text(
                     formattedServiceFee,
-                    style: valueStyle,
+                    style: blackTextStyle,
                   ),
                 ],
               ),
@@ -106,12 +94,12 @@ class DetailPaymentRecipt extends StatelessWidget {
                 children: [
                   Text(
                     'Total Pembayaran',
-                    style: titleStyle,
+                    style: blackTextStyle.copyWith(fontWeight: semiBold),
                   ),
                   const Spacer(),
                   Text(
                     formattedTotalPayment,
-                    style: valueStyle,
+                    style: blackTextStyle,
                   ),
                 ],
               ),
@@ -120,12 +108,12 @@ class DetailPaymentRecipt extends StatelessWidget {
                 children: [
                   Text(
                     'Metode Pembayaran',
-                    style: titleStyle,
+                    style: blackTextStyle.copyWith(fontWeight: semiBold),
                   ),
                   const Spacer(),
                   Text(
                     paymentMethod,
-                    style: valueStyle,
+                    style: blackTextStyle,
                   ),
                 ],
               ),

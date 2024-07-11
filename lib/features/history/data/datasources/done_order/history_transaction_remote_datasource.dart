@@ -6,7 +6,6 @@ import 'package:antria_mobile_pelanggan/core/utils/request.dart';
 import 'package:antria_mobile_pelanggan/features/history/data/models/done_order/detail_transaction_model.dart';
 import 'package:antria_mobile_pelanggan/features/home/data/models/user/user_response_model.dart';
 import 'package:dartz/dartz.dart';
-
 import '../../models/done_order/history_transaction_response.dart';
 
 abstract class HistoryTransactionRemoteDatasource {

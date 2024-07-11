@@ -1,15 +1,19 @@
 import 'package:antria_mobile_pelanggan/config/themes/themes.dart';
 import 'package:antria_mobile_pelanggan/features/detail_order/presentation/widgets/list_card_order.dart';
 import 'package:antria_mobile_pelanggan/features/detail_order/presentation/widgets/list_payment_method.dart';
-import 'package:antria_mobile_pelanggan/features/detail_order/presentation/widgets/status_service.dart';
+import 'package:antria_mobile_pelanggan/features/home/presentation/bloc/user/user_bloc.dart';
+import 'package:antria_mobile_pelanggan/features/info_restaurant/presentation/bloc/info_restaurant/info_restaurant_bloc.dart';
 import 'package:antria_mobile_pelanggan/features/info_restaurant/presentation/bloc/orderlist/order_list_bloc.dart';
+import 'package:antria_mobile_pelanggan/features/info_restaurant/presentation/widgets/custom_buttton_service.dart';
 import 'package:antria_mobile_pelanggan/shared/custom_button.dart';
+import 'package:antria_mobile_pelanggan/shared/custom_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 class DetailOrderPage extends StatefulWidget {
-  const DetailOrderPage({super.key});
+  final int mitraId;
+  const DetailOrderPage({super.key, required this.mitraId});
 
   @override
   State<DetailOrderPage> createState() => _DetailOrderPageState();
@@ -18,6 +22,9 @@ class DetailOrderPage extends StatefulWidget {
 class _DetailOrderPageState extends State<DetailOrderPage> {
   String paymentMethod = 'Pilih Metode Pembayaran';
   int biayaLayanan = 1000;
+  bool isSelected = false;
+  bool isSelectedDineIn = true;
+  bool isSelectedTakeaway = false;
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +70,45 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
                 ),
               ),
               const ListCardOrder(),
-              const StatusService(),
+              Container(
+                margin: const EdgeInsets.symmetric(
+                  vertical: 20,
+                  horizontal: 22,
+                ),
+                child: Row(
+                  children: [
+                    Flexible(
+                      child: CustomButtonService(
+                        title: 'Dine In',
+                        isSelected: isSelectedDineIn,
+                        onTap: () {
+                          setState(() {
+                            isSelectedDineIn = true;
+                            isSelectedTakeaway = false;
+                          });
+                        },
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Flexible(
+                      child: CustomButtonService(
+                        title: 'Takeaway',
+                        isSelected: isSelectedTakeaway,
+                        onTap: () {
+                          setState(
+                            () {
+                              isSelectedTakeaway = true;
+                              isSelectedDineIn = false;
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 10,
@@ -278,26 +323,85 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
           ),
         ),
       ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-        child: TextButton(
-          onPressed: () {
-            Navigator.pushNamed(
-              context,
-              '/success-payment',
-            );
-          },
-          style: TextButton.styleFrom(
-            backgroundColor: primaryColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
+      bottomNavigationBar: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => UserBloc()..add(const UserFetchDataEvent()),
           ),
-          child: Text(
-            'Bayar',
-            style: whiteTextStyle.copyWith(
-              fontSize: 12,
-              fontWeight: medium,
+          BlocProvider(
+            create: (context) => InfoRestaurantBloc()
+              ..add(InfoRestaurantUserEvent(mitraId: widget.mitraId)),
+          ),
+        ],
+        child: BlocListener<OrderListBloc, OrderListState>(
+          listener: (context, state) {
+            if (state is AddPesanan) {
+              Navigator.pushNamed(
+                context,
+                '/success-payment',
+                arguments: state.invoice,
+              );
+            }
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            child: BlocBuilder<InfoRestaurantBloc, InfoRestaurantState>(
+              builder: (context, state) {
+                if (state is InfoRestaurantLoadedState) {
+                  final namaToko =
+                      state.response.namaToko!.substring(0, 2).toUpperCase();
+                  return BlocBuilder<UserBloc, UserState>(
+                    builder: (context, state) {
+                      if (state is UserLoadedState) {
+                        final id = state.user.sub;
+                        final name =
+                            state.user.username!.substring(0, 2).toUpperCase();
+                        return TextButton(
+                          onPressed: () {
+                            if (paymentMethod == 'Pilih Metode Pembayaran') {
+                              showToastFailedMessage('Pilih Metode Pembayaran');
+                              return;
+                            }
+                            int timestamp =
+                                DateTime.now().millisecondsSinceEpoch ~/ 1000;
+                            String invoice =
+                                'INVC$namaToko${widget.mitraId}$name$id$timestamp';
+
+                            // Log the generated invoice for debugging
+                            print('Generated invoice: $invoice');
+
+                            context.read<OrderListBloc>().add(
+                                  AddPesananEvent(
+                                    invoice: invoice,
+                                    payment: paymentMethod,
+                                    pelangganId: id!,
+                                    pemesanan: 'ONLINE',
+                                    takeaway: isSelectedTakeaway,
+                                    mitraId: widget.mitraId,
+                                  ),
+                                );
+                          },
+                          style: TextButton.styleFrom(
+                            backgroundColor: primaryColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          child: Text(
+                            'Bayar',
+                            style: whiteTextStyle.copyWith(
+                              fontSize: 12,
+                              fontWeight: medium,
+                            ),
+                          ),
+                        );
+                      }
+                      return const Center(child: CircularProgressIndicator());
+                    },
+                  );
+                }
+                return const Center(child: CircularProgressIndicator());
+              },
             ),
           ),
         ),

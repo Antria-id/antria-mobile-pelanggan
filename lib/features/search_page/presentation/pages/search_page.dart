@@ -92,10 +92,10 @@ class _SearchPageState extends State<SearchPage> {
                             ),
                           ),
                         )
-                      : Expanded(
+                      : const Expanded(
                           child: Center(
                             child: Text(
-                              'Search for restaurants',
+                              'Cari Restoran',
                               style: TextStyle(fontSize: 18),
                             ),
                           ),
