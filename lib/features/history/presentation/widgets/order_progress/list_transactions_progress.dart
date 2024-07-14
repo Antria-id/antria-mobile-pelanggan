@@ -46,7 +46,7 @@ class ListTransactionProgress extends StatelessWidget {
               onTap: () {
                 Navigator.pushNamed(
                   context,
-                  '/order-recipt-page',
+                  '/queue-page',
                   arguments: transaksi.invoice,
                 );
               },

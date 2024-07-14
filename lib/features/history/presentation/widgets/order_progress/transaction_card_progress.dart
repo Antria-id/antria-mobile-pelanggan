@@ -90,7 +90,7 @@ class TransactionCardProgress extends StatelessWidget {
               onTap: onTap,
               child: const Center(
                 child: Text(
-                  'Lihat Detail',
+                  'Lihat Antrian',
                   style: TextStyle(
                     color: Colors.blue,
                     fontWeight: FontWeight.bold,

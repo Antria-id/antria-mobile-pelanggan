@@ -110,10 +110,10 @@ class _SearchPageState extends State<SearchPage> {
                     ),
                   );
                 }
-                return Expanded(
+                return const Expanded(
                   child: Center(
                     child: Text(
-                      'No restaurants found',
+                      'Restoran Tidak Ditemukan',
                       style: TextStyle(fontSize: 18),
                     ),
                   ),

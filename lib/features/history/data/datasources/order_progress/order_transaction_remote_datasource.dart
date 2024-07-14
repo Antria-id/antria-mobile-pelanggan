@@ -28,7 +28,7 @@ class OrderTransactionRemoteDatasourceImpl
       final int pelangganId = user.sub!;
       final response = await request.get(
         APIUrl.getPesananPelangganPath(pelangganId),
-        data: {'status_order': 'PROCESS'},
+        data: {'status_order': 'WAITING'},
       );
 
       if (response.statusCode == 200) {
