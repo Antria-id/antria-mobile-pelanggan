@@ -19,9 +19,8 @@ class CustomButtonService extends StatelessWidget {
       onTap: onTap,
       child: Container(
         height: 34,
-        width: 154,
         margin: const EdgeInsets.only(
-          right: 24,
+          right: 10,
         ),
         decoration: BoxDecoration(
           color: isSelected ? primaryColor : whiteColor,

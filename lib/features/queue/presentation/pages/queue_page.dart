@@ -1,71 +1,50 @@
+import 'dart:async';
 import 'package:antria_mobile_pelanggan/config/themes/themes.dart';
 import 'package:antria_mobile_pelanggan/features/queue/presentation/widgets/queue_customer_card.dart';
+import 'package:antria_mobile_pelanggan/features/queue/presentation/widgets/status_customer_card.dart';
 import 'package:flutter/material.dart';
 
-class QueuePage extends StatelessWidget {
+class QueuePage extends StatefulWidget {
   const QueuePage({super.key});
 
-  Widget header() {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(
-            top: 16,
-            bottom: 26,
-          ),
-          child: Text(
-            'Antrian Anda',
-            style: blackTextStyle.copyWith(
-              fontSize: 16,
-              fontWeight: semiBold,
-            ),
-          ),
-        ),
-        Container(
-          width: 352,
-          height: 148,
-          decoration: BoxDecoration(
-            color: primaryColor,
-            borderRadius: BorderRadius.circular(
-              10,
-            ),
-          ),
-          child: Column(
-            children: [
-              Container(
-                margin: const EdgeInsets.only(
-                  top: 14,
-                ),
-                child: Image.asset(
-                  'assets/icons/icon_queue.png',
-                ),
-              ),
-              const SizedBox(
-                height: 18,
-              ),
-              Container(
-                height: 36,
-                width: 182,
-                decoration: BoxDecoration(
-                  color: whiteColor,
-                  borderRadius: BorderRadius.circular(
-                    10,
-                  ),
-                ),
-                child: Center(
-                  child: Text(
-                    'Menunggu Antrian',
-                    style: purpleTextStyle.copyWith(
-                      fontWeight: semiBold,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
+  @override
+  _QueuePageState createState() => _QueuePageState();
+}
+
+class _QueuePageState extends State<QueuePage> {
+  late Timer _timer;
+  Duration _duration = const Duration(minutes: 30);
+
+  @override
+  void initState() {
+    super.initState();
+    startTimer();
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
+  void startTimer() {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (_duration.inSeconds == 0) {
+        timer.cancel();
+      } else {
+        setState(() {
+          _duration = Duration(seconds: _duration.inSeconds - 1);
+        });
+      }
+    });
+  }
+
+  String get formattedTime {
+    String minutes =
+        _duration.inMinutes.remainder(60).toString().padLeft(2, '0');
+    String seconds =
+        _duration.inSeconds.remainder(60).toString().padLeft(2, '0');
+    return '$minutes:$seconds';
   }
 
   Widget information() {
@@ -119,7 +98,7 @@ class QueuePage extends StatelessWidget {
                   height: 2,
                 ),
                 Text(
-                  '30 menit',
+                  formattedTime,
                   style: blackTextStyle.copyWith(
                     fontSize: 24,
                     fontWeight: semiBold,
@@ -178,9 +157,11 @@ class QueuePage extends StatelessWidget {
         ),
       ),
       child: ListView.builder(
+        padding: const EdgeInsets.only(
+          bottom: 80,
+        ),
         itemCount: menuItems.length,
         itemBuilder: (BuildContext context, int index) {
-          bool isLastItem = index == menuItems.length - 1;
           return Column(
             children: [
               QueueCustomerCard(
@@ -188,10 +169,6 @@ class QueuePage extends StatelessWidget {
                 imageUrl: menuItems[index]['imageUrl'],
                 number: menuItems[index]['number'],
               ),
-              if (isLastItem)
-                const SizedBox(
-                  height: 20,
-                ),
             ],
           );
         },
@@ -211,7 +188,7 @@ class QueuePage extends StatelessWidget {
       body: SafeArea(
         child: ListView(
           children: [
-            header(),
+            const StatusCustomerCard(),
             information(),
             customer(context),
           ],

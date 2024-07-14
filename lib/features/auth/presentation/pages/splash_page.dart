@@ -1,8 +1,12 @@
-import 'dart:async';
+import 'package:antria_mobile_pelanggan/core/services/services_locater.dart';
+import 'package:antria_mobile_pelanggan/features/auth/presentation/pages/login_page.dart';
+import 'package:antria_mobile_pelanggan/features/home/domain/usecases/home/check_login_status_usecase.dart';
+import 'package:antria_mobile_pelanggan/shared/bottom_navigation.dart';
 import 'package:flutter/material.dart';
-import '../../../../config/themes/themes.dart';
 
 class SplashPage extends StatefulWidget {
+  const SplashPage({super.key});
+
   @override
   State<SplashPage> createState() => _SplashPageState();
 }
@@ -10,33 +14,35 @@ class SplashPage extends StatefulWidget {
 class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
-    Timer(Duration(seconds: 3), () {
-      Navigator.pushNamed(context, '/login-page');
-    });
     super.initState();
+
+    Future.delayed(
+      const Duration(seconds: 3),
+      () {
+        serviceLocator<CheckUserLoginStatus>().checkIfUserLoggedIn().then(
+          (isUserLoggedIn) {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (context) => isUserLoggedIn
+                    ? const BottomNavigationWidget()
+                    : const LoginPage(),
+              ),
+            );
+          },
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: whiteColor,
+      backgroundColor: Colors.white,
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              height: 200,
-              width: 200,
-              margin: EdgeInsets.only(
-                bottom: 50,
-              ),
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('assets/images/antria.png'),
-                ),
-              ),
-            ),
-          ],
+        child: Image.asset(
+          'assets/images/antria.png',
+          height: 140,
+          width: 140,
         ),
       ),
     );

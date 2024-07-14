@@ -1,152 +1,221 @@
+import 'package:antria_mobile_pelanggan/config/themes/themes.dart';
 import 'package:flutter/material.dart';
-import '../../../../config/themes/themes.dart';
-import '../../../info_restaurant/presentation/pages/info_restaurant.dart';
+import 'package:intl/intl.dart';
 
-class CardDetailOrder extends StatelessWidget {
-  final String name;
-  final String desc;
+class CardDetailOrder extends StatefulWidget {
+  final int productId;
   final String imageUrl;
-  final bool promo;
+  final String name;
   final int price;
-  final int quantity;
-
+  final int kuantitas;
   const CardDetailOrder({
     super.key,
-    required this.name,
-    required this.desc,
+    required this.productId,
     required this.imageUrl,
-    this.promo = false,
+    required this.name,
     required this.price,
-    required this.quantity,
+    required this.kuantitas,
   });
 
   @override
+  State<CardDetailOrder> createState() => _CardDetailOrderState();
+}
+
+class _CardDetailOrderState extends State<CardDetailOrder>
+    with AutomaticKeepAliveClientMixin {
+  late int quantity;
+  @override
+  void initState() {
+    super.initState();
+    quantity = widget.kuantitas;
+  }
+
+  @override
+  bool get wantKeepAlive => true;
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 102,
-      width: 376,
-      margin: const EdgeInsets.only(
-        top: 16,
-      ),
-      decoration: BoxDecoration(
-        color: whiteColor,
-        borderRadius: BorderRadius.circular(
-          18,
-        ),
+    super.build(context);
+    String formattedPrice = NumberFormat.currency(
+      locale: 'id_ID',
+      symbol: 'Rp ',
+      decimalDigits: 0,
+    ).format(widget.price);
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 10,
+        vertical: 10,
       ),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Container(
-            width: 110,
-            height: 102,
-            margin: const EdgeInsets.only(
-              right: 16,
-            ),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(
-                10,
-              ),
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: AssetImage(
-                  imageUrl,
+          Row(
+            children: [
+              ClipRRect(
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(8),
+                ),
+                child: Image.network(
+                  widget.imageUrl,
+                  width: 90,
+                  height: 90,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Image.asset(
+                      'assets/images/menu1.jpg',
+                      width: 90,
+                      height: 90,
+                    );
+                  },
                 ),
               ),
-            ),
-            child: promo == true
-                ? Align(
-                    alignment: Alignment.topLeft,
-                    child: Container(
-                      width: 60,
-                      height: 26,
-                      margin: const EdgeInsets.only(
-                        top: 4,
-                        left: 4,
-                      ),
-                      decoration: BoxDecoration(
-                        color: orangeColor,
-                        borderRadius: BorderRadius.circular(
-                          10,
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Promo!',
-                            style: whiteTextStyle.copyWith(
-                              fontSize: 12,
-                              fontWeight: semiBold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  )
-                : const SizedBox(),
-          ),
-          Expanded(
-            child: Container(
-              margin: const EdgeInsets.only(
-                top: 10,
+              const SizedBox(
+                width: 20,
               ),
-              child: Column(
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    name,
-                    style: greyTextStyle.copyWith(
-                      fontSize: 16,
-                      fontWeight: semiBold,
+                  SizedBox(
+                    width: 100,
+                    child: Text(
+                      widget.name,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                      ),
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   const SizedBox(
-                    height: 5,
+                    height: 10,
                   ),
                   Text(
-                    desc,
-                    style: greyTextStyle.copyWith(
-                      fontSize: 12,
-                      fontWeight: light,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  Text(
-                    'Rp ${price}',
-                    style: blackTextStyle.copyWith(
-                      fontWeight: bold,
+                    formattedPrice,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      color: Color(0xff0D1039),
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
                 ],
               ),
-            ),
+            ],
           ),
-          Container(
-            margin: const EdgeInsets.only(
-              top: 20,
-              right: 10,
-            ),
-            width: 60,
-            height: 40,
-            decoration: BoxDecoration(
-              color: greyColor,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(
-                  10,
-                ),
-                topRight: Radius.circular(
-                  10,
-                ),
+          Column(
+            children: [
+              const SizedBox(
+                height: 10,
               ),
-            ),
-            child: Center(
-              child: Text(
-                '${quantity}',
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // Container(
+                  //   width: 32,
+                  //   height: 32,
+                  //   decoration: const BoxDecoration(
+                  //     borderRadius: BorderRadius.all(
+                  //       Radius.circular(10),
+                  //     ),
+                  //     color: greyColor,
+                  //   ),
+                  //   child: GestureDetector(
+                  //     onTap: () {
+                  //       if (quantity > 1) {
+                  //         setState(() {
+                  //           quantity--;
+                  //         });
+                  //       } else if (quantity == 1) {
+                  //         setState(() {
+                  //           quantity;
+                  //         });
+                  //       }
+                  //       final orderList = BlocProvider.of<OrderListBloc>(
+                  //         context,
+                  //       );
+                  //       orderList.add(
+                  //         DecrementQuantityEvent(
+                  //           productId: widget.productId,
+                  //           quantity: quantity,
+                  //         ),
+                  //       );
+                  //     },
+                  //     child: const Icon(
+                  //       Icons.remove,
+                  //       size: 20,
+                  //     ),
+                  //   ),
+                  // ),
+                  // const SizedBox(
+                  //   width: 10,
+                  // ),
+                  Container(
+                    width: 58,
+                    height: 32,
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10),
+                        topRight: Radius.circular(10),
+                      ),
+                      color: greyColor,
+                    ),
+                    child: Column(
+                      children: [
+                        const SizedBox(
+                          height: 4,
+                        ),
+                        Text(
+                          '$quantity',
+                          style: blackTextStyle.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 3,
+                        ),
+                        Container(
+                          width: 58,
+                          height: 2,
+                          color: Colors.green,
+                        )
+                      ],
+                    ),
+                  ),
+                  // const SizedBox(
+                  //   width: 10,
+                  // ),
+                  // Container(
+                  //   width: 30,
+                  //   height: 30,
+                  //   decoration: const BoxDecoration(
+                  //     borderRadius: BorderRadius.all(
+                  //       Radius.circular(10),
+                  //     ),
+                  //     color: greyColor,
+                  //   ),
+                  //   child: GestureDetector(
+                  //     onTap: () {
+                  //       setState(() {
+                  //         quantity++;
+                  //       });
+                  //       final orderList = BlocProvider.of<OrderListBloc>(
+                  //         context,
+                  //       );
+                  //       orderList.add(
+                  //         IncrementQuantityEvent(
+                  //           productId: widget.productId,
+                  //           quantity: quantity,
+                  //         ),
+                  //       );
+                  //     },
+                  //     child: const Icon(
+                  //       Icons.add,
+                  //       size: 20,
+                  //     ),
+                  //   ),
+                  // )
+                ],
               ),
-            ),
-          ),
+            ],
+          )
         ],
       ),
     );

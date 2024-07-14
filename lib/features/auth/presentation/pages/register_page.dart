@@ -1,5 +1,5 @@
 import 'package:antria_mobile_pelanggan/config/themes/themes.dart';
-import 'package:antria_mobile_pelanggan/features/data/models/request/register_request_model.dart';
+import 'package:antria_mobile_pelanggan/features/auth/data/models/request/register_request_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -27,6 +27,12 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: primaryColor,
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        toolbarHeight: 0,
+      ),
       backgroundColor: whiteColor,
       body: SafeArea(
         child: SingleChildScrollView(
@@ -185,7 +191,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                   ),
                                 ),
                                 child: const Text(
-                                  'Sign Up',
+                                  'Daftar',
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 15,

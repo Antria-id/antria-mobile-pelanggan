@@ -1,19 +1,49 @@
 import 'package:antria_mobile_pelanggan/config/themes/themes.dart';
+import 'package:antria_mobile_pelanggan/features/home/presentation/widgets/search_bar.dart';
+import 'package:antria_mobile_pelanggan/features/profile/presentation/bloc/pelanggan_profile/pelanggan_profile_bloc.dart';
+import 'package:antria_mobile_pelanggan/shared/error_fetch_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../bloc/get_restaurant/get_restaurant_bloc.dart';
-import '../bloc/user/user_bloc.dart';
 import '../widgets/list_restaurant.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
+  String getGreeting() {
+    final hour = TimeOfDay.now().hour;
+    if (hour < 12) {
+      return 'Selamat Pagi';
+    } else if (hour < 15) {
+      return 'Selamat Siang';
+    } else if (hour < 18) {
+      return 'Selamat Sore';
+    } else {
+      return 'Selamat Malam';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    List<Map<String, dynamic>> banner = [
+      {
+        'imageUrl': 'assets/images/banner1.png',
+      },
+      {
+        'imageUrl': 'assets/images/banner1.png',
+      },
+      {
+        'imageUrl': 'assets/images/banner1.png',
+      },
+      {
+        'imageUrl': 'assets/images/banner1.png',
+      },
+    ];
     Widget header() {
       return BlocProvider(
-        create: (context) => UserBloc()..add(UserFetchDataEvent()),
+        create: (context) =>
+            PelangganProfileBloc()..add(const GetPelangganFetchDataEvent()),
         child: Container(
           width: double.infinity,
           height: 262,
@@ -28,14 +58,12 @@ class HomePage extends StatelessWidget {
               ),
             ),
           ),
-          child: BlocBuilder<UserBloc, UserState>(
+          child: BlocBuilder<PelangganProfileBloc, PelangganProfileState>(
             builder: (context, state) {
-              if (state is UserErrorState) {
-                return Center(
-                  child: Text('Error: ${state.message}'),
-                );
-              } else if (state is UserLoadedState) {
-                final profileData = state.user;
+              if (state is PelangganProfileStateErrorState) {
+                return const SizedBox();
+              } else if (state is PelangganProfileStateLoadedState) {
+                final profileData = state.pelangganModel;
                 return Container(
                   margin: const EdgeInsets.only(
                     top: 10,
@@ -52,7 +80,7 @@ class HomePage extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Hi, Good Morning',
+                                  'Hi, ${getGreeting()}',
                                   style: whiteTextStyle.copyWith(
                                     fontSize: 12,
                                   ),
@@ -61,7 +89,7 @@ class HomePage extends StatelessWidget {
                                   height: 6,
                                 ),
                                 Text(
-                                  profileData.username ?? 'Tolol',
+                                  profileData.username ?? 'Member',
                                   style: whiteTextStyle.copyWith(
                                     fontSize: 24,
                                     fontWeight: bold,
@@ -71,15 +99,35 @@ class HomePage extends StatelessWidget {
                               ],
                             ),
                           ),
-                          Container(
-                            width: 56,
-                            height: 56,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                image: AssetImage(
-                                  'assets/images/profile.png',
-                                ),
+                          InkWell(
+                            onTap: () {
+                              Navigator.pushNamed(context, '/profile-page');
+                            },
+                            child: Container(
+                              width: 56,
+                              height: 56,
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                              ),
+                              child: Stack(
+                                alignment: Alignment.bottomRight,
+                                children: [
+                                  CircleAvatar(
+                                    radius: 50,
+                                    backgroundColor: primaryColor,
+                                    child: Image.network(
+                                      profileData.profilePicture!,
+                                      errorBuilder:
+                                          (context, error, stackTrace) =>
+                                              const CircleAvatar(
+                                        radius: 50,
+                                        backgroundImage: NetworkImage(
+                                          'https://icon-library.com/images/avatar-icon-images/avatar-icon-images-4.jpg',
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
@@ -90,33 +138,7 @@ class HomePage extends StatelessWidget {
                           top: 20,
                         ),
                       ),
-                      Container(
-                        width: 322,
-                        child: TextFormField(
-                          decoration: InputDecoration(
-                            contentPadding: const EdgeInsets.symmetric(
-                              vertical: 6,
-                              horizontal: 12,
-                            ),
-                            filled: true,
-                            fillColor: greyColor,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(
-                                8,
-                              ),
-                              borderSide: const BorderSide(
-                                color: Colors.transparent,
-                              ),
-                            ),
-                            hintText: 'Search',
-                            hintStyle: const TextStyle(
-                              fontSize: 14,
-                              color: fontGreycolor,
-                            ),
-                            suffixIcon: Icon(Icons.search),
-                          ),
-                        ),
-                      ),
+                      const SearchBarHome(),
                     ],
                   ),
                 );
@@ -130,97 +152,73 @@ class HomePage extends StatelessWidget {
       );
     }
 
-    return BlocProvider(
-      create: (context) => GetRestaurantBloc()..add(RestaurantUserEvent()),
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: primaryColor,
-          elevation: 0,
-          automaticallyImplyLeading: false,
-          toolbarHeight: 0,
-        ),
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Stack(
-              children: [
-                BlocBuilder<GetRestaurantBloc, GetRestaurantState>(
-                  builder: (context, state) {
-                    if (state is RestaurantErrorState) {
-                      return Center(
-                        child: Text(state.message),
-                      );
-                    } else if (state is RestaurantLoadedState) {
-                      return Column(
-                        children: [
-                          header(),
-                          ListRestaurant(menuItems: state.response)
-                        ],
-                      );
-                    }
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  },
-                ),
-                Positioned(
-                  top: 160,
-                  left: 0,
-                  right: 0,
-                  child: Container(
-                    height: 200,
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.only(
-                            left: 20,
-                          ),
-                          width: 356,
-                          height: 178,
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage('assets/images/banner1.png'),
+    return BlocProvider<GetRestaurantBloc>(
+        create: (context) => GetRestaurantBloc()
+          ..add(
+            const RestaurantUserEvent(),
+          ),
+        child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: primaryColor,
+            elevation: 0,
+            automaticallyImplyLeading: false,
+            toolbarHeight: 0,
+          ),
+          body: SafeArea(
+            child: SingleChildScrollView(
+              child: Stack(
+                children: [
+                  BlocBuilder<GetRestaurantBloc, GetRestaurantState>(
+                    builder: (context, state) {
+                      if (state is RestaurantErrorState) {
+                        return Container(
+                          height: 800,
+                          child: const ErrorFetchData(),
+                        );
+                      } else if (state is RestaurantLoadedState) {
+                        return Column(
+                          children: [
+                            header(),
+                            ListRestaurant(
+                              isHome: true,
+                              menuItems: state.response,
                             ),
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(
-                            left: 20,
-                          ),
-                          width: 356,
-                          height: 178,
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage(
-                                'assets/images/banner1.png',
+                          ],
+                        );
+                      }
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    },
+                  ),
+                  Positioned(
+                    top: 160,
+                    left: 0,
+                    right: 0,
+                    child: Container(
+                      height: 200,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: banner.length,
+                        itemBuilder: (context, index) {
+                          return Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 20),
+                            width: 356,
+                            height: 178,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage(banner[index]['imageUrl']),
                               ),
                             ),
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(
-                            left: 20,
-                            right: 20,
-                          ),
-                          width: 356,
-                          height: 178,
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage(
-                                'assets/images/banner1.png',
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+                          );
+                        },
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-        ),
-      ),
-    );
+        ));
   }
 }

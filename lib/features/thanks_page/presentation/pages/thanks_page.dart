@@ -41,7 +41,7 @@ class ThanksPage extends StatelessWidget {
             CustomButton(
               title: 'Go back to Home',
               onPressed: () {
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                     builder: (context) => const BottomNavigationWidget(),

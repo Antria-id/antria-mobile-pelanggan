@@ -1,13 +1,13 @@
 import 'dart:convert';
 
-List<GetRestaurantResponse> getRestaurantResponseFromJson(String str) =>
-    List<GetRestaurantResponse>.from(
-        json.decode(str).map((x) => GetRestaurantResponse.fromJson(x)));
+GetRestaurantResponse getRestaurantResponseFromJson(String str) =>
+    GetRestaurantResponse.fromJson(json.decode(str));
 
-String getRestaurantResponseToJson(List<GetRestaurantResponse> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String getRestaurantResponseToJson(GetRestaurantResponse data) =>
+    json.encode(data.toJson());
 
 class GetRestaurantResponse {
+  final int? review;
   final int? id;
   final String? namaToko;
   final String? deskripsiToko;
@@ -20,6 +20,7 @@ class GetRestaurantResponse {
   final DateTime? updatedAt;
 
   GetRestaurantResponse({
+    this.review,
     this.id,
     this.namaToko,
     this.deskripsiToko,
@@ -34,6 +35,7 @@ class GetRestaurantResponse {
 
   factory GetRestaurantResponse.fromJson(Map<String, dynamic> json) =>
       GetRestaurantResponse(
+        review: json["review"],
         id: json["id"],
         namaToko: json["nama_toko"],
         deskripsiToko: json["deskripsi_toko"],
@@ -51,6 +53,7 @@ class GetRestaurantResponse {
       );
 
   Map<String, dynamic> toJson() => {
+        "review": review,
         "id": id,
         "nama_toko": namaToko,
         "deskripsi_toko": deskripsiToko,

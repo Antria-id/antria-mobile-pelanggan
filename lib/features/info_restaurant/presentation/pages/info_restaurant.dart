@@ -1,11 +1,20 @@
 import 'package:antria_mobile_pelanggan/config/themes/themes.dart';
+import 'package:antria_mobile_pelanggan/core/utils/constant.dart';
+import 'package:antria_mobile_pelanggan/features/info_restaurant/presentation/bloc/info_restaurant/info_restaurant_bloc.dart';
+import 'package:antria_mobile_pelanggan/features/info_restaurant/presentation/bloc/menu/menu_bloc.dart';
+import 'package:antria_mobile_pelanggan/features/info_restaurant/presentation/bloc/orderlist/order_list_bloc.dart';
 import 'package:antria_mobile_pelanggan/features/info_restaurant/presentation/widgets/cart_order.dart';
-import 'package:antria_mobile_pelanggan/features/info_restaurant/presentation/widgets/custom_buttton_service.dart';
-import 'package:antria_mobile_pelanggan/features/info_restaurant/presentation/widgets/menu.dart';
+import 'package:antria_mobile_pelanggan/features/info_restaurant/presentation/widgets/list_menu.dart';
+import 'package:antria_mobile_pelanggan/shared/custom_button.dart';
+import 'package:antria_mobile_pelanggan/shared/error_fetch_data.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class InfoRestaurantPage extends StatefulWidget {
-  const InfoRestaurantPage({super.key});
+  final int mitraId;
+  const InfoRestaurantPage({super.key, required this.mitraId});
 
   @override
   State<InfoRestaurantPage> createState() => _InfoRestaurantPageState();
@@ -13,283 +22,287 @@ class InfoRestaurantPage extends StatefulWidget {
 
 class _InfoRestaurantPageState extends State<InfoRestaurantPage> {
   bool showCart = false;
-  bool isSelected = false;
-  bool isSelectedDineIn = true;
-  bool isSelectedTakeaway = false;
+  bool isClosed = false;
+  InfoRestaurantBloc? _infoRestaurantBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _infoRestaurantBloc = InfoRestaurantBloc()
+      ..add(InfoRestaurantUserEvent(mitraId: widget.mitraId));
+    _infoRestaurantBloc!.stream.listen((state) {
+      if (state is InfoRestaurantLoadedState) {
+        setState(() {
+          isClosed = state.response.statusToko == 'CLOSE';
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _infoRestaurantBloc?.close();
+    super.dispose();
+  }
+
+  void _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  Widget header() {
+    return BlocProvider.value(
+      value: _infoRestaurantBloc!,
+      child: Container(
+        width: double.infinity,
+        margin: const EdgeInsets.all(16),
+        child: BlocBuilder<InfoRestaurantBloc, InfoRestaurantState>(
+          builder: (context, state) {
+            if (state is InfoRestaurantErrorState) {
+              return const ErrorFetchData();
+            } else if (state is InfoRestaurantLoadedState) {
+              final infoRestaurant = state.response;
+              double initialRating = infoRestaurant.review != null
+                  ? infoRestaurant.review! / 10.0
+                  : 0.0;
+
+              return Column(
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: Image.network(
+                          '${APIUrl.baseUrl}${APIUrl.imagePath}${infoRestaurant.gambarToko}',
+                          fit: BoxFit.cover,
+                          height: 172,
+                          width: 172,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Image.asset(
+                              'assets/images/empty_store.png',
+                              fit: BoxFit.cover,
+                              height: 172,
+                              width: 172,
+                            );
+                          },
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                        child: Container(
+                          margin: const EdgeInsets.only(
+                            top: 10,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                infoRestaurant.namaToko!,
+                                style: blackTextStyle.copyWith(
+                                  fontSize: 18,
+                                  fontWeight: bold,
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              Text(
+                                infoRestaurant.alamat!,
+                                style: greyTextStyle.copyWith(
+                                  fontSize: 8,
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                '${infoRestaurant.jamBuka!} - ${infoRestaurant.jamTutup}',
+                                style: blackTextStyle.copyWith(
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              Text(
+                                infoRestaurant.hariBuka!,
+                                style: blackTextStyle.copyWith(
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                    '$initialRating',
+                                  ),
+                                  const SizedBox(
+                                    width: 6,
+                                  ),
+                                  RatingBar.builder(
+                                    initialRating: initialRating,
+                                    direction: Axis.horizontal,
+                                    itemCount: 5,
+                                    allowHalfRating: true,
+                                    itemSize: 16.0,
+                                    itemBuilder: (context, _) => const Icon(
+                                      Icons.star,
+                                      color: Colors.amber,
+                                    ),
+                                    ignoreGestures: true,
+                                    onRatingUpdate: (double value) {},
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  CustomButton(
+                    width: 360,
+                    title: 'Alamat Restoran',
+                    radius: 8.0,
+                    onPressed: () async {
+                      final url = Uri.parse(infoRestaurant.linkGmaps!);
+                      await launchUrl(url);
+                    },
+                  )
+                ],
+              );
+            }
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          },
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    Widget header() {
-      return Container(
-        width: double.infinity,
-        margin: const EdgeInsets.all(16),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width: 172,
-              height: 172,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                image: const DecorationImage(
-                  fit: BoxFit.cover,
-                  image: AssetImage('assets/images/restoran1.png'),
-                ),
-              ),
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            Expanded(
-              child: Container(
-                margin: const EdgeInsets.only(
-                  top: 10,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Mie Gacoan Tebet',
-                      style: blackTextStyle.copyWith(
-                        fontSize: 18,
-                        fontWeight: bold,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      'Jl. Tebet Raya No.35, RT.2/RW.2, Tebet Tim., Kec. Tebet, Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta 12820',
-                      style: greyTextStyle.copyWith(
-                        fontSize: 8,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      '10.00 - 00.01 WIB',
-                      style: blackTextStyle.copyWith(
-                        fontSize: 10,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 4,
-                    ),
-                    Row(
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.only(
-                            right: 2,
-                          ),
-                          width: 20,
-                          height: 20,
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage('assets/icons/star.png'),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(
-                            right: 2,
-                          ),
-                          width: 20,
-                          height: 20,
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage('assets/icons/star.png'),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(
-                            right: 2,
-                          ),
-                          width: 20,
-                          height: 20,
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage('assets/icons/star.png'),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(
-                            right: 2,
-                          ),
-                          width: 20,
-                          height: 20,
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage('assets/icons/star.png'),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(
-                            right: 2,
-                          ),
-                          width: 20,
-                          height: 20,
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage('assets/icons/star.png'),
-                            ),
-                          ),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
-    }
-
-    Widget service() {
-      return Container(
-        margin: const EdgeInsets.only(
-          top: 20,
-          left: 22,
-        ),
-        child: Row(
-          children: [
-            CustomButtonService(
-              title: 'Dine In',
-              isSelected: isSelectedDineIn,
-              onTap: () {
-                setState(() {
-                  isSelectedDineIn = true;
-                  isSelectedTakeaway = false;
-                });
-              },
-            ),
-            CustomButtonService(
-              title: 'Takeaway',
-              isSelected: isSelectedTakeaway,
-              onTap: () {
-                setState(
-                  () {
-                    isSelectedTakeaway = !isSelectedTakeaway;
-                    isSelectedDineIn = false;
-                  },
-                );
-              },
-            ),
-          ],
-        ),
-      );
-    }
-
-    // Widget menu() {
-    //   List<Map<String, dynamic>> menuItems = [
-    //     {
-    //       'title': 'Menu 1',
-    //       'desc': 'Description 1',
-    //       'price': 10000,
-    //       'imageUrl': 'assets/images/menu1.jpg',
-    //       'promo': true,
-    //     },
-    //     {
-    //       'title': 'Menu 2',
-    //       'desc': 'Description 2',
-    //       'price': 15000,
-    //       'imageUrl': 'assets/images/menu2.jpg',
-    //       'promo': false,
-    //     },
-    //     {
-    //       'title': 'Menu 1',
-    //       'desc': 'Description 1',
-    //       'price': 10,
-    //       'imageUrl': 'assets/images/menu1.jpg',
-    //       'promo': true,
-    //     },
-    //     {
-    //       'title': 'Menu 1',
-    //       'desc': 'Description 1',
-    //       'price': 10000,
-    //       'imageUrl': 'assets/images/menu1.jpg',
-    //       'promo': false,
-    //     },
-    //     {
-    //       'title': 'Menu 1',
-    //       'desc': 'Description 1',
-    //       'price': 10000,
-    //       'imageUrl': 'assets/images/menu1.jpg',
-    //       'promo': true,
-    //     },
-    //   ];
-
-    //   return Container(
-    //     margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-    //     child: GridView.builder(
-    //       shrinkWrap: true,
-    //       physics: const NeverScrollableScrollPhysics(),
-    //       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-    //         crossAxisCount: 2,
-    //         mainAxisSpacing: 8.0,
-    //         crossAxisSpacing: 0.0,
-    //         childAspectRatio: 0.7,
-    //       ),
-    //       itemCount: menuItems.length,
-    //       itemBuilder: (BuildContext context, int index) {
-    //         return CardMenu(
-    //           title: menuItems[index]['title'],
-    //           desc: menuItems[index]['desc'],
-    //           price: menuItems[index]['price'],
-    //           imageUrl: menuItems[index]['imageUrl'],
-    //           promo: menuItems[index]['promo'] ?? false,
-    //           onPress: () {
-    //             setState(() {
-    //               showCart = true;
-    //             });
-    //           },
-    //         );
-    //       },
-
-    //     ),
-    //     if(showCart)
-    //   );
-    // }
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: primaryColor,
-        elevation: 0,
         automaticallyImplyLeading: false,
-        toolbarHeight: 0,
+        leading: IconButton(
+          onPressed: () {
+            setState(() {
+              final menuBloc = BlocProvider.of<MenuBloc>(context);
+              menuBloc.add(
+                ClearMenu(),
+              );
+              Navigator.pop(context);
+            });
+          },
+          icon: const Icon(
+            Icons.arrow_back_ios_new_rounded,
+            color: whiteColor,
+          ),
+        ),
+        title: Text(
+          'Restaurant',
+          style: whiteTextStyle.copyWith(
+            fontWeight: bold,
+          ),
+        ),
+        centerTitle: true,
+        elevation: 0,
       ),
-      body: SafeArea(
-        child: Stack(
-          children: [
-            SingleChildScrollView(
-              child: Column(
-                children: [
-                  header(),
-                  service(),
-                  Menu(
-                    onPress: () {
-                      setState(
-                        () {
-                          showCart = true;
-                        },
-                      );
-                    },
-                  ),
-                ],
-              ),
+      body: BlocProvider(
+        create: (context) => MenuBloc()
+          ..add(
+            MenuFetchData(
+              mitraId: widget.mitraId,
             ),
-            if (showCart)
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: CartOrder(),
+          ),
+        child: SafeArea(
+          child: Stack(
+            children: [
+              SingleChildScrollView(
+                child: BlocBuilder<MenuBloc, MenuState>(
+                  builder: (context, state) {
+                    if (state is MenuError) {
+                      return Container(
+                        height: 800,
+                        child: const ErrorFetchData(),
+                      );
+                    } else if (state is MenuLoaded) {
+                      return Column(
+                        children: [
+                          header(),
+                          ListMenu(
+                            productList: state.menu,
+                            mitraId: widget.mitraId,
+                            onBuyButtonPressed: () {
+                              setState(() {
+                                showCart = true;
+                              });
+                            },
+                          ),
+                        ],
+                      );
+                    }
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  },
+                ),
               ),
-          ],
+              BlocListener<OrderListBloc, OrderListState>(
+                listener: (context, state) {
+                  if (state is OrderListLoaded) {
+                    setState(() {
+                      showCart = state.products.isNotEmpty;
+                    });
+                  }
+                },
+                child: showCart
+                    ? Align(
+                        alignment: Alignment.bottomCenter,
+                        child: CartOrder(
+                          onPress: () {
+                            Navigator.pushNamed(context, '/detail-order',
+                                arguments: widget.mitraId);
+                          },
+                        ),
+                      )
+                    : Container(),
+              ),
+              if (isClosed)
+                Positioned.fill(
+                  child: Container(
+                    height: 150,
+                    color: const Color(0xff333333).withOpacity(0.5),
+                    child: Center(
+                      child: Text(
+                        'Restoran Tutup..',
+                        style: whiteTextStyle.copyWith(
+                          fontSize: 16,
+                          fontWeight: semiBold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          ),
         ),
       ),
     );

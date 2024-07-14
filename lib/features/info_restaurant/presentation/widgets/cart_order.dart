@@ -1,74 +1,113 @@
 import 'package:antria_mobile_pelanggan/config/themes/themes.dart';
+import 'package:antria_mobile_pelanggan/features/info_restaurant/presentation/bloc/orderlist/order_list_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 class CartOrder extends StatelessWidget {
-  const CartOrder({super.key});
+  final VoidCallback onPress;
+  const CartOrder({Key? key, required this.onPress}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(context, '/detail-order');
-      },
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-        child: Container(
-          width: 320,
-          height: 54,
-          decoration: const BoxDecoration(
-            borderRadius: BorderRadius.all(
-              Radius.circular(10),
-            ),
-            color: primaryColor,
-          ),
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 14, vertical: 4),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Image.asset(
-                      'assets/icons/cart.png',
-                      width: 30,
-                      height: 30,
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: 4,
-                        ),
-                        Text(
-                          '1 Item', // Updated here
-                          style: whiteTextStyle.copyWith(
-                            fontWeight: bold,
-                          ),
-                        ),
-                        Text(
-                          'kopi, Chicken curry',
-                          style: whiteTextStyle.copyWith(
-                            fontSize: 12,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
+    return BlocBuilder<OrderListBloc, OrderListState>(
+      builder: (context, state) {
+        if (state is OrderListLoading) {
+          return Container();
+        } else if (state is OrderListLoaded) {
+          final products = state.products;
+          final itemCount = products.length;
+          final productNames =
+              products.map((product) => product['nama_produk']).join(', ');
+          int totalPrice = 0;
+
+          for (var product in products) {
+            int quantity = product['quantity'] ?? 0;
+            int harga = product['harga'] ?? 0;
+
+            totalPrice += quantity * harga;
+          }
+          String formattedPrice = NumberFormat.currency(
+            locale: 'id_ID',
+            symbol: 'Rp ',
+            decimalDigits: 0,
+          ).format(totalPrice);
+
+          return GestureDetector(
+            onTap: onPress,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+              child: Container(
+                width: double.infinity,
+                height: 50,
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10),
+                  ),
+                  color: primaryColor,
                 ),
-                Text(
-                  'Rp 10.000',
-                  style: whiteTextStyle.copyWith(
-                    fontWeight: FontWeight.bold,
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Image.asset(
+                            'assets/icons/cart.png',
+                            width: 30,
+                            height: 30,
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(
+                                height: 4,
+                              ),
+                              Text(
+                                '$itemCount Item', // Updated here
+                                style: whiteTextStyle.copyWith(
+                                  fontWeight: bold,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 200,
+                                child: Text(
+                                  productNames,
+                                  style: whiteTextStyle.copyWith(
+                                    fontSize: 12,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      Text(
+                        formattedPrice,
+                        style: whiteTextStyle.copyWith(
+                          fontWeight: bold,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
+              ),
             ),
-          ),
-        ),
-      ),
+          );
+        } else if (state is ProductAddedToOrderList) {
+          BlocProvider.of<OrderListBloc>(context)
+              .add(GetProductsInOrderListEvent());
+          return Container();
+        } else {
+          return Container();
+        }
+      },
     );
   }
 }

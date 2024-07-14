@@ -4,7 +4,7 @@ import '../../../config/themes/themes.dart';
 class CustomButton extends StatelessWidget {
   final String title;
   final double width;
-  final Function() onPressed;
+  final VoidCallback onPressed;
   final EdgeInsets margin;
   final double radius;
   const CustomButton(
