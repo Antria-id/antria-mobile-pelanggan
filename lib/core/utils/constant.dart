@@ -11,6 +11,7 @@ class APIUrl {
       '/pesanan/pelanggan/$pelangganId/SUCCESS';
   static String getPesananByInvoicePath(String invoice) => '/pesanan/$invoice';
   static String get insertPesanan => '/pesanan';
+  static String getQueuePath(int mitraId) => '/antrian/mitra/$mitraId';
   static String get postReviewPath => '/reviews';
   static String get imagePath => '/image/';
 }

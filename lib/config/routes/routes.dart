@@ -8,6 +8,7 @@ import 'package:antria_mobile_pelanggan/features/history/presentation/pages/hist
 import 'package:antria_mobile_pelanggan/features/history/presentation/pages/order_recipt_page.dart';
 import 'package:antria_mobile_pelanggan/features/home/presentation/pages/home_page.dart';
 import 'package:antria_mobile_pelanggan/features/info_restaurant/presentation/pages/info_restaurant.dart';
+import 'package:antria_mobile_pelanggan/features/info_restaurant/presentation/pages/restaurant_address.dart';
 import 'package:antria_mobile_pelanggan/features/profile/presentation/pages/contact_support_page.dart';
 import 'package:antria_mobile_pelanggan/features/profile/presentation/pages/edit_profile_page.dart';
 import 'package:antria_mobile_pelanggan/features/profile/presentation/pages/profile_page.dart';
@@ -44,7 +45,15 @@ class AppRoutes {
         return _materialRoute(const SearchPage());
 
       case '/queue-page':
-        return _materialRoute(const QueuePage());
+        final args = settings.arguments as Map<String, dynamic>;
+        final mitraId = args['mitraId'] as int;
+        final invoice = args['invoice'] as String;
+        return _materialRoute(
+          QueuePage(
+            mitraId: mitraId,
+            invoice: invoice,
+          ),
+        );
 
       case '/profile-page':
         return _materialRoute(const ProfilePage());
@@ -93,11 +102,19 @@ class AppRoutes {
           InfoRestaurantPage(mitraId: mitraId),
         );
 
+      case '/restaurant-address':
+        return _materialRoute(
+          const RestaurantAddress(),
+        );
+
       case '/success-order-page':
         return _materialRoute(const SuccessOrderPage());
 
       case '/rating-page':
-        return _materialRoute(const RatingPage());
+        final mitraId = settings.arguments as int;
+        return _materialRoute(RatingPage(
+          mitraId: mitraId,
+        ));
 
       case '/thanks-page':
         return _materialRoute(const ThanksPage());
