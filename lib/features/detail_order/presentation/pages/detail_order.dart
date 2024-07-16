@@ -42,7 +42,7 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
           ),
         ),
         title: Text(
-          'Detail Order',
+          'Detail Pesanan',
           style: whiteTextStyle.copyWith(
             fontWeight: bold,
           ),

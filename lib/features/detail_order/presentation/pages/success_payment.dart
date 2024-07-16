@@ -102,7 +102,7 @@ class SuccessPayment extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              'Hi, ${detail.pelanggan!.nama}',
+                              'Hi, ${detail.pelanggan!.username}',
                               style: blackTextStyle.copyWith(
                                 fontSize: 14,
                               ),
@@ -115,8 +115,8 @@ class SuccessPayment extends StatelessWidget {
                         children: [
                           Row(
                             children: [
-                              Text('Detail Pesanan'),
-                              Spacer(),
+                              const Text('Detail Pesanan'),
+                              const Spacer(),
                               Text(
                                 getOrderTypeText(detail.takeaway!),
                               ),

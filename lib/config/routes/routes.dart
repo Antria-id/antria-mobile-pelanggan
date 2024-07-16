@@ -99,7 +99,9 @@ class AppRoutes {
       case '/information-restaurant':
         final mitraId = settings.arguments as int;
         return _materialRoute(
-          InfoRestaurantPage(mitraId: mitraId),
+          InfoRestaurantPage(
+            mitraId: mitraId,
+          ),
         );
 
       case '/restaurant-address':
@@ -108,7 +110,12 @@ class AppRoutes {
         );
 
       case '/success-order-page':
-        return _materialRoute(const SuccessOrderPage());
+        final mitraId = settings.arguments as int;
+        return _materialRoute(
+          SuccessOrderPage(
+            mitraId: mitraId,
+          ),
+        );
 
       case '/rating-page':
         final mitraId = settings.arguments as int;
