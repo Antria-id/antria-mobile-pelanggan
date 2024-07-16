@@ -1,4 +1,5 @@
 import 'package:antria_mobile_pelanggan/config/themes/themes.dart';
+import 'package:antria_mobile_pelanggan/core/utils/constant.dart';
 import 'package:flutter/material.dart';
 
 class QueueCustomerCard extends StatelessWidget {
@@ -32,16 +33,35 @@ class QueueCustomerCard extends StatelessWidget {
           const SizedBox(
             width: 20,
           ),
-          Container(
-            width: 60,
-            height: 60,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              image: DecorationImage(
-                image: AssetImage(imageUrl),
-                fit: BoxFit.cover,
-              ),
-            ),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(100),
+            child: imageUrl.isNotEmpty
+                ? Image.network(
+                    '${APIUrl.baseUrl}${APIUrl.imagePath}$imageUrl',
+                    fit: BoxFit.cover,
+                    height: 60,
+                    width: 60,
+                    errorBuilder: (context, error, stackTrace) {
+                      return CircleAvatar(
+                        radius: 30,
+                        child: Image.asset(
+                          'assets/icons/user-empty.png',
+                          fit: BoxFit.cover,
+                          height: 60,
+                          width: 60,
+                        ),
+                      );
+                    },
+                  )
+                : CircleAvatar(
+                    radius: 30,
+                    child: Image.asset(
+                      'assets/icons/user-empty.png',
+                      fit: BoxFit.cover,
+                      height: 60,
+                      width: 60,
+                    ),
+                  ),
           ),
           const SizedBox(
             width: 10,

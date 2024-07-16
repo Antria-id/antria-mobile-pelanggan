@@ -8,6 +8,7 @@ import 'package:antria_mobile_pelanggan/features/info_restaurant/presentation/bl
 import 'package:antria_mobile_pelanggan/features/profile/presentation/bloc/logout/logout_bloc.dart';
 import 'package:antria_mobile_pelanggan/features/profile/presentation/bloc/pelanggan_profile/pelanggan_profile_bloc.dart';
 import 'package:antria_mobile_pelanggan/features/profile/presentation/bloc/update_profile/update_pelanggan_bloc.dart';
+import 'package:antria_mobile_pelanggan/features/queue/presentation/bloc/queue_bloc.dart';
 import 'package:antria_mobile_pelanggan/features/rating/presentation/bloc/reviews/reviews_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:antria_mobile_pelanggan/config/routes/routes.dart';
@@ -51,6 +52,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => HistoryTransactionBloc()),
         BlocProvider(create: (_) => DetailTransactionBloc()),
         BlocProvider(create: (_) => OrderTransactionBloc()),
+        BlocProvider(create: (_) => QueueBloc()),
       ],
       child: const MaterialApp(
         onGenerateRoute: AppRoutes.onGenerateRoutes,

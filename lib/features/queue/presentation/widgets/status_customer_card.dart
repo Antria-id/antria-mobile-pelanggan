@@ -17,13 +17,6 @@ class StatusCustomerCard extends StatelessWidget {
               top: 16,
               bottom: 26,
             ),
-            child: Text(
-              'Antrian Anda',
-              style: blackTextStyle.copyWith(
-                fontSize: 16,
-                fontWeight: semiBold,
-              ),
-            ),
           ),
           Container(
             width: 352,

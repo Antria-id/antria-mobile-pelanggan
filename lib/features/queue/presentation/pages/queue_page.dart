@@ -1,178 +1,132 @@
-import 'dart:async';
 import 'package:antria_mobile_pelanggan/config/themes/themes.dart';
-import 'package:antria_mobile_pelanggan/features/queue/presentation/widgets/queue_customer_card.dart';
+import 'package:antria_mobile_pelanggan/features/history/presentation/bloc/detail/detail_bloc.dart';
+import 'package:antria_mobile_pelanggan/features/queue/presentation/bloc/queue_bloc.dart';
+import 'package:antria_mobile_pelanggan/features/queue/presentation/widgets/list_queue.dart';
 import 'package:antria_mobile_pelanggan/features/queue/presentation/widgets/status_customer_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_timer_countdown/flutter_timer_countdown.dart';
 
 class QueuePage extends StatefulWidget {
-  const QueuePage({super.key});
+  final int mitraId;
+  final String invoice;
+
+  const QueuePage({
+    super.key,
+    required this.mitraId,
+    required this.invoice,
+  });
 
   @override
   _QueuePageState createState() => _QueuePageState();
 }
 
 class _QueuePageState extends State<QueuePage> {
-  late Timer _timer;
-  Duration _duration = const Duration(minutes: 30);
-
   @override
   void initState() {
     super.initState();
-    startTimer();
+    BlocProvider.of<DetailTransactionBloc>(context)
+        .add(DetailTransactionFetchData(invoice: widget.invoice));
   }
 
-  @override
-  void dispose() {
-    _timer.cancel();
-    super.dispose();
-  }
-
-  void startTimer() {
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (_duration.inSeconds == 0) {
-        timer.cancel();
-      } else {
-        setState(() {
-          _duration = Duration(seconds: _duration.inSeconds - 1);
-        });
-      }
-    });
-  }
-
-  String get formattedTime {
-    String minutes =
-        _duration.inMinutes.remainder(60).toString().padLeft(2, '0');
-    String seconds =
-        _duration.inSeconds.remainder(60).toString().padLeft(2, '0');
-    return '$minutes:$seconds';
-  }
-
-  Widget information() {
-    return Container(
-      margin: const EdgeInsets.only(
-        top: 46,
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Expanded(
-            child: Column(
-              children: [
-                Text(
-                  'Posisi Antrian',
-                  style: greyTextStyle.copyWith(
-                    fontSize: 14,
-                  ),
-                ),
-                const SizedBox(
-                  height: 2,
-                ),
-                Text(
-                  '18',
-                  style: blackTextStyle.copyWith(
-                    fontSize: 24,
-                    fontWeight: semiBold,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(
-            height: 64,
-            child: VerticalDivider(
-              color: greyColor,
-              thickness: 4,
-              indent: 8,
-            ),
-          ),
-          Expanded(
-            child: Column(
-              children: [
-                Text(
-                  'Estimasi Waktu',
-                  style: greyTextStyle.copyWith(
-                    fontSize: 14,
-                  ),
-                ),
-                const SizedBox(
-                  height: 2,
-                ),
-                Text(
-                  formattedTime,
-                  style: blackTextStyle.copyWith(
-                    fontSize: 24,
-                    fontWeight: semiBold,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+  void navigateToRatingPage() {
+    Navigator.pushNamed(
+      context,
+      '/rating-page',
+      arguments: widget.mitraId,
     );
   }
 
-  Widget customer(BuildContext context) {
-    List<Map<String, dynamic>> menuItems = [
-      {
-        'imageUrl': 'assets/images/profile.png',
-        'name': 'Zamrun',
-        'number': 16,
-      },
-      {
-        'imageUrl': 'assets/images/profile.png',
-        'name': 'Haikal',
-        'number': 17,
-      },
-      {
-        'imageUrl': 'assets/images/profile.png',
-        'name': 'Jeremia',
-        'number': 18,
-      },
-      {
-        'imageUrl': 'assets/images/profile.png',
-        'name': 'Liu',
-        'number': 19,
-      },
-    ];
-
-    return Container(
-      margin: const EdgeInsets.only(
-        top: 48,
-        bottom: 90,
-      ),
-      width: double.infinity,
-      height: 398,
-      decoration: BoxDecoration(
-        color: primaryColor.withOpacity(
-          0.2,
-        ),
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(
-            10,
-          ),
-          topRight: Radius.circular(
-            10,
-          ),
-        ),
-      ),
-      child: ListView.builder(
-        padding: const EdgeInsets.only(
-          bottom: 80,
-        ),
-        itemCount: menuItems.length,
-        itemBuilder: (BuildContext context, int index) {
-          return Column(
+  Widget information() {
+    return BlocBuilder<DetailTransactionBloc, DetailTransactionState>(
+      builder: (context, state) {
+        if (state is DetailTransactionError) {
+          return Center(
+            child: Text('Error'),
+          );
+        } else if (state is DetailTransactionLoaded) {
+          final antrian = state.response.antrian!;
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              QueueCustomerCard(
-                name: menuItems[index]['name'],
-                imageUrl: menuItems[index]['imageUrl'],
-                number: menuItems[index]['number'],
+              Expanded(
+                child: Column(
+                  children: [
+                    Text(
+                      'Posisi Antrian',
+                      style: greyTextStyle.copyWith(
+                        fontSize: 14,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 2,
+                    ),
+                    Text(
+                      antrian.id!.toString(),
+                      style: blackTextStyle.copyWith(
+                        fontSize: 24,
+                        fontWeight: semiBold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 64,
+                child: VerticalDivider(
+                  color: greyColor,
+                  thickness: 4,
+                  indent: 8,
+                ),
+              ),
+              Expanded(
+                child: Column(
+                  children: [
+                    Text(
+                      'Estimasi Waktu',
+                      style: greyTextStyle.copyWith(
+                        fontSize: 14,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 2,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        TimerCountdown(
+                          enableDescriptions: false,
+                          timeTextStyle: blackTextStyle.copyWith(
+                              fontSize: 24, fontWeight: semiBold),
+                          format: CountDownTimerFormat.minutesOnly,
+                          endTime: DateTime.now().add(
+                            Duration(
+                              minutes: antrian.estimasi!,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        Text(
+                          'Menit',
+                          style: blackTextStyle.copyWith(
+                            fontSize: 24,
+                            fontWeight: semiBold,
+                          ),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ],
           );
-        },
-      ),
+        }
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      },
     );
   }
 
@@ -181,17 +135,80 @@ class _QueuePageState extends State<QueuePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: primaryColor,
-        elevation: 0,
         automaticallyImplyLeading: false,
-        toolbarHeight: 0,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.popUntil(context, (route) => route.isFirst);
+          },
+          icon: const Icon(
+            Icons.arrow_back_ios_new_rounded,
+            color: whiteColor,
+          ),
+        ),
+        title: Text(
+          'Antrian Anda',
+          style: whiteTextStyle.copyWith(fontWeight: bold),
+        ),
+        centerTitle: true,
+        elevation: 0,
       ),
-      body: SafeArea(
-        child: ListView(
-          children: [
-            const StatusCustomerCard(),
-            information(),
-            customer(context),
-          ],
+      body: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) =>
+                QueueBloc()..add(QueueFetchData(widget.mitraId)),
+          ),
+          BlocProvider(
+            create: (context) => DetailTransactionBloc()
+              ..add(DetailTransactionFetchData(invoice: widget.invoice)),
+          ),
+        ],
+        child: SafeArea(
+          child: BlocBuilder<QueueBloc, QueueState>(
+            builder: (context, state) {
+              if (state is QueueError) {
+                return Center(
+                  child: Text('Error'),
+                );
+              } else if (state is QueueLoaded) {
+                final orderStatus = state.pesananList.isNotEmpty
+                    ? state.pesananList.first.orderstatus
+                    : 'WAITING';
+                if (orderStatus == 'ALLDONE') {
+                  Future.microtask(() => navigateToRatingPage());
+                }
+
+                return SingleChildScrollView(
+                  child: RefreshIndicator(
+                    onRefresh: () async {
+                      await Future.delayed(
+                        Duration(milliseconds: 200),
+                      );
+                      BlocProvider.of<QueueBloc>(context).add(
+                        QueueFetchData(widget.mitraId),
+                      );
+                      BlocProvider.of<DetailTransactionBloc>(context).add(
+                        DetailTransactionFetchData(invoice: widget.invoice),
+                      );
+                    },
+                    child: Column(
+                      children: [
+                        const StatusCustomerCard(),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        if (orderStatus == 'PROCESS') information(),
+                        ListQueue(queue: state.pesananList),
+                      ],
+                    ),
+                  ),
+                );
+              }
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            },
+          ),
         ),
       ),
     );

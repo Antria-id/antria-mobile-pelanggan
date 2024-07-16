@@ -24,6 +24,7 @@ class ListTransactionProgress extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    transaksiList.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
     if (transaksiList.isEmpty) {
       return const Center(
         child: Text('Error'),
@@ -47,7 +48,10 @@ class ListTransactionProgress extends StatelessWidget {
                 Navigator.pushNamed(
                   context,
                   '/queue-page',
-                  arguments: transaksi.invoice,
+                  arguments: {
+                    'mitraId': transaksi.mitraId,
+                    'invoice': transaksi.invoice,
+                  },
                 );
               },
             );

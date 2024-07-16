@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:antria_mobile_pelanggan/config/themes/themes.dart';
 import 'package:antria_mobile_pelanggan/core/utils/constant.dart';
 import 'package:antria_mobile_pelanggan/features/info_restaurant/presentation/bloc/info_restaurant/info_restaurant_bloc.dart';
@@ -11,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:html/parser.dart' show parse;
 
 class InfoRestaurantPage extends StatefulWidget {
   final int mitraId;
@@ -23,14 +25,14 @@ class InfoRestaurantPage extends StatefulWidget {
 class _InfoRestaurantPageState extends State<InfoRestaurantPage> {
   bool showCart = false;
   bool isClosed = false;
-  InfoRestaurantBloc? _infoRestaurantBloc;
+  late InfoRestaurantBloc _infoRestaurantBloc;
 
   @override
   void initState() {
     super.initState();
     _infoRestaurantBloc = InfoRestaurantBloc()
       ..add(InfoRestaurantUserEvent(mitraId: widget.mitraId));
-    _infoRestaurantBloc!.stream.listen((state) {
+    _infoRestaurantBloc.stream.listen((state) {
       if (state is InfoRestaurantLoadedState) {
         setState(() {
           isClosed = state.response.statusToko == 'CLOSE';
@@ -41,21 +43,42 @@ class _InfoRestaurantPageState extends State<InfoRestaurantPage> {
 
   @override
   void dispose() {
-    _infoRestaurantBloc?.close();
+    _infoRestaurantBloc.close();
     super.dispose();
   }
 
-  void _launchURL(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
+  // Future<void> _launchURL(String url) async {
+  //   if (await canLaunch(url)) {
+  //     await launch(url);
+  //   } else {
+  //     throw 'Could not launch $url';
+  //   }
+  // }
+
+  // String _convertToGoogleMapsUrl(String iframeSrc) {
+  //   final RegExp regex = RegExp(r'!2d([-\d.]+)!3d([-\d.]+)');
+  //   final Match? match = regex.firstMatch(iframeSrc);
+  //   if (match != null) {
+  //     final String latitude = match.group(2)!;
+  //     final String longitude = match.group(1)!;
+  //     return 'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
+  //   }
+  //   return '';
+  // }
+
+  // String _extractMapUrl(String iframeString) {
+  //   var document = parse(iframeString);
+  //   var iframe = document.querySelector('iframe');
+  //   if (iframe != null) {
+  //     final src = iframe.attributes['src'] ?? '';
+  //     return _convertToGoogleMapsUrl(src);
+  //   }
+  //   return '';
+  // }
 
   Widget header() {
     return BlocProvider.value(
-      value: _infoRestaurantBloc!,
+      value: _infoRestaurantBloc,
       child: Container(
         width: double.infinity,
         margin: const EdgeInsets.all(16),
@@ -96,9 +119,7 @@ class _InfoRestaurantPageState extends State<InfoRestaurantPage> {
                       ),
                       Expanded(
                         child: Container(
-                          margin: const EdgeInsets.only(
-                            top: 10,
-                          ),
+                          margin: const EdgeInsets.only(top: 10),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -144,9 +165,7 @@ class _InfoRestaurantPageState extends State<InfoRestaurantPage> {
                               ),
                               Row(
                                 children: [
-                                  Text(
-                                    '$initialRating',
-                                  ),
+                                  Text('$initialRating'),
                                   const SizedBox(
                                     width: 6,
                                   ),
@@ -171,24 +190,22 @@ class _InfoRestaurantPageState extends State<InfoRestaurantPage> {
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  const SizedBox(height: 20),
                   CustomButton(
                     width: 360,
                     title: 'Alamat Restoran',
                     radius: 8.0,
-                    onPressed: () async {
-                      final url = Uri.parse(infoRestaurant.linkGmaps!);
-                      await launchUrl(url);
+                    onPressed: () {
+                      Navigator.pushNamed(
+                        context,
+                        '/restaurant-address',
+                      );
                     },
-                  )
+                  ),
                 ],
               );
             }
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return const Center(child: CircularProgressIndicator());
           },
         ),
       ),
@@ -203,13 +220,9 @@ class _InfoRestaurantPageState extends State<InfoRestaurantPage> {
         automaticallyImplyLeading: false,
         leading: IconButton(
           onPressed: () {
-            setState(() {
-              final menuBloc = BlocProvider.of<MenuBloc>(context);
-              menuBloc.add(
-                ClearMenu(),
-              );
-              Navigator.pop(context);
-            });
+            final menuBloc = BlocProvider.of<MenuBloc>(context);
+            menuBloc.add(ClearMenu());
+            Navigator.pop(context);
           },
           icon: const Icon(
             Icons.arrow_back_ios_new_rounded,
@@ -218,20 +231,21 @@ class _InfoRestaurantPageState extends State<InfoRestaurantPage> {
         ),
         title: Text(
           'Restaurant',
-          style: whiteTextStyle.copyWith(
-            fontWeight: bold,
-          ),
+          style: whiteTextStyle.copyWith(fontWeight: bold),
         ),
         centerTitle: true,
         elevation: 0,
       ),
-      body: BlocProvider(
-        create: (context) => MenuBloc()
-          ..add(
-            MenuFetchData(
-              mitraId: widget.mitraId,
-            ),
+      body: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) =>
+                MenuBloc()..add(MenuFetchData(mitraId: widget.mitraId)),
           ),
+          BlocProvider(
+            create: (context) => OrderListBloc(),
+          ),
+        ],
         child: SafeArea(
           child: Stack(
             children: [
@@ -259,9 +273,7 @@ class _InfoRestaurantPageState extends State<InfoRestaurantPage> {
                         ],
                       );
                     }
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
+                    return const Center(child: CircularProgressIndicator());
                   },
                 ),
               ),
@@ -278,8 +290,11 @@ class _InfoRestaurantPageState extends State<InfoRestaurantPage> {
                         alignment: Alignment.bottomCenter,
                         child: CartOrder(
                           onPress: () {
-                            Navigator.pushNamed(context, '/detail-order',
-                                arguments: widget.mitraId);
+                            Navigator.pushNamed(
+                              context,
+                              '/detail-order',
+                              arguments: widget.mitraId,
+                            );
                           },
                         ),
                       )
@@ -288,7 +303,6 @@ class _InfoRestaurantPageState extends State<InfoRestaurantPage> {
               if (isClosed)
                 Positioned.fill(
                   child: Container(
-                    height: 150,
                     color: const Color(0xff333333).withOpacity(0.5),
                     child: Center(
                       child: Text(

@@ -151,7 +151,14 @@ class SuccessPayment extends StatelessWidget {
                         height: 40,
                         child: TextButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, '/queue-page');
+                            Navigator.pushNamed(
+                              context,
+                              '/queue-page',
+                              arguments: {
+                                'mitraId': detail.mitraId,
+                                'invoice': detail.invoice,
+                              },
+                            );
                           },
                           style: TextButton.styleFrom(
                             backgroundColor: primaryColor,

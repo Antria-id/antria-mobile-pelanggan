@@ -8,7 +8,8 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class RatingPage extends StatefulWidget {
-  const RatingPage({Key? key}) : super(key: key);
+  final int mitraId;
+  const RatingPage({Key? key, required this.mitraId}) : super(key: key);
 
   @override
   _RatingPageState createState() => _RatingPageState();
@@ -126,7 +127,7 @@ class _RatingPageState extends State<RatingPage> {
                                     reviewsRequest: ReviewsRequest(
                                       komentar: commentController.text,
                                       rating: rate.toInt() * 10,
-                                      mitraId: 9,
+                                      mitraId: widget.mitraId,
                                     ),
                                   ),
                                 );

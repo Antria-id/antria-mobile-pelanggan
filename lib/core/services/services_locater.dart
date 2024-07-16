@@ -39,6 +39,10 @@ import 'package:antria_mobile_pelanggan/features/profile/domain/repositories/pel
 import 'package:antria_mobile_pelanggan/features/profile/domain/usecases/get_pelanggan_profile_usecase.dart';
 import 'package:antria_mobile_pelanggan/features/profile/domain/usecases/logout_user_usecase.dart';
 import 'package:antria_mobile_pelanggan/features/profile/domain/usecases/update_pelanggan_usecase.dart';
+import 'package:antria_mobile_pelanggan/features/queue/data/datasources/queue_remote_datasource.dart';
+import 'package:antria_mobile_pelanggan/features/queue/data/repositories/queue_respository_impl.dart';
+import 'package:antria_mobile_pelanggan/features/queue/domain/repositories/queue_repository.dart';
+import 'package:antria_mobile_pelanggan/features/queue/domain/usecases/get_queue_usecase.dart';
 import 'package:antria_mobile_pelanggan/features/rating/data/datasources/reviews_remote_datasource.dart';
 import 'package:antria_mobile_pelanggan/features/rating/data/repositories/reviews_repository_impl.dart';
 import 'package:antria_mobile_pelanggan/features/rating/domain/repositories/reviews_repository.dart';
@@ -92,6 +96,8 @@ Future<void> setUpServiceLocator() async {
   serviceLocator.registerFactory<GetOrderTransactionUsecase>(
       () => GetOrderTransactionUsecase());
 
+  serviceLocator.registerFactory<GetQueueUsecase>(() => GetQueueUsecase());
+
   //datasource
   serviceLocator
       .registerFactory<AuthRemoteDatasource>(() => AuthRemoteDatasourceImpl());
@@ -123,6 +129,9 @@ Future<void> setUpServiceLocator() async {
   serviceLocator.registerFactory<OrderTransactionRemoteDatasource>(
       () => OrderTransactionRemoteDatasourceImpl());
 
+  serviceLocator.registerFactory<QueueRemoteDatasource>(
+      () => QueueRemoteDatasourceImpl());
+
   //repositories
   serviceLocator.registerFactory<AuthRepository>(() => AuthRepositoryImpl());
 
@@ -150,6 +159,8 @@ Future<void> setUpServiceLocator() async {
 
   serviceLocator.registerFactory<OrderTransactionRepository>(
       () => OrderTransactionRepositoryImpl());
+
+  serviceLocator.registerFactory<QueueRepository>(() => QueueRepositoryImpl());
 
   ///! Core
   /// sl.registerLazySingleton(() => InputConverter());
