@@ -17,19 +17,23 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$ReviewsEvent {
   ReviewsRequest get reviewsRequest => throw _privateConstructorUsedError;
+  int get mitraId => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ReviewsRequest reviewsRequest) onReviewsTapped,
+    required TResult Function(ReviewsRequest reviewsRequest, int mitraId)
+        onReviewsTapped,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ReviewsRequest reviewsRequest)? onReviewsTapped,
+    TResult? Function(ReviewsRequest reviewsRequest, int mitraId)?
+        onReviewsTapped,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ReviewsRequest reviewsRequest)? onReviewsTapped,
+    TResult Function(ReviewsRequest reviewsRequest, int mitraId)?
+        onReviewsTapped,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -61,7 +65,7 @@ abstract class $ReviewsEventCopyWith<$Res> {
           ReviewsEvent value, $Res Function(ReviewsEvent) then) =
       _$ReviewsEventCopyWithImpl<$Res, ReviewsEvent>;
   @useResult
-  $Res call({ReviewsRequest reviewsRequest});
+  $Res call({ReviewsRequest reviewsRequest, int mitraId});
 }
 
 /// @nodoc
@@ -78,12 +82,17 @@ class _$ReviewsEventCopyWithImpl<$Res, $Val extends ReviewsEvent>
   @override
   $Res call({
     Object? reviewsRequest = null,
+    Object? mitraId = null,
   }) {
     return _then(_value.copyWith(
       reviewsRequest: null == reviewsRequest
           ? _value.reviewsRequest
           : reviewsRequest // ignore: cast_nullable_to_non_nullable
               as ReviewsRequest,
+      mitraId: null == mitraId
+          ? _value.mitraId
+          : mitraId // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -96,7 +105,7 @@ abstract class _$$ReviewsUserEventImplCopyWith<$Res>
       __$$ReviewsUserEventImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({ReviewsRequest reviewsRequest});
+  $Res call({ReviewsRequest reviewsRequest, int mitraId});
 }
 
 /// @nodoc
@@ -111,12 +120,17 @@ class __$$ReviewsUserEventImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? reviewsRequest = null,
+    Object? mitraId = null,
   }) {
     return _then(_$ReviewsUserEventImpl(
       reviewsRequest: null == reviewsRequest
           ? _value.reviewsRequest
           : reviewsRequest // ignore: cast_nullable_to_non_nullable
               as ReviewsRequest,
+      mitraId: null == mitraId
+          ? _value.mitraId
+          : mitraId // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -124,14 +138,17 @@ class __$$ReviewsUserEventImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$ReviewsUserEventImpl implements ReviewsUserEvent {
-  const _$ReviewsUserEventImpl({required this.reviewsRequest});
+  const _$ReviewsUserEventImpl(
+      {required this.reviewsRequest, required this.mitraId});
 
   @override
   final ReviewsRequest reviewsRequest;
+  @override
+  final int mitraId;
 
   @override
   String toString() {
-    return 'ReviewsEvent.onReviewsTapped(reviewsRequest: $reviewsRequest)';
+    return 'ReviewsEvent.onReviewsTapped(reviewsRequest: $reviewsRequest, mitraId: $mitraId)';
   }
 
   @override
@@ -140,11 +157,12 @@ class _$ReviewsUserEventImpl implements ReviewsUserEvent {
         (other.runtimeType == runtimeType &&
             other is _$ReviewsUserEventImpl &&
             (identical(other.reviewsRequest, reviewsRequest) ||
-                other.reviewsRequest == reviewsRequest));
+                other.reviewsRequest == reviewsRequest) &&
+            (identical(other.mitraId, mitraId) || other.mitraId == mitraId));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, reviewsRequest);
+  int get hashCode => Object.hash(runtimeType, reviewsRequest, mitraId);
 
   @JsonKey(ignore: true)
   @override
@@ -156,27 +174,30 @@ class _$ReviewsUserEventImpl implements ReviewsUserEvent {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ReviewsRequest reviewsRequest) onReviewsTapped,
+    required TResult Function(ReviewsRequest reviewsRequest, int mitraId)
+        onReviewsTapped,
   }) {
-    return onReviewsTapped(reviewsRequest);
+    return onReviewsTapped(reviewsRequest, mitraId);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ReviewsRequest reviewsRequest)? onReviewsTapped,
+    TResult? Function(ReviewsRequest reviewsRequest, int mitraId)?
+        onReviewsTapped,
   }) {
-    return onReviewsTapped?.call(reviewsRequest);
+    return onReviewsTapped?.call(reviewsRequest, mitraId);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ReviewsRequest reviewsRequest)? onReviewsTapped,
+    TResult Function(ReviewsRequest reviewsRequest, int mitraId)?
+        onReviewsTapped,
     required TResult orElse(),
   }) {
     if (onReviewsTapped != null) {
-      return onReviewsTapped(reviewsRequest);
+      return onReviewsTapped(reviewsRequest, mitraId);
     }
     return orElse();
   }
@@ -212,10 +233,13 @@ class _$ReviewsUserEventImpl implements ReviewsUserEvent {
 
 abstract class ReviewsUserEvent implements ReviewsEvent {
   const factory ReviewsUserEvent(
-      {required final ReviewsRequest reviewsRequest}) = _$ReviewsUserEventImpl;
+      {required final ReviewsRequest reviewsRequest,
+      required final int mitraId}) = _$ReviewsUserEventImpl;
 
   @override
   ReviewsRequest get reviewsRequest;
+  @override
+  int get mitraId;
   @override
   @JsonKey(ignore: true)
   _$$ReviewsUserEventImplCopyWith<_$ReviewsUserEventImpl> get copyWith =>

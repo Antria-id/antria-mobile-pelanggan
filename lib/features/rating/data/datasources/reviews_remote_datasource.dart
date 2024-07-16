@@ -10,8 +10,10 @@ import 'package:dartz/dartz.dart';
 
 abstract class ReviewsRemoteDatasource {
   Future<Either<Failure, PelangganModel>> getPelanggan();
-  Future<Either<Failure, ReviewsRequest>> addReviews(
-      {required ReviewsRequest reviewsRequest});
+  Future<Either<Failure, ReviewsRequest>> addReviews({
+    required ReviewsRequest reviewsRequest,
+    required int mitraId,
+  });
 }
 
 class ReviewsRemoteDatasourceImpl extends ReviewsRemoteDatasource {
@@ -47,8 +49,10 @@ class ReviewsRemoteDatasourceImpl extends ReviewsRemoteDatasource {
   }
 
   @override
-  Future<Either<Failure, ReviewsRequest>> addReviews(
-      {required ReviewsRequest reviewsRequest}) async {
+  Future<Either<Failure, ReviewsRequest>> addReviews({
+    required ReviewsRequest reviewsRequest,
+    required int mitraId,
+  }) async {
     try {
       final Request request = serviceLocator<Request>();
       final UserCacheService userCacheService =
@@ -61,13 +65,13 @@ class ReviewsRemoteDatasourceImpl extends ReviewsRemoteDatasource {
       }
       final int id = user.sub!;
       reviewsRequest.pelangganId = id;
-      final response = await request.post(APIUrl.postReviewPath,
+      final response = await request.put(APIUrl.putReviewPath(mitraId, id),
           data: reviewsRequest.toJson());
-      if (response.statusCode == 201) {
-        final ReviewsRequest reviewsRequest =
+      if (response.statusCode == 200) {
+        final ReviewsRequest reviewsResponse =
             ReviewsRequest.fromJson(response.data);
         return Right(
-          reviewsRequest,
+          reviewsResponse,
         );
       }
       return Left(

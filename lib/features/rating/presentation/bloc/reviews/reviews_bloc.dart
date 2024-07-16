@@ -13,8 +13,8 @@ class ReviewsBloc extends Bloc<ReviewsEvent, ReviewsState> {
     on<ReviewsEvent>((event, emit) async {
       final reviewsRequest = event.reviewsRequest;
       emit(const ReviewsState.loading());
-      var result =
-          await serviceLocator<ReviewsUsecase>().addReviews(reviewsRequest);
+      var result = await serviceLocator<ReviewsUsecase>()
+          .addReviews(reviewsRequest, event.mitraId);
       result.fold(
         (failure) {
           emit(ReviewsState.error(failure.message));

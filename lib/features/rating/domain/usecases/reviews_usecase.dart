@@ -6,9 +6,13 @@ import 'package:dartz/dartz.dart';
 
 class ReviewsUsecase {
   Future<Either<Failure, ReviewsRequest>> addReviews(
-      ReviewsRequest reviewsRequest) async {
-    final response = await serviceLocator<ReviewsRepository>()
-        .addReviews(reviewsRequest: reviewsRequest);
+    ReviewsRequest reviewsRequest,
+    int mitraId,
+  ) async {
+    final response = await serviceLocator<ReviewsRepository>().addReviews(
+      reviewsRequest: reviewsRequest,
+      mitraId: mitraId,
+    );
     return response;
   }
 }
