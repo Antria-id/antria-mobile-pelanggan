@@ -22,9 +22,10 @@ class ListRestaurant extends StatelessWidget {
           const RestaurantUserEvent(),
         ),
       child: Container(
-        margin: const EdgeInsets.symmetric(
-          vertical: 80,
-          horizontal: 10,
+        margin: const EdgeInsets.only(
+          top: 20,
+          bottom: 70,
+          left: 10,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,7 +41,7 @@ class ListRestaurant extends StatelessWidget {
               ),
             ),
             const SizedBox(
-              height: 10,
+              height: 20,
             ),
             BlocBuilder<GetRestaurantBloc, GetRestaurantState>(
               builder: (context, state) {

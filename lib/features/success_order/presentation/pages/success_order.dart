@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import '../../../../shared/custom_button.dart';
 
 class SuccessOrderPage extends StatelessWidget {
-  const SuccessOrderPage({super.key});
+  final int mitraId;
+  const SuccessOrderPage({super.key, required this.mitraId});
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +45,11 @@ class SuccessOrderPage extends StatelessWidget {
             CustomButton(
               title: 'Kasih Rating',
               onPressed: () {
-                Navigator.pushNamed(context, '/rating-page');
+                Navigator.pushNamed(
+                  context,
+                  '/rating-page',
+                  arguments: mitraId,
+                );
               },
               width: 354,
               radius: 40,

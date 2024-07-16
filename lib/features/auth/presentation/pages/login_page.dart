@@ -97,16 +97,6 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       Row(
                         children: [
-                          TextButton(
-                            onPressed: () {},
-                            child: const Text(
-                              'Lupa Password?',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 12,
-                              ),
-                            ),
-                          ),
                           const Spacer(),
                           BlocConsumer<LoginBloc, LoginState>(
                             listener: (context, state) {

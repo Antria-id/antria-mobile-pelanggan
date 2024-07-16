@@ -26,27 +26,13 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Map<String, dynamic>> banner = [
-      {
-        'imageUrl': 'assets/images/banner1.png',
-      },
-      {
-        'imageUrl': 'assets/images/banner1.png',
-      },
-      {
-        'imageUrl': 'assets/images/banner1.png',
-      },
-      {
-        'imageUrl': 'assets/images/banner1.png',
-      },
-    ];
     Widget header() {
       return BlocProvider(
         create: (context) =>
             PelangganProfileBloc()..add(const GetPelangganFetchDataEvent()),
         child: Container(
           width: double.infinity,
-          height: 262,
+          height: 222,
           decoration: const BoxDecoration(
             color: primaryColor,
             borderRadius: BorderRadius.only(
@@ -134,8 +120,8 @@ class HomePage extends StatelessWidget {
                         ],
                       ),
                       Container(
-                        margin: const EdgeInsets.only(
-                          top: 20,
+                        margin: const EdgeInsets.symmetric(
+                          vertical: 24,
                         ),
                       ),
                       const SearchBarHome(),
@@ -190,30 +176,6 @@ class HomePage extends StatelessWidget {
                         child: CircularProgressIndicator(),
                       );
                     },
-                  ),
-                  Positioned(
-                    top: 160,
-                    left: 0,
-                    right: 0,
-                    child: Container(
-                      height: 200,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: banner.length,
-                        itemBuilder: (context, index) {
-                          return Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 20),
-                            width: 356,
-                            height: 178,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage(banner[index]['imageUrl']),
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
                   ),
                 ],
               ),

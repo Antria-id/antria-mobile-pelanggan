@@ -34,10 +34,30 @@ class OrderRecipt extends StatelessWidget {
           DetailTransactionFetchData(invoice: invoice),
         ),
       child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: primaryColor,
+          automaticallyImplyLeading: false,
+          leading: IconButton(
+            onPressed: () {
+              Navigator.popUntil(context, (route) => route.isFirst);
+            },
+            icon: const Icon(
+              Icons.arrow_back_ios_new_rounded,
+              color: whiteColor,
+            ),
+          ),
+          title: Text(
+            'Riwayat Pesanan',
+            style: whiteTextStyle.copyWith(fontWeight: bold),
+          ),
+          centerTitle: true,
+          elevation: 0,
+        ),
         body: SafeArea(
           child: Container(
             margin: const EdgeInsets.symmetric(
               horizontal: 20,
+              vertical: 20,
             ),
             child: BlocBuilder<DetailTransactionBloc, DetailTransactionState>(
               builder: (context, state) {
