@@ -129,6 +129,7 @@ class _RatingPageState extends State<RatingPage> {
                                       rating: rate.toInt() * 10,
                                       mitraId: widget.mitraId,
                                     ),
+                                    mitraId: widget.mitraId,
                                   ),
                                 );
                           },

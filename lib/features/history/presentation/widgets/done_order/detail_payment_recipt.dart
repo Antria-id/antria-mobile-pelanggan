@@ -45,7 +45,7 @@ class DetailPaymentRecipt extends StatelessWidget {
             'Detail Pembayaran',
             style: blackTextStyle.copyWith(fontSize: 16, fontWeight: semiBold),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 16),
           Column(
             children: [
               Row(

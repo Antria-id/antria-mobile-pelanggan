@@ -8,8 +8,8 @@ import 'package:dartz/dartz.dart';
 class ReviewsRepositoryImpl extends ReviewsRepository {
   @override
   Future<Either<Failure, ReviewsRequest>> addReviews(
-      {required ReviewsRequest reviewsRequest}) {
+      {required ReviewsRequest reviewsRequest, required int mitraId}) {
     return serviceLocator<ReviewsRemoteDatasource>()
-        .addReviews(reviewsRequest: reviewsRequest);
+        .addReviews(reviewsRequest: reviewsRequest, mitraId: mitraId);
   }
 }
