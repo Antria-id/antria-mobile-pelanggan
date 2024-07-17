@@ -9,7 +9,7 @@ class Request {
   }
 
   void updateAuthorization(String accessToken) {
-    dio.options.headers['authorization'] = accessToken;
+    dio.options.headers['Authorization'] = "Bearer $accessToken";
   }
 
   void updateDioInterceptors() {
@@ -44,7 +44,7 @@ class Request {
   }
 
   void clearAuthorization() {
-    dio.options.headers.remove('authorization');
+    dio.options.headers.remove('Authorization');
   }
 
   // requests

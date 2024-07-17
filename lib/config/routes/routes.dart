@@ -105,8 +105,11 @@ class AppRoutes {
         );
 
       case '/restaurant-address':
+        final linkGmaps = settings.arguments as String;
         return _materialRoute(
-          const RestaurantAddress(),
+          RestaurantAddress(
+            linkGmaps: linkGmaps,
+          ),
         );
 
       case '/success-order-page':

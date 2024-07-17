@@ -4,22 +4,27 @@ import '../../../config/themes/themes.dart';
 class CustomButton extends StatelessWidget {
   final String title;
   final double width;
+  final double height;
   final VoidCallback onPressed;
   final EdgeInsets margin;
   final double radius;
-  const CustomButton(
-      {super.key,
-      required this.title,
-      this.width = double.infinity,
-      required this.onPressed,
-      this.margin = EdgeInsets.zero,
-      this.radius = 18});
+  final double sizeFont;
+  const CustomButton({
+    super.key,
+    required this.title,
+    this.width = double.infinity,
+    this.height = 55,
+    required this.onPressed,
+    this.margin = EdgeInsets.zero,
+    this.radius = 18,
+    this.sizeFont = 18,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: width,
-      height: 55,
+      height: height,
       margin: margin,
       child: TextButton(
         onPressed: onPressed,
@@ -34,7 +39,7 @@ class CustomButton extends StatelessWidget {
         child: Text(
           title,
           style: whiteTextStyle.copyWith(
-            fontSize: 18,
+            fontSize: sizeFont,
             fontWeight: medium,
           ),
         ),

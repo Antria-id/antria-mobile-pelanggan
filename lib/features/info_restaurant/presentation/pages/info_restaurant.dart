@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:antria_mobile_pelanggan/config/themes/themes.dart';
 import 'package:antria_mobile_pelanggan/core/utils/constant.dart';
 import 'package:antria_mobile_pelanggan/features/info_restaurant/presentation/bloc/info_restaurant/info_restaurant_bloc.dart';
@@ -11,8 +10,6 @@ import 'package:antria_mobile_pelanggan/shared/error_fetch_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:html/parser.dart' show parse;
 
 class InfoRestaurantPage extends StatefulWidget {
   final int mitraId;
@@ -46,35 +43,6 @@ class _InfoRestaurantPageState extends State<InfoRestaurantPage> {
     _infoRestaurantBloc.close();
     super.dispose();
   }
-
-  // Future<void> _launchURL(String url) async {
-  //   if (await canLaunch(url)) {
-  //     await launch(url);
-  //   } else {
-  //     throw 'Could not launch $url';
-  //   }
-  // }
-
-  // String _convertToGoogleMapsUrl(String iframeSrc) {
-  //   final RegExp regex = RegExp(r'!2d([-\d.]+)!3d([-\d.]+)');
-  //   final Match? match = regex.firstMatch(iframeSrc);
-  //   if (match != null) {
-  //     final String latitude = match.group(2)!;
-  //     final String longitude = match.group(1)!;
-  //     return 'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
-  //   }
-  //   return '';
-  // }
-
-  // String _extractMapUrl(String iframeString) {
-  //   var document = parse(iframeString);
-  //   var iframe = document.querySelector('iframe');
-  //   if (iframe != null) {
-  //     final src = iframe.attributes['src'] ?? '';
-  //     return _convertToGoogleMapsUrl(src);
-  //   }
-  //   return '';
-  // }
 
   Widget header() {
     return BlocProvider.value(
@@ -193,12 +161,15 @@ class _InfoRestaurantPageState extends State<InfoRestaurantPage> {
                   const SizedBox(height: 20),
                   CustomButton(
                     width: 360,
+                    height: 40,
                     title: 'Alamat Restoran',
+                    sizeFont: 16,
                     radius: 8.0,
                     onPressed: () {
                       Navigator.pushNamed(
                         context,
                         '/restaurant-address',
+                        arguments: infoRestaurant.linkGmaps,
                       );
                     },
                   ),
