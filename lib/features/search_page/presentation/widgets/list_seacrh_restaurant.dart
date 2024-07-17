@@ -1,6 +1,7 @@
 import 'package:antria_mobile_pelanggan/features/home/data/models/response/get_restaurant_model.dart';
 import 'package:antria_mobile_pelanggan/features/home/presentation/bloc/get_restaurant/get_restaurant_bloc.dart';
 import 'package:antria_mobile_pelanggan/features/home/presentation/widgets/recomendation_resto.dart';
+import 'package:antria_mobile_pelanggan/shared/error_fetch_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -32,9 +33,7 @@ class ListSearchRestaurant extends StatelessWidget {
             BlocBuilder<GetRestaurantBloc, GetRestaurantState>(
               builder: (context, state) {
                 if (state is RestaurantErrorState) {
-                  return Center(
-                    child: Text(state.message),
-                  );
+                  return const ErrorFetchData();
                 } else if (state is RestaurantLoadedState) {
                   return ListView.separated(
                     itemCount: menuItems.length,

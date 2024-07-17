@@ -59,11 +59,13 @@ class _CardDetailOrderState extends State<CardDetailOrder>
                   widget.imageUrl,
                   width: 90,
                   height: 90,
+                  fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) {
                     return Image.asset(
                       'assets/images/empty_menu.png',
                       width: 90,
                       height: 90,
+                      fit: BoxFit.cover,
                     );
                   },
                 ),
