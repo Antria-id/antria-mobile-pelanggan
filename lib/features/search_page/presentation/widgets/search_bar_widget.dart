@@ -23,7 +23,7 @@ class SearchBarWidget extends StatelessWidget {
             horizontal: 12,
           ),
           filled: true,
-          fillColor: whiteColor ?? Colors.white,
+          fillColor: whiteColor,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
             borderSide: const BorderSide(
@@ -33,7 +33,7 @@ class SearchBarWidget extends StatelessWidget {
           hintText: 'Search',
           hintStyle: const TextStyle(
             fontSize: 14,
-            color: fontGreycolor ?? Colors.grey,
+            color: fontGreycolor,
           ),
           suffixIcon: const Icon(Icons.search),
         ),
