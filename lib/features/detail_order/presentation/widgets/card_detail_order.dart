@@ -61,7 +61,7 @@ class _CardDetailOrderState extends State<CardDetailOrder>
                   height: 90,
                   errorBuilder: (context, error, stackTrace) {
                     return Image.asset(
-                      'assets/images/menu1.jpg',
+                      'assets/images/empty_menu.png',
                       width: 90,
                       height: 90,
                     );
@@ -108,45 +108,6 @@ class _CardDetailOrderState extends State<CardDetailOrder>
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // Container(
-                  //   width: 32,
-                  //   height: 32,
-                  //   decoration: const BoxDecoration(
-                  //     borderRadius: BorderRadius.all(
-                  //       Radius.circular(10),
-                  //     ),
-                  //     color: greyColor,
-                  //   ),
-                  //   child: GestureDetector(
-                  //     onTap: () {
-                  //       if (quantity > 1) {
-                  //         setState(() {
-                  //           quantity--;
-                  //         });
-                  //       } else if (quantity == 1) {
-                  //         setState(() {
-                  //           quantity;
-                  //         });
-                  //       }
-                  //       final orderList = BlocProvider.of<OrderListBloc>(
-                  //         context,
-                  //       );
-                  //       orderList.add(
-                  //         DecrementQuantityEvent(
-                  //           productId: widget.productId,
-                  //           quantity: quantity,
-                  //         ),
-                  //       );
-                  //     },
-                  //     child: const Icon(
-                  //       Icons.remove,
-                  //       size: 20,
-                  //     ),
-                  //   ),
-                  // ),
-                  // const SizedBox(
-                  //   width: 10,
-                  // ),
                   Container(
                     width: 58,
                     height: 32,

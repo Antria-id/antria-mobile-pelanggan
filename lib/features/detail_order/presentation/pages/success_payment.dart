@@ -13,8 +13,6 @@ class SuccessPayment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('Received invoice: $invoice');
-
     return BlocProvider(
       create: (context) => DetailTransactionBloc()
         ..add(DetailTransactionFetchData(invoice: invoice)),
@@ -125,7 +123,7 @@ class SuccessPayment extends StatelessWidget {
                           Row(
                             children: [
                               Text(formatDate(detail.createdAt)),
-                              Spacer(),
+                              const Spacer(),
                               Text(formatTime(detail.createdAt)),
                             ],
                           ),
