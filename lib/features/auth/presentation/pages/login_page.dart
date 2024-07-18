@@ -1,10 +1,10 @@
 import 'package:antria_mobile_pelanggan/config/themes/themes.dart';
 import 'package:antria_mobile_pelanggan/features/auth/data/models/request/login_request_model.dart';
+import 'package:antria_mobile_pelanggan/features/auth/presentation/bloc/auth/auth_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../../../../shared/bottom_navigation.dart';
-import '../bloc/login/login_bloc.dart';
 import '../widgets/form_text_field.dart';
 import '../widgets/password_text_field.dart';
 
@@ -98,9 +98,9 @@ class _LoginPageState extends State<LoginPage> {
                       Row(
                         children: [
                           const Spacer(),
-                          BlocConsumer<LoginBloc, LoginState>(
+                          BlocConsumer<AuthBloc, AuthState>(
                             listener: (context, state) {
-                              if (state is LoginLoadedState) {
+                              if (state is LoginSuccess) {
                                 Fluttertoast.showToast(
                                   msg: "Login Berhasil",
                                   toastLength: Toast.LENGTH_SHORT,
@@ -118,7 +118,7 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                 );
                               }
-                              if (state is LoginErrorState) {
+                              if (state is LoginFailed) {
                                 Fluttertoast.showToast(
                                   msg: "Login Gagal, Coba Lagi",
                                   toastLength: Toast.LENGTH_SHORT,
@@ -131,7 +131,7 @@ class _LoginPageState extends State<LoginPage> {
                               }
                             },
                             builder: (context, state) {
-                              if (state is LoginLoadingState) {
+                              if (state is LoginLoading) {
                                 return const Center(
                                   child: CircularProgressIndicator(),
                                 );
@@ -139,9 +139,9 @@ class _LoginPageState extends State<LoginPage> {
                               return ElevatedButton(
                                 onPressed: () {
                                   if (formKey.currentState!.validate()) {
-                                    context.read<LoginBloc>().add(
-                                          LoginEvent.onLoginTapped(
-                                            user: LoginRequest(
+                                    context.read<AuthBloc>().add(
+                                          LoginButtonTapped(
+                                            request: LoginRequest(
                                               username: usernameController.text,
                                               password: passwordController.text,
                                             ),

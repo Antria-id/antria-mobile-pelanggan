@@ -1,12 +1,24 @@
 part of 'update_pelanggan_bloc.dart';
 
-@freezed
-class UpdatePelangganState with _$UpdatePelangganState {
-  const factory UpdatePelangganState.initial() = UpdatePelangganInitialState;
-  const factory UpdatePelangganState.loading() = UpdatePelangganLoadingState;
-  const factory UpdatePelangganState.error(String message) =
-      UpdatePelangganErrorState;
-  const factory UpdatePelangganState.loaded({
-    required UpdatePelangganRequestModel requestUser,
-  }) = UpdatePelangganLoadedState;
+sealed class UpdatePelangganState extends Equatable {
+  const UpdatePelangganState();
+
+  @override
+  List<Object> get props => [];
+}
+
+final class UpdatePelangganInitial extends UpdatePelangganState {}
+
+final class UpdatePelangganLoading extends UpdatePelangganState {}
+
+final class UpdatePelangganSuccess extends UpdatePelangganState {
+  final UpdatePelangganRequestModel requestUser;
+
+  const UpdatePelangganSuccess({required this.requestUser});
+}
+
+final class UpdatePelangganFailed extends UpdatePelangganState {
+  final String? message;
+
+  const UpdatePelangganFailed({required this.message});
 }

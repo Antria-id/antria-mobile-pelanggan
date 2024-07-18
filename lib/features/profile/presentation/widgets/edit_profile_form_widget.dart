@@ -33,7 +33,7 @@ class _EditProfileFormWidgetState extends State<EditProfileFormWidget> {
     return BlocProvider(
       create: (context) => PelangganProfileBloc()
         ..add(
-          const GetPelangganFetchDataEvent(),
+          PelangganProfileFetchData(),
         ),
       child: Scaffold(
         appBar: CustomAppBarWidget(
@@ -52,11 +52,11 @@ class _EditProfileFormWidgetState extends State<EditProfileFormWidget> {
         backgroundColor: backgroundGreyColor,
         body: BlocBuilder<PelangganProfileBloc, PelangganProfileState>(
           builder: (context, state) {
-            if (state is PelangganProfileStateErrorState) {
-              return Center(
-                child: Text(state.message),
+            if (state is PelangganProfileError) {
+              return const Center(
+                child: Text('Error'),
               );
-            } else if (state is PelangganProfileStateLoadedState) {
+            } else if (state is PelangganProfileLoaded) {
               return SingleChildScrollView(
                 child: Column(
                   children: [
@@ -328,7 +328,7 @@ class _EditProfileFormWidgetState extends State<EditProfileFormWidget> {
         bottomNavigationBar:
             BlocConsumer<UpdatePelangganBloc, UpdatePelangganState>(
           listener: (context, state) {
-            if (state is UpdatePelangganLoadingState) {
+            if (state is UpdatePelangganLoading) {
               const Center(
                 child: CircularProgressIndicator(),
               );
@@ -343,10 +343,10 @@ class _EditProfileFormWidgetState extends State<EditProfileFormWidget> {
                   if (formKey.currentState!.validate()) {
                     final currentState =
                         context.read<PelangganProfileBloc>().state;
-                    if (currentState is PelangganProfileStateLoadedState) {
+                    if (currentState is PelangganProfileLoaded) {
                       final existingModel = currentState.pelangganModel;
                       if (existingModel.profilePicture!.isNotEmpty) {
-                        final updateEvent = UpdatePelangganEvent.onUpdateTapped(
+                        final updateEvent = UpdatePelangganTapped(
                           requestUser: UpdatePelangganRequestModel(
                             email:
                                 email.isNotEmpty ? email : existingModel.email,
@@ -364,7 +364,7 @@ class _EditProfileFormWidgetState extends State<EditProfileFormWidget> {
                         );
                         context.read<UpdatePelangganBloc>().add(updateEvent);
                       } else {
-                        final updateEvent = UpdatePelangganEvent.onUpdateTapped(
+                        final updateEvent = UpdatePelangganTapped(
                           requestUser: UpdatePelangganRequestModel(
                             profilePicture: selectedImage?.path ??
                                 existingModel.profilePicture,

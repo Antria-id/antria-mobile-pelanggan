@@ -28,7 +28,7 @@ class AppRoutes {
     // Corrected return type
     switch (settings.name) {
       case '/':
-        return _materialRoute(const EwalletPage());
+        return _materialRoute(const SplashPage());
 
       case '/login-page':
         return _materialRoute(const LoginPage());

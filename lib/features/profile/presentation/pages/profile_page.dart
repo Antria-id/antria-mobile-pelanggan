@@ -15,7 +15,7 @@ class ProfilePage extends StatelessWidget {
     return BlocProvider(
       create: (context) => PelangganProfileBloc()
         ..add(
-          const GetPelangganFetchDataEvent(),
+          PelangganProfileFetchData(),
         ),
       child: Scaffold(
         body: Column(
@@ -36,7 +36,7 @@ class ProfilePage extends StatelessWidget {
                     child: BlocBuilder<PelangganProfileBloc,
                         PelangganProfileState>(
                       builder: (context, state) {
-                        if (state is PelangganProfileStateErrorState) {
+                        if (state is PelangganProfileError) {
                           return Container(
                             height: 800,
                             child: const Center(
@@ -45,7 +45,7 @@ class ProfilePage extends StatelessWidget {
                               ),
                             ),
                           );
-                        } else if (state is PelangganProfileStateLoadedState) {
+                        } else if (state is PelangganProfileLoaded) {
                           final profileData = state.pelangganModel;
                           return Column(
                             children: [
@@ -59,7 +59,8 @@ class ProfilePage extends StatelessWidget {
                                     Text(
                                       'Profile',
                                       style: whiteTextStyle.copyWith(
-                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16,
+                                        fontWeight: bold,
                                       ),
                                     ),
                                     const SizedBox(

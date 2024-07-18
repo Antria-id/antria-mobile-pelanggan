@@ -157,10 +157,11 @@ class _CardDetailOrderState extends State<CardDetailOrder>
             height: 20,
           ),
           TextFieldNote(
-              onChanged: (value) {
-                note = value.trim();
-              },
-              hintText: 'Tambah Catatan'),
+            onChanged: (value) {
+              note = value.trim();
+            },
+            hintText: 'Tambah Catatan',
+          ),
         ],
       ),
     );
