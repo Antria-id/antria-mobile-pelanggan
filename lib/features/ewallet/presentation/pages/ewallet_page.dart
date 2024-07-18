@@ -50,14 +50,14 @@ class _EwalletPageState extends State<EwalletPage> {
       backgroundColor: backgroundGreyColor,
       body: BlocProvider(
         create: (context) =>
-            PelangganProfileBloc()..add(GetPelangganFetchDataEvent()),
+            PelangganProfileBloc()..add(PelangganProfileFetchData()),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
           child: BlocBuilder<PelangganProfileBloc, PelangganProfileState>(
             builder: (context, state) {
-              if (state is PelangganProfileStateErrorState) {
+              if (state is PelangganProfileError) {
                 return const ErrorFetchData();
-              } else if (state is PelangganProfileStateLoadedState) {
+              } else if (state is PelangganProfileLoaded) {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

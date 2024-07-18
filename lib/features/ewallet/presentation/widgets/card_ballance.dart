@@ -22,7 +22,7 @@ class CardBallance extends StatelessWidget {
     return BlocProvider(
       create: (context) => PelangganProfileBloc()
         ..add(
-          GetPelangganFetchDataEvent(),
+          PelangganProfileFetchData(),
         ),
       child: Container(
         height: 78,
@@ -35,9 +35,9 @@ class CardBallance extends StatelessWidget {
         ),
         child: BlocBuilder<PelangganProfileBloc, PelangganProfileState>(
           builder: (context, state) {
-            if (state is PelangganProfileStateErrorState) {
-              return ErrorFetchData();
-            } else if (state is PelangganProfileStateLoadedState) {
+            if (state is PelangganProfileError) {
+              return const ErrorFetchData();
+            } else if (state is PelangganProfileLoaded) {
               return Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(

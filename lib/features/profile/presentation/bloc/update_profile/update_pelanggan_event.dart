@@ -1,8 +1,17 @@
 part of 'update_pelanggan_bloc.dart';
 
-@freezed
-class UpdatePelangganEvent with _$UpdatePelangganEvent {
-  const factory UpdatePelangganEvent.onUpdateTapped(
-          {required UpdatePelangganRequestModel requestUser}) =
-      UpdatePelangganFetchDataEvent;
+sealed class UpdatePelangganEvent extends Equatable {
+  const UpdatePelangganEvent();
+
+  @override
+  List<Object> get props => [];
+}
+
+final class UpdatePelangganTapped extends UpdatePelangganEvent {
+  final UpdatePelangganRequestModel requestUser;
+
+  const UpdatePelangganTapped({required this.requestUser});
+
+  @override
+  List<Object> get props => [requestUser];
 }

@@ -1,9 +1,9 @@
 import 'package:antria_mobile_pelanggan/config/themes/themes.dart';
 import 'package:antria_mobile_pelanggan/features/auth/data/models/request/register_request_model.dart';
+import 'package:antria_mobile_pelanggan/features/auth/presentation/bloc/auth/auth_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import '../bloc/register/register_bloc.dart';
 import '../widgets/form_text_field.dart';
 import '../widgets/password_text_field.dart';
 
@@ -137,9 +137,9 @@ class _RegisterPageState extends State<RegisterPage> {
                       Row(
                         children: [
                           const Spacer(),
-                          BlocConsumer<RegisterBloc, RegisterState>(
+                          BlocConsumer<AuthBloc, AuthState>(
                             listener: (context, state) {
-                              if (state is RegisterLoadedState) {
+                              if (state is RegisterSuccess) {
                                 Fluttertoast.showToast(
                                   msg: "Register Berhasil",
                                   toastLength: Toast.LENGTH_SHORT,
@@ -154,7 +154,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                   '/login-page',
                                 );
                               }
-                              if (state is RegisterErrorState) {
+                              if (state is RegisterFailed) {
                                 Fluttertoast.showToast(
                                   msg: "Register Gagal, Coba Lagi",
                                   toastLength: Toast.LENGTH_SHORT,
@@ -170,9 +170,9 @@ class _RegisterPageState extends State<RegisterPage> {
                               return ElevatedButton(
                                 onPressed: () {
                                   if (formKey.currentState!.validate()) {
-                                    context.read<RegisterBloc>().add(
-                                          RegisterEvent.onRegisterTapped(
-                                            user: RegisterRequest(
+                                    context.read<AuthBloc>().add(
+                                          RegisterButtonTapped(
+                                            request: RegisterRequest(
                                               nama: nameController.text,
                                               username: usernameController.text,
                                               email: emailController.text,

@@ -29,7 +29,7 @@ class HomePage extends StatelessWidget {
     Widget header() {
       return BlocProvider(
         create: (context) =>
-            PelangganProfileBloc()..add(const GetPelangganFetchDataEvent()),
+            PelangganProfileBloc()..add(PelangganProfileFetchData()),
         child: Container(
           width: double.infinity,
           height: 222,
@@ -46,9 +46,9 @@ class HomePage extends StatelessWidget {
           ),
           child: BlocBuilder<PelangganProfileBloc, PelangganProfileState>(
             builder: (context, state) {
-              if (state is PelangganProfileStateErrorState) {
+              if (state is PelangganProfileError) {
                 return const SizedBox();
-              } else if (state is PelangganProfileStateLoadedState) {
+              } else if (state is PelangganProfileLoaded) {
                 final profileData = state.pelangganModel;
                 return Container(
                   margin: const EdgeInsets.only(

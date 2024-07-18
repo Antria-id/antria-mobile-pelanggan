@@ -1,7 +1,11 @@
 part of 'pelanggan_profile_bloc.dart';
 
 @freezed
-class PelangganProfileEvent with _$PelangganProfileEvent {
-  const factory PelangganProfileEvent.onGetProfile() =
-      GetPelangganFetchDataEvent;
+sealed class PelangganProfileEvent extends Equatable {
+  const PelangganProfileEvent();
+
+  @override
+  List<Object> get props => [];
 }
+
+final class PelangganProfileFetchData extends PelangganProfileEvent {}
