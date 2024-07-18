@@ -2,13 +2,10 @@ import 'dart:convert';
 import 'package:antria_mobile_pelanggan/core/services/services_locater.dart';
 import 'package:antria_mobile_pelanggan/core/utils/request.dart';
 import 'package:antria_mobile_pelanggan/features/home/data/models/user/user_response_model.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-// ignore: non_constant_identifier_names
-String USER_CACHE_KEY = dotenv.get('USERCACHEKEY');
-// ignore: non_constant_identifier_names
-String TOKEN_KEY = dotenv.get('TOKENKEY');
+const String USER_CACHE_KEY = 'usercache';
+const String TOKEN_KEY = 'tokenkey';
 
 class UserCacheService {
   UserModel? _user;

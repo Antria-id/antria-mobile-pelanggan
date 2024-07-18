@@ -1,7 +1,5 @@
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-
 class APIUrl {
-  static String get baseUrl => dotenv.get('BASEURL');
+  static String get baseUrl => 'https://development.verni.yt';
   static String get loginUserPath => '/auth/login/pelanggan';
   static String get registerUserPath => '/pelanggan';
   static String get getRestaurantPath => '/mitra';

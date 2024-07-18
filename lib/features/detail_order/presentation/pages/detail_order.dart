@@ -69,7 +69,13 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
                   ),
                 ),
               ),
+              const SizedBox(
+                height: 10,
+              ),
               const ListCardOrder(),
+              const SizedBox(
+                height: 10,
+              ),
               Container(
                 margin: const EdgeInsets.symmetric(
                   vertical: 20,
@@ -90,7 +96,7 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
                       ),
                     ),
                     const SizedBox(
-                      width: 10,
+                      width: 0,
                     ),
                     Flexible(
                       child: CustomButtonService(
@@ -112,7 +118,7 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
               Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 10,
-                  vertical: 30,
+                  vertical: 10,
                 ),
                 child: BlocConsumer<OrderListBloc, OrderListState>(
                   builder: (context, state) {
@@ -216,7 +222,7 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
                             ],
                           ),
                           const SizedBox(
-                            height: 60,
+                            height: 40,
                           ),
                           ElevatedButton(
                             onPressed: () {
