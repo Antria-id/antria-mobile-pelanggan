@@ -366,8 +366,6 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
                                 DateTime.now().millisecondsSinceEpoch ~/ 1000;
                             String invoice =
                                 'INVC$namaToko${widget.mitraId}$name$id$timestamp';
-
-                            // Log the generated invoice for debugging
                             print('Generated invoice: $invoice');
 
                             context.read<OrderListBloc>().add(

@@ -31,6 +31,7 @@ class AuthRemoteDatasourceImpl implements AuthRemoteDatasource {
       if (response.statusCode == 200) {
         LoginResponse loginResponse = LoginResponse.fromJson(response.data);
         await userCacheService.saveAccessToken(loginResponse.accessToken!);
+        await userCacheService.setToken(loginResponse.accessToken!);
         return Right(loginResponse);
       }
       return Left(ConnectionFailure(response.data['message']));

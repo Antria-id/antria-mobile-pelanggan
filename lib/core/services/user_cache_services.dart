@@ -1,9 +1,14 @@
 import 'dart:convert';
 import 'package:antria_mobile_pelanggan/core/services/services_locater.dart';
+import 'package:antria_mobile_pelanggan/core/utils/request.dart';
 import 'package:antria_mobile_pelanggan/features/home/data/models/user/user_response_model.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-const String USER_CACHE_KEY = 'usercache';
+// ignore: non_constant_identifier_names
+String USER_CACHE_KEY = dotenv.get('USERCACHEKEY');
+// ignore: non_constant_identifier_names
+String TOKEN_KEY = dotenv.get('TOKENKEY');
 
 class UserCacheService {
   UserModel? _user;
@@ -17,24 +22,20 @@ class UserCacheService {
         return;
       }
 
-      // Split the response to extract the access token
       List<String> tokenParts = accessTokenResponse.split(".");
       if (tokenParts.length != 3) {
         print("Invalid access token format");
         return;
       }
 
-      // Extract the payload part and add padding characters if needed
       String payloadBase64 = tokenParts[1];
       while (payloadBase64.length % 4 != 0) {
         payloadBase64 += "=";
       }
 
-      // Decode the payload from the access token
       String payloadString = utf8.decode(base64Url.decode(payloadBase64));
       Map<String, dynamic> payload = jsonDecode(payloadString);
 
-      // Create a UserModel object from the decoded payload
       UserModel user = UserModel(
         sub: payload['sub'],
         username: payload['username'],
@@ -45,6 +46,16 @@ class UserCacheService {
     } catch (e, stackTrace) {
       throw ('Error saving access token to cache: $e\nStack trace: $stackTrace');
     }
+  }
+
+  Future<void> setToken(String accessToken) async {
+    final preferances = await SharedPreferences.getInstance();
+    await preferances.setString(TOKEN_KEY, accessToken);
+  }
+
+  Future<String?> getToken() async {
+    final preferances = await SharedPreferences.getInstance();
+    return preferances.getString(TOKEN_KEY);
   }
 
   Future<bool> saveUser(UserModel user) async {
@@ -62,23 +73,35 @@ class UserCacheService {
   }
 
   Future<UserModel?> getUser() async {
-    UserModel usr;
     var userMap = sharedPrefs.getString(USER_CACHE_KEY);
     if (userMap == null) {
       return null;
     }
-    usr = UserModel.fromJson(jsonDecode(userMap));
-    _user = usr;
-    return usr;
+    try {
+      _user = UserModel.fromJson(jsonDecode(userMap));
+      return _user;
+    } catch (e, stackTrace) {
+      print('Error decoding user from cache: $e\nStack trace: $stackTrace');
+      return null;
+    }
   }
 
   Future<bool> deleteUser() async {
     try {
+      Request().clearAuthorization();
       _user = null;
-      return await sharedPrefs.remove(USER_CACHE_KEY);
+      bool removed = await sharedPrefs.remove(USER_CACHE_KEY);
+      return removed;
     } catch (e, stackTrace) {
       print('Error deleting user from cache: $e\nStack trace: $stackTrace');
       return false;
+    }
+  }
+
+  Future<void> updateUser(UserModel updatedUser) async {
+    if (_user != null) {
+      _user = updatedUser;
+      await saveUser(updatedUser);
     }
   }
 }
