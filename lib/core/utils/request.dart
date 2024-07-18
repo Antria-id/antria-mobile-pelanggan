@@ -1,3 +1,4 @@
+import 'package:antria_mobile_pelanggan/core/services/user_cache_services.dart';
 import 'package:antria_mobile_pelanggan/core/utils/constant.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -12,7 +13,8 @@ class Request {
     dio.options.headers['Authorization'] = "Bearer $accessToken";
   }
 
-  void updateDioInterceptors() {
+  void updateDioInterceptors() async {
+    final token = await UserCacheService().getToken();
     dio.options = BaseOptions(
       baseUrl: APIUrl.baseUrl,
       receiveDataWhenStatusError: true,
@@ -21,6 +23,7 @@ class Request {
       },
       headers: {
         'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
       },
     );
     dio

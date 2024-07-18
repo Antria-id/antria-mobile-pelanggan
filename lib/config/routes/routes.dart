@@ -4,6 +4,7 @@ import 'package:antria_mobile_pelanggan/features/chat/presentation/pages/chat_li
 import 'package:antria_mobile_pelanggan/features/chat/presentation/pages/chat_page.dart';
 import 'package:antria_mobile_pelanggan/features/detail_order/presentation/pages/detail_order.dart';
 import 'package:antria_mobile_pelanggan/features/detail_order/presentation/pages/success_payment.dart';
+import 'package:antria_mobile_pelanggan/features/ewallet/presentation/pages/ewallet_page.dart';
 import 'package:antria_mobile_pelanggan/features/history/presentation/pages/history_page.dart';
 import 'package:antria_mobile_pelanggan/features/history/presentation/pages/order_recipt_page.dart';
 import 'package:antria_mobile_pelanggan/features/home/presentation/pages/home_page.dart';
@@ -27,7 +28,7 @@ class AppRoutes {
     // Corrected return type
     switch (settings.name) {
       case '/':
-        return _materialRoute(const SplashPage());
+        return _materialRoute(const EwalletPage());
 
       case '/login-page':
         return _materialRoute(const LoginPage());
@@ -60,6 +61,9 @@ class AppRoutes {
 
       case '/edit-profile-page':
         return _materialRoute(const EditProfilePage());
+
+      case '/ewallet-page':
+        return _materialRoute(const EwalletPage());
 
       case '/contact-support-page':
         return _materialRoute(const ContactSupportPage());

@@ -117,6 +117,14 @@ class ProfilePage extends StatelessWidget {
               height: 26,
             ),
             ProfileButtonWidget(
+              icon: 'assets/icons/ewallet.png',
+              text: 'E-Wallet',
+              onTap: () => Navigator.pushNamed(
+                context,
+                '/ewallet-page',
+              ),
+            ),
+            ProfileButtonWidget(
               icon: 'assets/icons/support.png',
               text: 'Contact Support',
               onTap: () => Navigator.pushNamed(
