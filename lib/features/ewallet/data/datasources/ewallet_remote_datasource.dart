@@ -3,42 +3,19 @@ import 'package:antria_mobile_pelanggan/core/services/services_locater.dart';
 import 'package:antria_mobile_pelanggan/core/services/user_cache_services.dart';
 import 'package:antria_mobile_pelanggan/core/utils/constant.dart';
 import 'package:antria_mobile_pelanggan/core/utils/request.dart';
+import 'package:antria_mobile_pelanggan/features/ewallet/data/models/update_ewallet_model.dart';
 import 'package:antria_mobile_pelanggan/features/home/data/models/user/user_response_model.dart';
 import 'package:antria_mobile_pelanggan/features/profile/data/models/pelanggan_model.dart';
-import 'package:antria_mobile_pelanggan/features/profile/data/models/update_pelanggan_request_model.dart';
 import 'package:dartz/dartz.dart';
-import 'package:dio/dio.dart';
 
-abstract class ProfileUserDatasource {
+abstract class EwalletRemoteDatasource {
   Future<Either<Failure, PelangganModel>> getPelanggan();
-  Future<Either<Failure, PelangganModel>> updatePelanggan(
-      {required UpdatePelangganRequestModel requestModel});
-  Future<Either<Failure, void>> deleteUserFromLocalStorage();
+  Future<Either<Failure, PelangganModel>> addWallet({
+    required UpdateEwalletModel updateEwallet,
+  });
 }
 
-class ProfileUserDatasourceImpl extends ProfileUserDatasource {
-  @override
-  Future<Either<Failure, void>> deleteUserFromLocalStorage() async {
-    try {
-      final deletionSuccess =
-          await serviceLocator<UserCacheService>().deleteUser();
-      if (deletionSuccess) {
-        return const Right(null);
-      } else {
-        return const Left(
-          LocalDatabaseQueryFailure(
-            'Unable to delete user from the shared prefs',
-          ),
-        );
-      }
-    } catch (e, stackTrace) {
-      return Left(
-        ParsingFailure(
-            'Parsing failure occurred in HomeLocalUserDatasourceImpl: $e\nStack trace: $stackTrace'),
-      );
-    }
-  }
-
+class EwalletRemoteDatasourceImpl extends EwalletRemoteDatasource {
   @override
   Future<Either<Failure, PelangganModel>> getPelanggan() async {
     try {
@@ -71,8 +48,9 @@ class ProfileUserDatasourceImpl extends ProfileUserDatasource {
   }
 
   @override
-  Future<Either<Failure, PelangganModel>> updatePelanggan(
-      {required UpdatePelangganRequestModel requestModel}) async {
+  Future<Either<Failure, PelangganModel>> addWallet({
+    required UpdateEwalletModel updateEwallet,
+  }) async {
     try {
       final Request request = serviceLocator<Request>();
       final UserCacheService userCacheService =
@@ -84,26 +62,9 @@ class ProfileUserDatasourceImpl extends ProfileUserDatasource {
         );
       }
       final int id = user.sub!;
-
-      MultipartFile? profilePicture;
-      if (requestModel.profilePicture != null) {
-        profilePicture = await MultipartFile.fromFile(
-          requestModel.profilePicture!,
-        );
-      }
-
-      final formData = FormData.fromMap({
-        'username': requestModel.username,
-        'email': requestModel.email,
-        'nama': requestModel.nama,
-        'alamat': requestModel.alamat,
-        'handphone': requestModel.handphone,
-        if (profilePicture != null) 'profile_picture': profilePicture,
-      });
-
       final response = await request.put(
         APIUrl.getPelangganPath(id),
-        data: formData,
+        data: updateEwallet.toJson(),
       );
 
       if (response.statusCode == 200) {
@@ -111,7 +72,9 @@ class ProfileUserDatasourceImpl extends ProfileUserDatasource {
             PelangganModel.fromJson(response.data);
         return Right(pelangganResponse);
       }
-      return Left(ConnectionFailure(response.data['message']));
+      return Left(
+        ConnectionFailure(response.data['message']),
+      );
     } catch (e) {
       return const Left(
         ParsingFailure('Unable to parse the response'),
