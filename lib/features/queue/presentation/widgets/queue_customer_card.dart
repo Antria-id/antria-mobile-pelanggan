@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class QueueCustomerCard extends StatelessWidget {
   final String imageUrl;
   final String name;
-  final int number;
+  final String number;
   const QueueCustomerCard({
     super.key,
     required this.imageUrl,

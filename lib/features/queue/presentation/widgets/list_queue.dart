@@ -17,6 +17,11 @@ class ListQueue extends StatelessWidget {
                   'PROCESS',
         )
         .toList();
+    filteredList.sort((a, b) {
+      final createdAtA = a.detailTransactionModel!.antrian!.createdAt!;
+      final createdAtB = b.detailTransactionModel!.antrian!.createdAt!;
+      return createdAtA.compareTo(createdAtB);
+    });
     return Container(
       margin: const EdgeInsets.only(
         top: 28,
@@ -43,13 +48,15 @@ class ListQueue extends StatelessWidget {
         itemCount: filteredList.length,
         itemBuilder: (BuildContext context, int index) {
           final queueList = filteredList[index];
+          String nomor =
+              (filteredList.indexOf(queueList) + 1).toString().padLeft(2, '0');
           return Column(
             children: [
               QueueCustomerCard(
                 name: queueList.detailTransactionModel!.pelanggan!.nama!,
                 imageUrl: queueList
                     .detailTransactionModel!.pelanggan!.profilePicture!,
-                number: queueList.id!,
+                number: nomor,
               ),
             ],
           );
