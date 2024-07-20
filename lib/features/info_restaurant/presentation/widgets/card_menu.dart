@@ -250,6 +250,7 @@ class _CardMenuState extends State<CardMenu>
                               AddProductToOrderListEvent(
                                 productId: widget.productId,
                                 quantity: quantity,
+                                note: '',
                               ),
                             );
                           },

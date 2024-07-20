@@ -6,6 +6,7 @@ class DetailOrderRecipt extends StatelessWidget {
   final String name;
   final String desc;
   final int price;
+  final String note;
   final int quantity;
 
   const DetailOrderRecipt({
@@ -13,6 +14,7 @@ class DetailOrderRecipt extends StatelessWidget {
     required this.name,
     required this.desc,
     required this.price,
+    required this.note,
     required this.quantity,
   });
 
@@ -59,6 +61,25 @@ class DetailOrderRecipt extends StatelessWidget {
                       overflow: TextOverflow
                           .ellipsis, // Ensure description text doesn't overflow
                       maxLines: 2,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          'Catatan : ',
+                          style: blackTextStyle.copyWith(
+                            fontSize: 12,
+                          ),
+                        ),
+                        Text(
+                          note,
+                          style: greyTextStyle.copyWith(
+                            fontSize: 12,
+                          ),
+                          overflow: TextOverflow
+                              .ellipsis, // Ensure description text doesn't overflow
+                          maxLines: 2,
+                        ),
+                      ],
                     ),
                   ],
                 ),

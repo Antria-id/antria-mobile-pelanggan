@@ -6,7 +6,7 @@ import 'package:dartz/dartz.dart';
 abstract class MenuLocalDatasource {
   Future<Either<Failure, List<GetMenuResponse>>> getAllMenu();
   Future<Either<Failure, void>> addProductToOrderList(
-      int productId, int quantity);
+      int productId, int quantity, String note);
   Future<Either<Failure, List<Map<String, dynamic>>>> getProductsInOrderList();
   Future<Either<Failure, void>> incrementOrderQuantity(
       int productId, int quantity);
@@ -15,6 +15,7 @@ abstract class MenuLocalDatasource {
   Future<Either<Failure, void>> deleteAllProducts();
   Future<Either<Failure, void>> insertPesanan(String invoice, String payment,
       int pelangganId, String pemesanan, bool takeaway, int mitraId);
+  Future<Either<Failure, void>> updateOrderList(int id, String note);
 }
 
 class MenuLocalDatasourceImpl implements MenuLocalDatasource {
@@ -39,7 +40,7 @@ class MenuLocalDatasourceImpl implements MenuLocalDatasource {
 
   @override
   Future<Either<Failure, void>> addProductToOrderList(
-      int productId, int quantity) async {
+      int productId, int quantity, String note) async {
     try {
       final DatabaseHelper databaseHelper = DatabaseHelper.instance;
       final DateTime now = DateTime.now();
@@ -48,6 +49,7 @@ class MenuLocalDatasourceImpl implements MenuLocalDatasource {
       await databaseHelper.addOrderList(
         productId,
         quantity,
+        note,
         now,
         now,
       );
@@ -126,6 +128,19 @@ class MenuLocalDatasourceImpl implements MenuLocalDatasource {
 
       await databaseHelper.insertPesanan(
           invoice, payment, pelangganId, pemesanan, takeaway, mitraId);
+
+      return const Right(null);
+    } catch (e) {
+      return Left(LocalDatabaseQueryFailure('Unable to insert pesanan: $e'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> updateOrderList(int id, String note) async {
+    try {
+      final DatabaseHelper databaseHelper = DatabaseHelper.instance;
+
+      await databaseHelper.updateOrderList(id, note);
 
       return const Right(null);
     } catch (e) {

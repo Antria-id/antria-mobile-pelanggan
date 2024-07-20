@@ -24,6 +24,7 @@ class ListOrderRecipt extends StatelessWidget {
           name: order.produk!.namaProduk!,
           desc: order.produk!.deskripsiProduk!,
           price: order.produk!.harga!,
+          note: order.note!,
           quantity: order.quantity!,
         );
       },

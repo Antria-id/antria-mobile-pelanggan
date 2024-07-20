@@ -1,16 +1,16 @@
+import 'package:antria_mobile_pelanggan/features/profile/presentation/bloc/pelanggan_profile/pelanggan_profile_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'card_payment.dart';
 
 class ListPaymentMethod extends StatefulWidget {
   final ValueChanged<String> onPaymentMethodChanged;
-  final int walletBalance;
-
+  final int totalPrice;
   const ListPaymentMethod({
     Key? key,
     required this.onPaymentMethodChanged,
-    required this.walletBalance,
+    required this.totalPrice,
   }) : super(key: key);
 
   @override
@@ -18,51 +18,66 @@ class ListPaymentMethod extends StatefulWidget {
 }
 
 class ListPaymentMethodState extends State<ListPaymentMethod> {
-  late List<Map<String, dynamic>> paymentList;
+  List<Map<String, dynamic>> paymentList = [
+    {'label': 'CASH', 'icon': 'assets/icons/cash.png'},
+    {'label': 'EWALLET', 'icon': 'assets/icons/ewallet.png', 'wallet': 0},
+  ];
+
   int selectedIndex = -1;
 
   @override
-  void initState() {
-    super.initState();
-    String formattedWalletBalance = NumberFormat.currency(
-      locale: 'id_ID',
-      symbol: 'Rp ',
-      decimalDigits: 0,
-    ).format(widget.walletBalance);
-
-    paymentList = [
-      {'label': 'CASH', 'icon': 'assets/icons/cash.png'},
-      {
-        'label': 'EWALLET ($formattedWalletBalance)',
-        'icon': 'assets/icons/ewallet.png'
-      },
-    ];
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      itemBuilder: (context, index) {
-        final payment = paymentList[index];
-        return GestureDetector(
-          onTap: () {
-            setState(() {
-              selectedIndex = index;
-            });
-            widget.onPaymentMethodChanged(payment['label']);
-          },
-          child: CardPayment(
-            label: payment['label'],
-            icon: payment['icon'],
-            selectedIndex: selectedIndex,
-            index: index,
-          ),
-        );
-      },
-      separatorBuilder: (BuildContext context, int index) {
-        return const SizedBox(height: 20);
-      },
-      itemCount: paymentList.length,
+    return BlocProvider(
+      create: (context) =>
+          PelangganProfileBloc()..add(PelangganProfileFetchData()),
+      child: BlocBuilder<PelangganProfileBloc, PelangganProfileState>(
+        builder: (context, state) {
+          if (state is PelangganProfileLoaded) {
+            final walletBalance = state.pelangganModel.wallet;
+            paymentList = [
+              {'label': 'CASH', 'icon': 'assets/icons/cash.png'},
+              {
+                'label': 'EWALLET',
+                'icon': 'assets/icons/ewallet.png',
+                'wallet': walletBalance
+              },
+            ];
+          }
+
+          return ListView.separated(
+            itemBuilder: (context, index) {
+              final payment = paymentList[index];
+              return GestureDetector(
+                onTap: () {
+                  if (payment['label'] == 'EWALLET' &&
+                      payment['wallet'] < widget.totalPrice) {
+                    return; // Don't allow tap if eWallet balance is less than total price
+                  }
+                  setState(() {
+                    selectedIndex = index;
+                  });
+                  widget.onPaymentMethodChanged(payment['label']);
+                },
+                child: CardPayment(
+                  label: payment['label'],
+                  icon: payment['icon'],
+                  selectedIndex: selectedIndex,
+                  index: index,
+                  wallet: payment['wallet'] as int?,
+                  totalPrice:
+                      widget.totalPrice, // Pass totalPrice to CardPayment
+                ),
+              );
+            },
+            separatorBuilder: (BuildContext context, int index) {
+              return const SizedBox(
+                height: 20,
+              );
+            },
+            itemCount: paymentList.length,
+          );
+        },
+      ),
     );
   }
 }

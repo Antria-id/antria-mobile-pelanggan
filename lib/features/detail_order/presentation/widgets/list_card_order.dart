@@ -1,29 +1,51 @@
+import 'package:antria_mobile_pelanggan/config/themes/themes.dart';
 import 'package:antria_mobile_pelanggan/core/utils/constant.dart';
 import 'package:antria_mobile_pelanggan/features/detail_order/presentation/widgets/card_detail_order.dart';
 import 'package:antria_mobile_pelanggan/features/info_restaurant/presentation/bloc/orderlist/order_list_bloc.dart';
+import 'package:antria_mobile_pelanggan/shared/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ListCardOrder extends StatelessWidget {
+class ListCardOrder extends StatefulWidget {
   const ListCardOrder({
     super.key,
   });
 
   @override
+  State<ListCardOrder> createState() => _ListCardOrderState();
+}
+
+class _ListCardOrderState extends State<ListCardOrder> {
+  late TextEditingController notesController;
+
+  @override
+  void initState() {
+    super.initState();
+    notesController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    notesController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _onRefresh() async {
+    context.read<OrderListBloc>().add(GetProductsInOrderListEvent());
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => OrderListBloc()
-        ..add(
-          GetProductsInOrderListEvent(),
-        ),
-      child: BlocBuilder<OrderListBloc, OrderListState>(
-        builder: (context, state) {
-          if (state is OrderListLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (state is OrderListLoaded) {
-            return SizedBox(
+    return BlocBuilder<OrderListBloc, OrderListState>(
+      builder: (context, state) {
+        if (state is OrderListLoading) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (state is OrderListLoaded) {
+          return RefreshIndicator(
+            onRefresh: _onRefresh,
+            child: SizedBox(
               height: 260,
               child: ListView.separated(
                 padding: const EdgeInsets.symmetric(vertical: 20),
@@ -37,6 +59,74 @@ class ListCardOrder extends StatelessWidget {
                     price: cart['harga'],
                     kuantitas: cart['quantity'],
                     productId: cart['id'],
+                    note: cart['note'],
+                    onTap: () {
+                      int id = cart['id'];
+                      notesController.text = cart['note'] ?? '';
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            backgroundColor: whiteColor,
+                            contentPadding: const EdgeInsets.all(20),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            content: SingleChildScrollView(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 20,
+                                    ),
+                                    child: Text(
+                                      'Tambah Catatan',
+                                      style: blackTextStyle.copyWith(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  TextFormField(
+                                    controller: notesController,
+                                    maxLength: 100,
+                                    decoration: const InputDecoration(
+                                      hintText:
+                                          'Contoh: Jangan pakai lalapan ya!',
+                                      hintStyle: TextStyle(
+                                        color: blackColor,
+                                      ),
+                                      border: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: blackColor),
+                                      ),
+                                    ),
+                                    maxLines: 4,
+                                    style: blackTextStyle,
+                                  ),
+                                  const SizedBox(height: 20),
+                                  Center(
+                                      child: CustomButton(
+                                    title: 'Simpan',
+                                    onPressed: () {
+                                      context.read<OrderListBloc>().add(
+                                            AddNoteEvent(
+                                              id: id,
+                                              note: notesController.text.trim(),
+                                            ),
+                                          );
+                                      Navigator.pop(context);
+                                    },
+                                  )),
+                                  const SizedBox(height: 10),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    },
                   );
                 },
                 separatorBuilder: (BuildContext context, int index) {
@@ -45,18 +135,18 @@ class ListCardOrder extends StatelessWidget {
                   );
                 },
               ),
-            );
-          } else if (state is ProductAddedToOrderList) {
-            BlocProvider.of<OrderListBloc>(context)
-                .add(GetProductsInOrderListEvent());
-          }
-          return const Center(
-            child: Text(
-              'Anda Belum memesan',
             ),
           );
-        },
-      ),
+        } else if (state is ProductAddedToOrderList) {
+          BlocProvider.of<OrderListBloc>(context)
+              .add(GetProductsInOrderListEvent());
+        }
+        return const Center(
+          child: Text(
+            'Anda Belum memesan',
+          ),
+        );
+      },
     );
   }
 }

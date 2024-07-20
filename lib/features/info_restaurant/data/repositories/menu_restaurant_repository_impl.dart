@@ -32,9 +32,9 @@ class MenuRestaurantRepositoryImpl extends MenuRestaurantRepository {
 
   @override
   Future<Either<Failure, void>> addProductToOrderList(
-      int productId, int quantity) async {
+      int productId, int quantity, String note) async {
     try {
-      await localDatasource.addProductToOrderList(productId, quantity);
+      await localDatasource.addProductToOrderList(productId, quantity, note);
       return const Right(null);
     } catch (e) {
       return Left(
@@ -79,6 +79,21 @@ class MenuRestaurantRepositoryImpl extends MenuRestaurantRepository {
     try {
       final result =
           await localDatasource.incrementOrderQuantity(productId, quantity);
+      return result.fold(
+        (failure) => Left(failure),
+        (_) => const Right(null),
+      );
+    } catch (e) {
+      return Left(
+          LocalDatabaseQueryFailure('Unable to increment order quantity: $e'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> updateOrderList(int id, String note) async {
+    try {
+      final result =
+          await serviceLocator<MenuLocalDatasource>().updateOrderList(id, note);
       return result.fold(
         (failure) => Left(failure),
         (_) => const Right(null),

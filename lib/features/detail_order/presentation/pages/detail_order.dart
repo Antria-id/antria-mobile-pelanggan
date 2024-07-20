@@ -5,7 +5,6 @@ import 'package:antria_mobile_pelanggan/features/home/presentation/bloc/user/use
 import 'package:antria_mobile_pelanggan/features/info_restaurant/presentation/bloc/info_restaurant/info_restaurant_bloc.dart';
 import 'package:antria_mobile_pelanggan/features/info_restaurant/presentation/bloc/orderlist/order_list_bloc.dart';
 import 'package:antria_mobile_pelanggan/features/info_restaurant/presentation/widgets/custom_buttton_service.dart';
-import 'package:antria_mobile_pelanggan/features/profile/presentation/bloc/pelanggan_profile/pelanggan_profile_bloc.dart';
 import 'package:antria_mobile_pelanggan/shared/custom_button.dart';
 import 'package:antria_mobile_pelanggan/shared/custom_toast.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +22,7 @@ class DetailOrderPage extends StatefulWidget {
 class _DetailOrderPageState extends State<DetailOrderPage> {
   String paymentMethod = 'Pilih Metode Pembayaran';
   int biayaLayanan = 1000;
+  bool isSelected = false;
   bool isSelectedDineIn = true;
   bool isSelectedTakeaway = false;
 
@@ -231,50 +231,28 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
                                 builder: (context) {
                                   return FractionallySizedBox(
                                     heightFactor: 0.5,
-                                    child: BlocProvider(
-                                      create: (context) =>
-                                          PelangganProfileBloc()
-                                            ..add(PelangganProfileFetchData()),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(12.0),
-                                        child: BlocBuilder<PelangganProfileBloc,
-                                            PelangganProfileState>(
-                                          builder: (context, state) {
-                                            if (state
-                                                is PelangganProfileError) {
-                                              return Text('Error');
-                                            } else if (state
-                                                is PelangganProfileLoaded) {
-                                              return Column(
-                                                children: [
-                                                  Expanded(
-                                                    child: ListPaymentMethod(
-                                                      walletBalance: state
-                                                          .pelangganModel
-                                                          .wallet!,
-                                                      onPaymentMethodChanged:
-                                                          (String value) {
-                                                        setState(() {
-                                                          paymentMethod = value;
-                                                        });
-                                                      },
-                                                    ),
-                                                  ),
-                                                  CustomButton(
-                                                    title: 'Pilih',
-                                                    onPressed: () {
-                                                      Navigator.pop(context);
-                                                    },
-                                                  ),
-                                                ],
-                                              );
-                                            }
-                                            return Center(
-                                              child:
-                                                  CircularProgressIndicator(),
-                                            );
-                                          },
-                                        ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(12.0),
+                                      child: Column(
+                                        children: [
+                                          Expanded(
+                                            child: ListPaymentMethod(
+                                              totalPrice: totalitemPrice,
+                                              onPaymentMethodChanged:
+                                                  (String value) {
+                                                setState(() {
+                                                  paymentMethod = value;
+                                                });
+                                              },
+                                            ),
+                                          ),
+                                          CustomButton(
+                                            title: 'Pilih',
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   );
