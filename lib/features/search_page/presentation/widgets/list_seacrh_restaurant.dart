@@ -1,3 +1,4 @@
+import 'package:antria_mobile_pelanggan/core/utils/constant.dart';
 import 'package:antria_mobile_pelanggan/features/home/data/models/response/get_restaurant_model.dart';
 import 'package:antria_mobile_pelanggan/features/home/presentation/bloc/get_restaurant/get_restaurant_bloc.dart';
 import 'package:antria_mobile_pelanggan/features/home/presentation/widgets/recomendation_resto.dart';
@@ -42,7 +43,8 @@ class ListSearchRestaurant extends StatelessWidget {
                       return RecomendationResto(
                         name: menuItem.namaToko!,
                         address: menuItem.alamat!,
-                        imageUrl: menuItem.gambarToko!,
+                        imageUrl:
+                            '${APIUrl.baseUrl}${APIUrl.imagePath}${menuItem.gambarToko}',
                         rating: menuItem.review != null
                             ? menuItem.review! / 10
                             : 0.0,

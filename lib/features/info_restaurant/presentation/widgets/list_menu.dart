@@ -49,6 +49,7 @@ class ListMenu extends StatelessWidget {
             return CardMenu(
               image: '${APIUrl.baseUrl}${APIUrl.imagePath}${product.gambar}',
               productName: product.namaProduk ?? '',
+              desc: product.deskripsiProduk ?? '',
               productPrice: product.harga ?? 0,
               onPressed: onBuyButtonPressed,
               stock: product.kuantitas ?? 0,

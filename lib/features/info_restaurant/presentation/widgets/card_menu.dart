@@ -8,6 +8,7 @@ class CardMenu extends StatefulWidget {
   final int productId;
   final String image;
   final String productName;
+  final String desc;
   final int productPrice;
   final VoidCallback onPressed;
   final int stock;
@@ -17,6 +18,7 @@ class CardMenu extends StatefulWidget {
     required this.image,
     required this.productName,
     required this.productPrice,
+    required this.desc,
     required this.onPressed,
     required this.stock,
     required this.productId,
@@ -95,10 +97,18 @@ class _CardMenuState extends State<CardMenu>
                 ),
                 Text(
                   widget.productName,
-                  style: const TextStyle(
-                    color: Color(0xff4B4B4B),
+                  style: blackTextStyle.copyWith(
                     fontSize: 14,
-                    fontWeight: FontWeight.bold,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                Text(
+                  widget.desc,
+                  style: greyTextStyle.copyWith(
+                    fontSize: 12,
                   ),
                   overflow: TextOverflow.ellipsis,
                 ),

@@ -1,13 +1,11 @@
 import 'package:antria_mobile_pelanggan/config/themes/themes.dart';
 import 'package:antria_mobile_pelanggan/features/history/presentation/bloc/detail/detail_bloc.dart';
-import 'package:antria_mobile_pelanggan/features/queue/data/models/queue_list_model.dart';
 import 'package:antria_mobile_pelanggan/features/queue/presentation/bloc/queue_bloc.dart';
 import 'package:antria_mobile_pelanggan/features/queue/presentation/widgets/information_queue.dart';
 import 'package:antria_mobile_pelanggan/features/queue/presentation/widgets/list_queue.dart';
 import 'package:antria_mobile_pelanggan/features/queue/presentation/widgets/status_customer_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_timer_countdown/flutter_timer_countdown.dart';
 
 class QueuePage extends StatefulWidget {
   final int mitraId;
@@ -38,99 +36,6 @@ class _QueuePageState extends State<QueuePage> {
       arguments: widget.mitraId,
     );
   }
-
-  // Widget information() {
-  //   return BlocBuilder<DetailTransactionBloc, DetailTransactionState>(
-  //     builder: (context, state) {
-  //       if (state is DetailTransactionError) {
-  //         return const Center(
-  //           child: Text('Error'),
-  //         );
-  //       } else if (state is DetailTransactionLoaded) {
-  //         final antrian = state.response.antrian!;
-  //         return Row(
-  //           mainAxisAlignment: MainAxisAlignment.center,
-  //           children: [
-  //             Expanded(
-  //               child: Column(
-  //                 children: [
-  //                   Text(
-  //                     'Posisi Antrian',
-  //                     style: greyTextStyle.copyWith(
-  //                       fontSize: 14,
-  //                     ),
-  //                   ),
-  //                   const SizedBox(
-  //                     height: 2,
-  //                   ),
-  //                   Text(
-  //                     antrian.id!.toString(),
-  //                     style: blackTextStyle.copyWith(
-  //                       fontSize: 24,
-  //                       fontWeight: semiBold,
-  //                     ),
-  //                   ),
-  //                 ],
-  //               ),
-  //             ),
-  //             const SizedBox(
-  //               height: 64,
-  //               child: VerticalDivider(
-  //                 color: greyColor,
-  //                 thickness: 4,
-  //                 indent: 8,
-  //               ),
-  //             ),
-  //             Expanded(
-  //               child: Column(
-  //                 children: [
-  //                   Text(
-  //                     'Estimasi Waktu',
-  //                     style: greyTextStyle.copyWith(
-  //                       fontSize: 14,
-  //                     ),
-  //                   ),
-  //                   const SizedBox(
-  //                     height: 2,
-  //                   ),
-  //                   Row(
-  //                     mainAxisAlignment: MainAxisAlignment.center,
-  //                     children: [
-  //                       TimerCountdown(
-  //                         enableDescriptions: false,
-  //                         timeTextStyle: blackTextStyle.copyWith(
-  //                             fontSize: 24, fontWeight: semiBold),
-  //                         format: CountDownTimerFormat.minutesOnly,
-  //                         endTime: DateTime.now().add(
-  //                           Duration(
-  //                             minutes: antrian.estimasi!,
-  //                           ),
-  //                         ),
-  //                       ),
-  //                       const SizedBox(
-  //                         width: 8,
-  //                       ),
-  //                       Text(
-  //                         'Menit',
-  //                         style: blackTextStyle.copyWith(
-  //                           fontSize: 24,
-  //                           fontWeight: semiBold,
-  //                         ),
-  //                       )
-  //                     ],
-  //                   ),
-  //                 ],
-  //               ),
-  //             ),
-  //           ],
-  //         );
-  //       }
-  //       return Center(
-  //         child: CircularProgressIndicator(),
-  //       );
-  //     },
-  //   );
-  // }
 
   @override
   Widget build(BuildContext context) {

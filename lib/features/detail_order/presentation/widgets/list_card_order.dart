@@ -63,64 +63,73 @@ class _ListCardOrderState extends State<ListCardOrder> {
                     onTap: () {
                       int id = cart['id'];
                       notesController.text = cart['note'] ?? '';
-                      showDialog(
+                      showModalBottomSheet(
                         context: context,
+                        isScrollControlled: true,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(15),
+                          ),
+                        ),
                         builder: (BuildContext context) {
-                          return AlertDialog(
-                            backgroundColor: whiteColor,
-                            contentPadding: const EdgeInsets.all(20),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
+                          return Padding(
+                            padding: EdgeInsets.only(
+                              bottom: MediaQuery.of(context).viewInsets.bottom,
                             ),
-                            content: SingleChildScrollView(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: 20,
-                                    ),
-                                    child: Text(
-                                      'Tambah Catatan',
-                                      style: blackTextStyle.copyWith(
-                                        fontWeight: FontWeight.bold,
+                            child: SingleChildScrollView(
+                              child: Padding(
+                                padding: const EdgeInsets.all(20),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 20,
+                                      ),
+                                      child: Text(
+                                        'Tambah Catatan',
+                                        style: blackTextStyle.copyWith(
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  TextFormField(
-                                    controller: notesController,
-                                    maxLength: 100,
-                                    decoration: const InputDecoration(
-                                      hintText:
-                                          'Contoh: Jangan pakai lalapan ya!',
-                                      hintStyle: TextStyle(
-                                        color: blackColor,
+                                    TextFormField(
+                                      controller: notesController,
+                                      maxLength: 100,
+                                      decoration: const InputDecoration(
+                                        hintText:
+                                            'Contoh: Jangan pakai lalapan ya!',
+                                        hintStyle: TextStyle(
+                                          color: blackColor,
+                                        ),
+                                        border: OutlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: blackColor),
+                                        ),
                                       ),
-                                      border: OutlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: blackColor),
-                                      ),
+                                      maxLines: 4,
+                                      style: blackTextStyle,
                                     ),
-                                    maxLines: 4,
-                                    style: blackTextStyle,
-                                  ),
-                                  const SizedBox(height: 20),
-                                  Center(
+                                    const SizedBox(height: 20),
+                                    Center(
                                       child: CustomButton(
-                                    title: 'Simpan',
-                                    onPressed: () {
-                                      context.read<OrderListBloc>().add(
-                                            AddNoteEvent(
-                                              id: id,
-                                              note: notesController.text.trim(),
-                                            ),
-                                          );
-                                      Navigator.pop(context);
-                                    },
-                                  )),
-                                  const SizedBox(height: 10),
-                                ],
+                                        title: 'Simpan',
+                                        onPressed: () {
+                                          context.read<OrderListBloc>().add(
+                                                AddNoteEvent(
+                                                  id: id,
+                                                  note: notesController.text
+                                                      .trim(),
+                                                ),
+                                              );
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                    ),
+                                    const SizedBox(height: 10),
+                                  ],
+                                ),
                               ),
                             ),
                           );
