@@ -1,5 +1,5 @@
 import 'package:antria_mobile_pelanggan/core/services/services_locater.dart';
-import 'package:antria_mobile_pelanggan/features/profile/data/models/update_pelanggan_request_mode.dart';
+import 'package:antria_mobile_pelanggan/features/profile/data/models/update_pelanggan_request_model.dart';
 import 'package:antria_mobile_pelanggan/features/profile/domain/usecases/update_pelanggan_usecase.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';

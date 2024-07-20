@@ -6,6 +6,10 @@ import 'package:antria_mobile_pelanggan/features/auth/data/repositories/auth_rep
 import 'package:antria_mobile_pelanggan/features/auth/domain/repositories/auth_repository.dart';
 import 'package:antria_mobile_pelanggan/features/auth/domain/usecases/login/login_usecase.dart';
 import 'package:antria_mobile_pelanggan/features/auth/domain/usecases/register/register_ucecase.dart';
+import 'package:antria_mobile_pelanggan/features/ewallet/data/datasources/ewallet_remote_datasource.dart';
+import 'package:antria_mobile_pelanggan/features/ewallet/data/repositories/ewallet_repository_impl.dart';
+import 'package:antria_mobile_pelanggan/features/ewallet/domain/repositories/ewallet_repository.dart';
+import 'package:antria_mobile_pelanggan/features/ewallet/domain/usecases/ewallet_usecase.dart';
 import 'package:antria_mobile_pelanggan/features/history/data/datasources/done_order/history_transaction_remote_datasource.dart';
 import 'package:antria_mobile_pelanggan/features/history/data/datasources/order_progress/order_transaction_remote_datasource.dart';
 import 'package:antria_mobile_pelanggan/features/history/data/repositories/history_transaction_repository_impl.dart';
@@ -98,6 +102,8 @@ Future<void> setUpServiceLocator() async {
 
   serviceLocator.registerFactory<GetQueueUsecase>(() => GetQueueUsecase());
 
+  serviceLocator.registerFactory<EwalletUsecase>(() => EwalletUsecase());
+
   //datasource
   serviceLocator
       .registerFactory<AuthRemoteDatasource>(() => AuthRemoteDatasourceImpl());
@@ -132,6 +138,9 @@ Future<void> setUpServiceLocator() async {
   serviceLocator.registerFactory<QueueRemoteDatasource>(
       () => QueueRemoteDatasourceImpl());
 
+  serviceLocator.registerFactory<EwalletRemoteDatasource>(
+      () => EwalletRemoteDatasourceImpl());
+
   //repositories
   serviceLocator.registerFactory<AuthRepository>(() => AuthRepositoryImpl());
 
@@ -161,6 +170,9 @@ Future<void> setUpServiceLocator() async {
       () => OrderTransactionRepositoryImpl());
 
   serviceLocator.registerFactory<QueueRepository>(() => QueueRepositoryImpl());
+
+  serviceLocator
+      .registerFactory<EwalletRepository>(() => EwalletRepositoryImpl());
 
   ///! Core
   /// sl.registerLazySingleton(() => InputConverter());

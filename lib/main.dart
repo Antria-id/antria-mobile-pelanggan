@@ -1,5 +1,6 @@
 import 'package:antria_mobile_pelanggan/core/services/services_locater.dart';
 import 'package:antria_mobile_pelanggan/features/auth/presentation/bloc/auth/auth_bloc.dart';
+import 'package:antria_mobile_pelanggan/features/ewallet/presentation/bloc/ewallet_bloc.dart';
 import 'package:antria_mobile_pelanggan/features/history/presentation/bloc/detail/detail_bloc.dart';
 import 'package:antria_mobile_pelanggan/features/history/presentation/bloc/history/history_bloc.dart';
 import 'package:antria_mobile_pelanggan/features/history/presentation/bloc/order_progress/order_bloc.dart';
@@ -48,6 +49,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => DetailTransactionBloc()),
         BlocProvider(create: (_) => OrderTransactionBloc()),
         BlocProvider(create: (_) => QueueBloc()),
+        BlocProvider(create: (_) => EwalletBloc()),
       ],
       child: const MaterialApp(
         onGenerateRoute: AppRoutes.onGenerateRoutes,

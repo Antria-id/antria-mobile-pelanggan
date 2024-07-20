@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:antria_mobile_pelanggan/config/themes/themes.dart';
 import 'package:antria_mobile_pelanggan/core/utils/constant.dart';
 import 'package:antria_mobile_pelanggan/features/auth/presentation/widgets/form_text_field.dart';
-import 'package:antria_mobile_pelanggan/features/profile/data/models/update_pelanggan_request_mode.dart';
+import 'package:antria_mobile_pelanggan/features/profile/data/models/update_pelanggan_request_model.dart';
 import 'package:antria_mobile_pelanggan/features/profile/presentation/bloc/pelanggan_profile/pelanggan_profile_bloc.dart';
 import 'package:antria_mobile_pelanggan/features/profile/presentation/bloc/update_profile/update_pelanggan_bloc.dart';
 import 'package:antria_mobile_pelanggan/shared/custom_appbar.dart';
