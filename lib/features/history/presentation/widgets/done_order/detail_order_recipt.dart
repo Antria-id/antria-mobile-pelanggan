@@ -58,8 +58,7 @@ class DetailOrderRecipt extends StatelessWidget {
                       style: greyTextStyle.copyWith(
                         fontSize: 12,
                       ),
-                      overflow: TextOverflow
-                          .ellipsis, // Ensure description text doesn't overflow
+                      overflow: TextOverflow.ellipsis,
                       maxLines: 2,
                     ),
                     Row(

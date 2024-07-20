@@ -1,4 +1,5 @@
 import 'package:antria_mobile_pelanggan/config/themes/themes.dart';
+import 'package:antria_mobile_pelanggan/core/utils/constant.dart';
 import 'package:antria_mobile_pelanggan/features/home/data/models/response/get_restaurant_model.dart';
 import 'package:antria_mobile_pelanggan/features/home/presentation/bloc/get_restaurant/get_restaurant_bloc.dart';
 import 'package:antria_mobile_pelanggan/features/home/presentation/widgets/recomendation_resto.dart';
@@ -16,6 +17,11 @@ class ListRestaurant extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Filter out null reviews and create a new sorted list
+    final sortedMenuItems = List<GetRestaurantResponse>.from(menuItems)
+      ..removeWhere((item) => item.review == null)
+      ..sort((a, b) => b.review!.compareTo(a.review!));
+
     return BlocProvider<GetRestaurantBloc>(
       create: (context) => GetRestaurantBloc()
         ..add(
@@ -51,20 +57,24 @@ class ListRestaurant extends StatelessWidget {
                   );
                 } else if (state is RestaurantLoadedState) {
                   return ListView.separated(
-                    itemCount: isHome ? 5 : menuItems.length,
+                    itemCount: isHome ? 5 : sortedMenuItems.length,
                     itemBuilder: (context, index) {
-                      final menuItem = menuItems[index];
+                      final menuItem = sortedMenuItems[index];
                       return RecomendationResto(
                         name: menuItem.namaToko!,
                         address: menuItem.alamat!,
-                        imageUrl: menuItem.gambarToko!,
-                        rating: menuItem.review! / 10,
+                        imageUrl:
+                            '${APIUrl.baseUrl}${APIUrl.imagePath}${menuItem.gambarToko}',
+                        rating:
+                            menuItem.review != null ? menuItem.review! / 10 : 0,
                         onPressed: () {
-                          Navigator.pushNamed(
-                            context,
-                            '/information-restaurant',
-                            arguments: menuItem.id,
-                          );
+                          if (menuItem.id != null) {
+                            Navigator.pushNamed(
+                              context,
+                              '/information-restaurant',
+                              arguments: menuItem.id,
+                            );
+                          }
                         },
                       );
                     },

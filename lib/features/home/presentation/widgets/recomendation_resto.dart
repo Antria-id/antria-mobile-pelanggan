@@ -51,17 +51,42 @@ class RecomendationResto extends StatelessWidget {
                 topLeft: Radius.circular(10),
                 bottomLeft: Radius.circular(10),
               ),
-              child: Image.network(
-                imageUrl,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) {
-                  return Image.asset(
-                    'assets/images/empty_store.png',
-                    fit: BoxFit.cover,
-                  );
-                },
-              ),
+              child: imageUrl.isNotEmpty
+                  ? Image.network(
+                      imageUrl,
+                      fit: BoxFit.cover,
+                      height: 60,
+                      width: 60,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Image.asset(
+                          'assets/images/empty_store.png',
+                          fit: BoxFit.cover,
+                          height: 60,
+                          width: 60,
+                        );
+                      },
+                    )
+                  : Image.asset(
+                      'assets/images/empty_store.png',
+                      fit: BoxFit.cover,
+                    ),
             ),
+            // child: ClipRRect(
+            //   borderRadius: const BorderRadius.only(
+            //     topLeft: Radius.circular(10),
+            //     bottomLeft: Radius.circular(10),
+            //   ),
+            //   child: Image.network(
+            //     imageUrl,
+            //     fit: BoxFit.cover,
+            //     errorBuilder: (context, error, stackTrace) {
+            //       return Image.asset(
+            //         'assets/images/empty_store.png',
+            //         fit: BoxFit.cover,
+            //       );
+            //     },
+            //   ),
+            // ),
           ),
           Expanded(
             child: Container(

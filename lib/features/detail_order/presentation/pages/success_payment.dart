@@ -1,7 +1,10 @@
 import 'package:antria_mobile_pelanggan/config/themes/themes.dart';
+import 'package:antria_mobile_pelanggan/features/ewallet/data/models/update_ewallet_model.dart';
+import 'package:antria_mobile_pelanggan/features/ewallet/presentation/bloc/ewallet_bloc.dart';
 import 'package:antria_mobile_pelanggan/features/history/presentation/bloc/detail/detail_bloc.dart';
 import 'package:antria_mobile_pelanggan/features/history/presentation/widgets/done_order/detail_payment_recipt.dart';
 import 'package:antria_mobile_pelanggan/features/history/presentation/widgets/done_order/list_order_recipt.dart';
+import 'package:antria_mobile_pelanggan/features/profile/presentation/bloc/pelanggan_profile/pelanggan_profile_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -143,34 +146,70 @@ class SuccessPayment extends StatelessWidget {
                         paymentMethod: detail.payment!,
                       ),
                       const SizedBox(height: 20),
-                      Container(
-                        margin: const EdgeInsets.only(top: 40),
-                        width: 160,
-                        height: 40,
-                        child: TextButton(
-                          onPressed: () {
-                            Navigator.pushNamed(
-                              context,
-                              '/queue-page',
-                              arguments: {
-                                'mitraId': detail.mitraId,
-                                'invoice': detail.invoice,
-                              },
+                      BlocProvider(
+                        create: (context) => PelangganProfileBloc()
+                          ..add(
+                            PelangganProfileFetchData(),
+                          ),
+                        child: BlocBuilder<PelangganProfileBloc,
+                            PelangganProfileState>(
+                          builder: (context, state) {
+                            if (state is PelangganProfileLoaded) {
+                              final userWallet = state.pelangganModel.wallet!;
+                              return Container(
+                                margin: const EdgeInsets.only(top: 40),
+                                width: 160,
+                                height: 40,
+                                child: TextButton(
+                                  onPressed: () {
+                                    if (detail.payment == 'EWALLET') {
+                                      int newBalance = userWallet - totalBiaya;
+                                      context.read<EwalletBloc>().add(
+                                            UpdateEwalletTapped(
+                                              updateEwallet: UpdateEwalletModel(
+                                                wallet: newBalance,
+                                              ),
+                                            ),
+                                          );
+                                      Navigator.pushNamed(
+                                        context,
+                                        '/queue-page',
+                                        arguments: {
+                                          'mitraId': detail.mitraId,
+                                          'invoice': detail.invoice,
+                                        },
+                                      );
+                                    } else if (detail.payment == 'CASH') {
+                                      Navigator.pushNamed(
+                                        context,
+                                        '/queue-page',
+                                        arguments: {
+                                          'mitraId': detail.mitraId,
+                                          'invoice': detail.invoice,
+                                        },
+                                      );
+                                    }
+                                  },
+                                  style: TextButton.styleFrom(
+                                    backgroundColor: primaryColor,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    'Lihat Antrian',
+                                    style: whiteTextStyle.copyWith(
+                                      fontSize: 14,
+                                      fontWeight: medium,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }
+                            return Center(
+                              child: CircularProgressIndicator(),
                             );
                           },
-                          style: TextButton.styleFrom(
-                            backgroundColor: primaryColor,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
-                          child: Text(
-                            'Lihat Antrian',
-                            style: whiteTextStyle.copyWith(
-                              fontSize: 14,
-                              fontWeight: medium,
-                            ),
-                          ),
                         ),
                       ),
                     ],

@@ -21,7 +21,7 @@ class QueueRemoteDatasourceImpl implements QueueRemoteDatasource {
       final response = await request.get(
         APIUrl.getQueuePath(mitraId),
         data: {
-          "limit": 6,
+          "limit": 20,
         },
       );
 
