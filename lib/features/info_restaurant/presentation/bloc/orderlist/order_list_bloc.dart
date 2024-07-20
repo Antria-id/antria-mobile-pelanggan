@@ -15,6 +15,7 @@ class OrderListBloc extends Bloc<OrderListEvent, OrderListState> {
     on<IncrementQuantityEvent>(_onIncrementQuantity);
     on<DecrementQuantityEvent>(_onDecrementQuantity);
     on<AddPesananEvent>(_onAddPesanan);
+    on<AddNoteEvent>(_onAddNote);
   }
 
   Future<void> _onAddProductToOrderList(
@@ -23,7 +24,7 @@ class OrderListBloc extends Bloc<OrderListEvent, OrderListState> {
   ) async {
     emit(OrderListLoading());
     final result = await serviceLocator<OrderListUsecase>()
-        .addProduct(event.productId, event.quantity);
+        .addProduct(event.productId, event.quantity, event.note);
     result.fold(
       (failure) => emit(OrderListError(_mapFailureToMessage(failure))),
       (_) {
@@ -95,6 +96,23 @@ class OrderListBloc extends Bloc<OrderListEvent, OrderListState> {
       (failure) => emit(OrderListError(_mapFailureToMessage(failure))),
       (_) {
         emit(AddPesanan(invoice: event.invoice));
+      },
+    );
+  }
+
+  Future<void> _onAddNote(
+    AddNoteEvent event,
+    Emitter<OrderListState> emit,
+  ) async {
+    emit(OrderListLoading());
+    final result = await serviceLocator<OrderListUsecase>().updateOrderList(
+      event.id,
+      event.note,
+    );
+    result.fold(
+      (failure) => emit(OrderListError(_mapFailureToMessage(failure))),
+      (_) {
+        emit(AddNote());
       },
     );
   }

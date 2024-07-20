@@ -40,3 +40,5 @@ class AddPesanan extends OrderListState {
 
   AddPesanan({required this.invoice});
 }
+
+class AddNote extends OrderListState {}

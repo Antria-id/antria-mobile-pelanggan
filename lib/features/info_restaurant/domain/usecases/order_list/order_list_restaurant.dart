@@ -13,10 +13,12 @@ class OrderListUsecase {
     return serviceLocator<MenuLocalDatasource>().getProductsInOrderList();
   }
 
-  Future<Either<Failure, void>> addProduct(int productId, int quantity) {
+  Future<Either<Failure, void>> addProduct(
+      int productId, int quantity, String note) {
     return serviceLocator<MenuLocalDatasource>().addProductToOrderList(
       productId,
       quantity,
+      note,
     );
   }
 
@@ -50,5 +52,9 @@ class OrderListUsecase {
 
   Future<Either<Failure, void>> deleteAllProducts() {
     return serviceLocator<MenuLocalDatasource>().deleteAllProducts();
+  }
+
+  Future<Either<Failure, void>> updateOrderList(int id, String note) async {
+    return serviceLocator<MenuLocalDatasource>().updateOrderList(id, note);
   }
 }

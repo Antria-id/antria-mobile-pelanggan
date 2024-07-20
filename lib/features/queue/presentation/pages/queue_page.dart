@@ -32,7 +32,7 @@ class _QueuePageState extends State<QueuePage> {
   void navigateToRatingPage() {
     Navigator.pushNamed(
       context,
-      '/rating-page',
+      '/success-order-page',
       arguments: widget.mitraId,
     );
   }

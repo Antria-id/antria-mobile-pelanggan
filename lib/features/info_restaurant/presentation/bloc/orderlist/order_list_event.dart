@@ -12,10 +12,12 @@ class GetProductsInOrderListEvent extends OrderListEvent {}
 class AddProductToOrderListEvent extends OrderListEvent {
   final int productId;
   final int quantity;
+  final String note;
 
   const AddProductToOrderListEvent({
     required this.productId,
     required this.quantity,
+    required this.note,
   });
 
   @override
@@ -65,4 +67,14 @@ class AddPesananEvent extends OrderListEvent {
   @override
   List<Object> get props =>
       [invoice, payment, pelangganId, pemesanan, takeaway, mitraId];
+}
+
+class AddNoteEvent extends OrderListEvent {
+  final int id;
+  final String note;
+
+  const AddNoteEvent({required this.id, required this.note});
+
+  @override
+  List<Object> get props => [id, note];
 }
