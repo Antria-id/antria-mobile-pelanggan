@@ -1,13 +1,16 @@
 import 'package:antria_mobile_pelanggan/config/themes/themes.dart';
 import 'package:antria_mobile_pelanggan/features/home/presentation/bloc/get_restaurant/get_restaurant_bloc.dart';
 import 'package:antria_mobile_pelanggan/features/search_page/presentation/widgets/list_seacrh_restaurant.dart';
+import 'package:antria_mobile_pelanggan/shared/error_fetch_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:antria_mobile_pelanggan/features/home/data/models/response/get_restaurant_model.dart';
 import 'package:antria_mobile_pelanggan/features/search_page/presentation/widgets/search_bar_widget.dart';
 
 class SearchPage extends StatefulWidget {
-  const SearchPage({Key? key}) : super(key: key);
+  final bool isBottomNav;
+
+  const SearchPage({super.key, required this.isBottomNav});
 
   @override
   _SearchPageState createState() => _SearchPageState();
@@ -57,18 +60,22 @@ class _SearchPageState extends State<SearchPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  margin: EdgeInsets.only(top: 20),
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Icon(
-                      Icons.arrow_back_ios,
-                      size: 28,
-                    ),
-                  ),
+                  margin: const EdgeInsets.only(top: 20),
+                  child: widget.isBottomNav
+                      ? GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Icon(
+                            Icons.arrow_back_ios,
+                            size: 28,
+                          ),
+                        )
+                      : const SizedBox(),
                 ),
-                SizedBox(width: 8),
+                const SizedBox(
+                  width: 8,
+                ),
                 SearchBarWidget(
                   onSearch: onSearch,
                 ),
@@ -77,7 +84,7 @@ class _SearchPageState extends State<SearchPage> {
             BlocBuilder<GetRestaurantBloc, GetRestaurantState>(
               builder: (context, state) {
                 if (state is RestaurantLoadingState) {
-                  return Expanded(
+                  return const Expanded(
                     child: Center(
                       child: CircularProgressIndicator(),
                     ),
@@ -101,14 +108,7 @@ class _SearchPageState extends State<SearchPage> {
                           ),
                         );
                 } else if (state is RestaurantErrorState) {
-                  return Expanded(
-                    child: Center(
-                      child: Text(
-                        state.message,
-                        style: TextStyle(fontSize: 18, color: Colors.red),
-                      ),
-                    ),
-                  );
+                  return const ErrorFetchData();
                 }
                 return const Expanded(
                   child: Center(

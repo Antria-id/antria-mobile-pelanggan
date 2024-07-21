@@ -62,7 +62,7 @@ class OrderRecipt extends StatelessWidget {
             child: BlocBuilder<DetailTransactionBloc, DetailTransactionState>(
               builder: (context, state) {
                 if (state is DetailTransactionError) {
-                  return Center(
+                  return const Center(
                     child: Text('Error'),
                   );
                 } else if (state is DetailTransactionLoaded) {
@@ -107,10 +107,10 @@ class OrderRecipt extends StatelessWidget {
                         children: [
                           Row(
                             children: [
-                              Text(
+                              const Text(
                                 'Detail Pesanan',
                               ),
-                              Spacer(),
+                              const Spacer(),
                               Text(
                                 transaksi.takeaway! ? 'Takeaway' : 'Dine In',
                               ),
@@ -121,7 +121,7 @@ class OrderRecipt extends StatelessWidget {
                               Text(
                                 formatDate(transaksi.createdAt),
                               ),
-                              Spacer(),
+                              const Spacer(),
                             ],
                           ),
                         ],
@@ -135,7 +135,7 @@ class OrderRecipt extends StatelessWidget {
                             DetailTransactionState>(
                           builder: (context, state) {
                             if (state is DetailTransactionError) {
-                              return Center(
+                              return const Center(
                                 child: Text(
                                   'Error',
                                 ),
@@ -147,13 +147,13 @@ class OrderRecipt extends StatelessWidget {
                                 ),
                               );
                             }
-                            return Center(
+                            return const Center(
                               child: CircularProgressIndicator(),
                             );
                           },
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       DetailPaymentRecipt(

@@ -7,11 +7,11 @@ class MitraChatWidget extends StatelessWidget {
   final String time;
 
   const MitraChatWidget({
-    Key? key,
+    super.key,
     required this.name,
     required this.text,
     required this.time,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

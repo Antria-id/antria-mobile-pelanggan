@@ -8,12 +8,12 @@ class PelangganChatWidget extends StatelessWidget {
   final bool isRead;
 
   const PelangganChatWidget({
-    Key? key,
+    super.key,
     required this.name,
     required this.text,
     required this.time,
     this.isRead = true,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

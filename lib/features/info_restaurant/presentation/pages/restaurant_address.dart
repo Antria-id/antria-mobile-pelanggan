@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class RestaurantAddress extends StatefulWidget {
-  final String linkGmaps;
+  final String? linkGmaps;
   const RestaurantAddress({super.key, required this.linkGmaps});
 
   @override
@@ -11,16 +11,18 @@ class RestaurantAddress extends StatefulWidget {
 }
 
 class _RestaurantAddressState extends State<RestaurantAddress> {
-  late final WebViewController controller;
+  WebViewController? controller;
 
   @override
   void initState() {
     super.initState();
-    controller = WebViewController()
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..loadRequest(
-        Uri.parse(widget.linkGmaps),
-      );
+    if (widget.linkGmaps != null && widget.linkGmaps!.isNotEmpty) {
+      controller = WebViewController()
+        ..setJavaScriptMode(JavaScriptMode.unrestricted)
+        ..loadRequest(
+          Uri.parse(widget.linkGmaps!),
+        );
+    }
   }
 
   @override
@@ -47,12 +49,22 @@ class _RestaurantAddressState extends State<RestaurantAddress> {
           ),
         ),
         flexibleSpace: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: primaryColor,
           ),
         ),
       ),
-      body: WebViewWidget(controller: controller),
+      body: (widget.linkGmaps != null && widget.linkGmaps!.isNotEmpty)
+          ? WebViewWidget(controller: controller!)
+          : Center(
+              child: Text(
+                'Peta belum tersedia',
+                style: blackTextStyle.copyWith(
+                  fontWeight: bold,
+                  fontSize: 18,
+                ),
+              ),
+            ),
     );
   }
 }

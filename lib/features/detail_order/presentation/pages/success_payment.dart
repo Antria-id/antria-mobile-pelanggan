@@ -30,7 +30,6 @@ class SuccessPayment extends StatelessWidget {
           child: BlocBuilder<DetailTransactionBloc, DetailTransactionState>(
             builder: (context, state) {
               if (state is DetailTransactionError) {
-                print('Error State: ${state.message}');
                 return Center(
                   child: Text(
                     'Error: ${state.message}',
@@ -39,8 +38,6 @@ class SuccessPayment extends StatelessWidget {
                 );
               } else if (state is DetailTransactionLoaded) {
                 final detail = state.response;
-                print('DetailTransactionLoaded invoice: $invoice');
-                print('Detail data: ${detail.toString()}');
 
                 int totalitemPrice = 0;
                 int biayaLayanan = 1000;
@@ -59,27 +56,10 @@ class SuccessPayment extends StatelessWidget {
                 String formatTime(DateTime? date) {
                   if (date == null) return '';
                   final DateFormat formatter = DateFormat('HH:mm');
-                  return formatter.format(date);
+                  return formatter.format(date.toLocal());
                 }
 
-                String formattedPrice = NumberFormat.currency(
-                  locale: 'id_ID',
-                  symbol: 'Rp ',
-                  decimalDigits: 0,
-                ).format(totalitemPrice);
-
                 int totalBiaya = totalitemPrice + biayaLayanan;
-                String formattedTotalBiaya = NumberFormat.currency(
-                  locale: 'id_ID',
-                  symbol: 'Rp ',
-                  decimalDigits: 0,
-                ).format(totalBiaya);
-
-                String formattedBiayaLayanan = NumberFormat.currency(
-                  locale: 'id_ID',
-                  symbol: 'Rp ',
-                  decimalDigits: 0,
-                ).format(biayaLayanan);
 
                 String getOrderTypeText(bool takeaway) {
                   return takeaway ? 'Takeaway' : 'Dine In';

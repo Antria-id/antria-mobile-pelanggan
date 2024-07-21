@@ -1,10 +1,11 @@
 import 'package:antria_mobile_pelanggan/config/themes/themes.dart';
 import 'package:antria_mobile_pelanggan/features/detail_order/presentation/widgets/list_card_order.dart';
 import 'package:antria_mobile_pelanggan/features/detail_order/presentation/widgets/list_payment_method.dart';
+import 'package:antria_mobile_pelanggan/features/detail_order/presentation/widgets/list_service.dart';
 import 'package:antria_mobile_pelanggan/features/home/presentation/bloc/user/user_bloc.dart';
 import 'package:antria_mobile_pelanggan/features/info_restaurant/presentation/bloc/info_restaurant/info_restaurant_bloc.dart';
+import 'package:antria_mobile_pelanggan/features/info_restaurant/presentation/bloc/menu/menu_bloc.dart';
 import 'package:antria_mobile_pelanggan/features/info_restaurant/presentation/bloc/orderlist/order_list_bloc.dart';
-import 'package:antria_mobile_pelanggan/features/info_restaurant/presentation/widgets/custom_buttton_service.dart';
 import 'package:antria_mobile_pelanggan/shared/custom_button.dart';
 import 'package:antria_mobile_pelanggan/shared/custom_toast.dart';
 import 'package:flutter/material.dart';
@@ -23,8 +24,68 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
   String paymentMethod = 'Pilih Metode Pembayaran';
   int biayaLayanan = 1000;
   bool isSelected = false;
-  bool isSelectedDineIn = true;
-  bool isSelectedTakeaway = false;
+  bool isSelectedDineIn = false;
+  bool isSelectedTakeaway = true;
+  String serviceType = 'Take Away';
+
+  void showBottomSheet() {
+    int initialSelectedIndex = isSelectedTakeaway ? 0 : 1;
+
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return FractionallySizedBox(
+          heightFactor: 0.44,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(
+                height: 10,
+              ),
+              Center(
+                child: Container(
+                  width: 30,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: greyColor,
+                    borderRadius: BorderRadius.circular(
+                      20,
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                child: Text(
+                  'Pilih Tipe Pemesanan',
+                  style: blackTextStyle.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              ListServiceType(
+                onPemesananType: (selectedType) {
+                  setState(() {
+                    isSelectedTakeaway = selectedType['isTakeAway']!;
+                    isSelectedDineIn = selectedType['isDineIn']!;
+
+                    serviceType =
+                        selectedType['isTakeAway']! ? 'Takeaway' : 'Dine In';
+                  });
+                },
+                initialSelectedIndex: initialSelectedIndex,
+                mitraId: widget.mitraId,
+              ),
+              const SizedBox(
+                height: 40,
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,47 +138,64 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
                 height: 10,
               ),
               Container(
-                margin: const EdgeInsets.symmetric(
-                  vertical: 20,
-                  horizontal: 22,
+                width: 360,
+                height: 70,
+                decoration: BoxDecoration(
+                  color: whiteColor,
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(8),
+                  ),
+                  border: Border.all(
+                    width: 1,
+                    color: whiteColor,
+                  ),
                 ),
-                child: Row(
-                  children: [
-                    Flexible(
-                      child: CustomButtonService(
-                        title: 'Dine In',
-                        isSelected: isSelectedDineIn,
-                        onTap: () {
-                          setState(() {
-                            isSelectedDineIn = true;
-                            isSelectedTakeaway = false;
-                          });
-                        },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 14,
+                  ),
+                  child: Row(
+                    children: [
+                      CircleAvatar(
+                        radius: 24,
+                        child: Image.asset(
+                          isSelectedTakeaway
+                              ? 'assets/icons/takeaway.png'
+                              : 'assets/icons/dine-in.png',
+                          width: 30,
+                          height: 30,
+                        ),
                       ),
-                    ),
-                    const SizedBox(
-                      width: 0,
-                    ),
-                    Flexible(
-                      child: CustomButtonService(
-                        title: 'Takeaway',
-                        isSelected: isSelectedTakeaway,
-                        onTap: () {
-                          setState(
-                            () {
-                              isSelectedTakeaway = true;
-                              isSelectedDineIn = false;
-                            },
-                          );
-                        },
+                      const SizedBox(
+                        width: 14,
                       ),
-                    ),
-                  ],
+                      Text(
+                        serviceType,
+                        style: blackTextStyle.copyWith(
+                          fontWeight: bold,
+                        ),
+                      ),
+                      const Spacer(),
+                      InkWell(
+                        onTap: showBottomSheet,
+                        child: Text(
+                          'Ubah',
+                          style: whiteTextStyle.copyWith(
+                            color: Colors.blueAccent,
+                            fontWeight: FontWeight.w900,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
+              ),
+              const SizedBox(
+                height: 10,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
+                  horizontal: 20,
                   vertical: 10,
                 ),
                 child: BlocConsumer<OrderListBloc, OrderListState>(
@@ -365,6 +443,8 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
                             state.user.username!.substring(0, 2).toUpperCase();
                         return TextButton(
                           onPressed: () {
+                            final menuBloc = BlocProvider.of<MenuBloc>(context);
+                            menuBloc.add(ClearMenu());
                             if (paymentMethod == 'Pilih Metode Pembayaran') {
                               showToastFailedMessage('Pilih Metode Pembayaran');
                               return;
@@ -373,7 +453,6 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
                                 DateTime.now().millisecondsSinceEpoch ~/ 1000;
                             String invoice =
                                 'INVC$namaToko${widget.mitraId}$name$id$timestamp';
-                            print('Generated invoice: $invoice');
 
                             context.read<OrderListBloc>().add(
                                   AddPesananEvent(

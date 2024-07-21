@@ -43,7 +43,12 @@ class AppRoutes {
         return _materialRoute(const HomePage());
 
       case '/search-page':
-        return _materialRoute(const SearchPage());
+        final isBottomNav = settings.arguments as bool? ?? false;
+        return _materialRoute(
+          SearchPage(
+            isBottomNav: isBottomNav,
+          ),
+        );
 
       case '/queue-page':
         final args = settings.arguments as Map<String, dynamic>;
