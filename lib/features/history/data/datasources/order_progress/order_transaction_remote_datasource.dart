@@ -26,26 +26,47 @@ class OrderTransactionRemoteDatasourceImpl
         return const Left(ParsingFailure('User not found'));
       }
       final int pelangganId = user.sub!;
-      final response = await request.get(
+      final responseWaiting = await request.get(
+        APIUrl.getPesananPelangganPath(pelangganId),
+        data: {'status_order': 'WAITING'},
+      );
+
+      final responseProcess = await request.get(
         APIUrl.getPesananPelangganPath(pelangganId),
         data: {'status_order': 'PROCESS'},
       );
 
-      if (response.statusCode == 200) {
-        final dynamic responseData = response.data;
-        if (responseData is List<dynamic>) {
-          final List<OrderTransactionResponse> pesanan = responseData
-              .map((json) => OrderTransactionResponse.fromJson(json))
-              .toList();
-          final List<OrderTransactionResponse> filteredPesanan = pesanan
-              .where((transaction) => transaction.pelangganId == user.sub)
-              .toList();
-          return Right(filteredPesanan);
-        } else {
-          return const Left(ParsingFailure('Invalid response format'));
-        }
+      if (responseWaiting.statusCode == 200 &&
+          responseProcess.statusCode == 200) {
+        final List<dynamic> responseDataWaiting = responseWaiting.data;
+        final List<dynamic> responseDataProcess = responseProcess.data;
+
+        final List<OrderTransactionResponse> pesananWaiting =
+            responseDataWaiting
+                .map((json) => OrderTransactionResponse.fromJson(json))
+                .toList();
+        final List<OrderTransactionResponse> pesananProcess =
+            responseDataProcess
+                .map((json) => OrderTransactionResponse.fromJson(json))
+                .toList();
+
+        final List<OrderTransactionResponse> filteredPesananWaiting =
+            pesananWaiting
+                .where((transaction) => transaction.pelangganId == user.sub)
+                .toList();
+        final List<OrderTransactionResponse> filteredPesananProcess =
+            pesananProcess
+                .where((transaction) => transaction.pelangganId == user.sub)
+                .toList();
+
+        final List<OrderTransactionResponse> combinedPesanan = []
+          ..addAll(filteredPesananWaiting)
+          ..addAll(filteredPesananProcess);
+
+        return Right(combinedPesanan);
       } else {
-        return Left(ConnectionFailure(response.data['message']));
+        return Left(ConnectionFailure(responseWaiting.data['message'] ??
+            responseProcess.data['message']));
       }
     } catch (e) {
       return Left(ParsingFailure('Unable to parse the response: $e'));

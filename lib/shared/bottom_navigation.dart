@@ -1,9 +1,8 @@
 import 'package:antria_mobile_pelanggan/config/themes/themes.dart';
 import 'package:antria_mobile_pelanggan/features/profile/presentation/pages/profile_page.dart';
+import 'package:antria_mobile_pelanggan/features/search_page/presentation/pages/search_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import '../features/chat/presentation/pages/chat_list_page.dart';
 import '../features/history/presentation/pages/history_page.dart';
 import '../features/home/presentation/pages/home_page.dart';
 
@@ -16,9 +15,10 @@ class BottomNavigationWidget extends StatefulWidget {
 
 class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
   int selectedIndex = 0;
+
   final List<Widget> screens = [
     const HomePage(),
-    const ChatListPage(),
+    const SearchPage(isBottomNav: false), // Pass isBottomNav here
     const HistoryPage(),
     const ProfilePage(),
   ];
@@ -62,29 +62,13 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
                       ),
                       onPressed: () => onItemTapped(0),
                     ),
-                    InkWell(
-                      onTap: () => onItemTapped(1),
-                      child: Stack(
-                        alignment: Alignment.topRight,
-                        children: [
-                          Icon(
-                            CupertinoIcons.chat_bubble_text_fill,
-                            size: 28,
-                            color: selectedIndex == 1 ? whiteColor : greyColor,
-                          ),
-                          const CircleAvatar(
-                            radius: 6,
-                            backgroundColor: Color(0xffFF0000),
-                            child: Text(
-                              '0',
-                              style: TextStyle(
-                                fontSize: 9,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ],
+                    IconButton(
+                      icon: Icon(
+                        Icons.search,
+                        size: 28,
+                        color: selectedIndex == 1 ? whiteColor : greyColor,
                       ),
+                      onPressed: () => onItemTapped(1),
                     ),
                     IconButton(
                       icon: Icon(

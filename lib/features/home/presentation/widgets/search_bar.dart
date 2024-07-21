@@ -8,7 +8,11 @@ class SearchBarHome extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, '/search-page');
+        Navigator.pushNamed(
+          context,
+          '/search-page',
+          arguments: true,
+        );
       },
       child: Container(
         width: 322,

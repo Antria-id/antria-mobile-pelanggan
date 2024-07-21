@@ -10,14 +10,14 @@ class CardPayment extends StatelessWidget {
   final int totalPrice;
 
   const CardPayment({
-    Key? key,
+    super.key,
     required this.label,
     required this.icon,
     required this.selectedIndex,
     required this.index,
     this.wallet,
     required this.totalPrice,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

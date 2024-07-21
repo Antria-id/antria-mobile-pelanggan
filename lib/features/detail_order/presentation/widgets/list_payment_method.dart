@@ -8,10 +8,10 @@ class ListPaymentMethod extends StatefulWidget {
   final ValueChanged<String> onPaymentMethodChanged;
   final int totalPrice;
   const ListPaymentMethod({
-    Key? key,
+    super.key,
     required this.onPaymentMethodChanged,
     required this.totalPrice,
-  }) : super(key: key);
+  });
 
   @override
   ListPaymentMethodState createState() => ListPaymentMethodState();
@@ -51,7 +51,7 @@ class ListPaymentMethodState extends State<ListPaymentMethod> {
                 onTap: () {
                   if (payment['label'] == 'EWALLET' &&
                       payment['wallet'] < widget.totalPrice) {
-                    return; // Don't allow tap if eWallet balance is less than total price
+                    return;
                   }
                   setState(() {
                     selectedIndex = index;
