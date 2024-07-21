@@ -125,6 +125,9 @@ class ProfilePage extends StatelessWidget {
                 '/ewallet-page',
               ),
             ),
+            const SizedBox(
+              height: 20,
+            ),
             ProfileButtonWidget(
               icon: 'assets/icons/support.png',
               text: 'Contact Support',
