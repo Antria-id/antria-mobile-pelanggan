@@ -47,13 +47,11 @@ class ListTransactionProgress extends StatelessWidget {
               onTap: () {
                 Navigator.pushNamed(
                   context,
-                  '/queue-page',
-                  arguments: {
-                    'mitraId': transaksi.mitraId,
-                    'invoice': transaksi.invoice,
-                  },
+                  '/success-payment',
+                  arguments: transaksi.invoice,
                 );
               },
+              status: transaksi.antrian!.orderstatus!,
             );
           },
           separatorBuilder: (BuildContext context, int index) {

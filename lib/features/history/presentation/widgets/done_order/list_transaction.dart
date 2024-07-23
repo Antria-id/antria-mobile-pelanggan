@@ -51,6 +51,7 @@ class ListTransaction extends StatelessWidget {
                   arguments: transaksi.invoice,
                 );
               },
+              status: transaksi.antrian!.orderstatus!,
             );
           },
           separatorBuilder: (BuildContext context, int index) {

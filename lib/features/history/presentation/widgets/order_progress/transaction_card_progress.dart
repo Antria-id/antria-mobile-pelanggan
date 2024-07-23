@@ -6,6 +6,7 @@ class TransactionCardProgress extends StatelessWidget {
   final String invoice;
   final String tanggal;
   final int income;
+  final String status;
   final VoidCallback onTap;
 
   const TransactionCardProgress({
@@ -14,7 +15,36 @@ class TransactionCardProgress extends StatelessWidget {
     required this.tanggal,
     required this.income,
     required this.onTap,
+    required this.status,
   });
+
+  // Helper method to translate status
+  String _getStatusText(String status) {
+    switch (status) {
+      case 'ALLDONE':
+        return 'SELESAI';
+      case 'WAITING':
+        return 'MENUNGGU';
+      case 'PROCESS':
+        return 'PROSES';
+      default:
+        return status;
+    }
+  }
+
+  // Helper method to get status color
+  Color _getStatusColor(String status) {
+    switch (status) {
+      case 'ALLDONE':
+        return primaryColor;
+      case 'WAITING':
+        return Color.fromARGB(255, 235, 214, 20);
+      case 'PROCESS':
+        return Colors.green;
+      default:
+        return Colors.black;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +53,10 @@ class TransactionCardProgress extends StatelessWidget {
       symbol: '+Rp ',
       decimalDigits: 0,
     ).format(income);
+
+    String translatedStatus = _getStatusText(status);
+    Color statusColor = _getStatusColor(status);
+
     return ExpansionTile(
       tilePadding: const EdgeInsets.symmetric(horizontal: 10),
       collapsedShape: const RoundedRectangleBorder(
@@ -40,11 +74,25 @@ class TransactionCardProgress extends StatelessWidget {
       title: Container(
         width: double.infinity,
         color: Colors.white,
-        child: Text(
-          invoice,
-          style: blackTextStyle.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              invoice,
+              style: blackTextStyle.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(
+              height: 4,
+            ),
+            Text(
+              translatedStatus,
+              style: blackTextStyle.copyWith(
+                color: statusColor,
+              ),
+            ),
+          ],
         ),
       ),
       trailing: Container(
@@ -55,9 +103,8 @@ class TransactionCardProgress extends StatelessWidget {
           children: [
             Text(
               tanggal,
-              style: const TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.w800,
+              style: blackTextStyle.copyWith(
+                fontWeight: bold,
               ),
             ),
             const SizedBox(
@@ -65,9 +112,9 @@ class TransactionCardProgress extends StatelessWidget {
             ),
             Text(
               formattedPrice,
-              style: const TextStyle(
+              style: blackTextStyle.copyWith(
                 color: Colors.green,
-                fontWeight: FontWeight.bold,
+                fontWeight: bold,
               ),
             ),
           ],
@@ -90,7 +137,7 @@ class TransactionCardProgress extends StatelessWidget {
               onTap: onTap,
               child: const Center(
                 child: Text(
-                  'Lihat Antrian',
+                  'Lihat Detail',
                   style: TextStyle(
                     color: Colors.blue,
                     fontWeight: FontWeight.bold,

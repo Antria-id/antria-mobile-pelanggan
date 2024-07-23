@@ -69,7 +69,7 @@ class ListRestaurant extends StatelessWidget {
                             menuItem.review != null ? menuItem.review! / 10 : 0,
                         onPressed: () {
                           if (menuItem.id != null &&
-                              menuItem.statusToko != 'CLOSED') {
+                              menuItem.statusToko != 'CLOSE') {
                             Navigator.pushNamed(
                               context,
                               '/information-restaurant',

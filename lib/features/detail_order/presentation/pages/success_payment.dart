@@ -22,9 +22,22 @@ class SuccessPayment extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: primaryColor,
-          elevation: 0,
           automaticallyImplyLeading: false,
-          toolbarHeight: 0,
+          leading: IconButton(
+            onPressed: () {
+              Navigator.popUntil(context, (route) => route.isFirst);
+            },
+            icon: const Icon(
+              Icons.arrow_back_ios_new_rounded,
+              color: whiteColor,
+            ),
+          ),
+          title: Text(
+            'Resi Anda',
+            style: whiteTextStyle.copyWith(fontWeight: bold),
+          ),
+          centerTitle: true,
+          elevation: 0,
         ),
         body: SafeArea(
           child: BlocBuilder<DetailTransactionBloc, DetailTransactionState>(

@@ -443,8 +443,6 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
                             state.user.username!.substring(0, 2).toUpperCase();
                         return TextButton(
                           onPressed: () {
-                            final menuBloc = BlocProvider.of<MenuBloc>(context);
-                            menuBloc.add(ClearMenu());
                             if (paymentMethod == 'Pilih Metode Pembayaran') {
                               showToastFailedMessage('Pilih Metode Pembayaran');
                               return;
@@ -464,6 +462,8 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
                                     mitraId: widget.mitraId,
                                   ),
                                 );
+                            final menuBloc = BlocProvider.of<MenuBloc>(context);
+                            menuBloc.add(ClearMenu());
                           },
                           style: TextButton.styleFrom(
                             backgroundColor: primaryColor,
