@@ -1,11 +1,12 @@
 import 'dart:convert';
+import 'package:equatable/equatable.dart';
 
 PelangganModel pelangganModelFromJson(String str) =>
     PelangganModel.fromJson(json.decode(str));
 
 String pelangganModelToJson(PelangganModel data) => json.encode(data.toJson());
 
-class PelangganModel {
+class PelangganModel extends Equatable {
   final int? id;
   final String? username;
   final String? password;
@@ -67,4 +68,20 @@ class PelangganModel {
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
       };
+
+  @override
+  List<Object?> get props => [
+        id,
+        username,
+        password,
+        email,
+        emailVerified,
+        profilePicture,
+        nama,
+        handphone,
+        alamat,
+        wallet,
+        createdAt,
+        updatedAt,
+      ];
 }

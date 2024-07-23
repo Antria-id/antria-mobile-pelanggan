@@ -9,5 +9,6 @@ abstract class AuthRepository {
   Future<Either<Failure, LoginResponse>> loginUser(
       {required LoginRequest user});
   Future<Either<Failure, RegisterResponse>> registerUser(
-      {required RegisterRequest user});
+      {required RegisterRequest requestUser});
+  Future<Either<Failure, void>> deleteUserFromLocalStorage();
 }

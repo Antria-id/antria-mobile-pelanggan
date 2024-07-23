@@ -66,7 +66,8 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
                       icon: Icon(
                         Icons.search,
                         size: 28,
-                        color: selectedIndex == 1 ? whiteColor : greyColor,
+                        color:
+                            selectedIndex == 1 ? whiteColor : inactiveBottomNav,
                       ),
                       onPressed: () => onItemTapped(1),
                     ),
@@ -74,7 +75,8 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
                       icon: Icon(
                         Icons.history,
                         size: 30,
-                        color: selectedIndex == 2 ? whiteColor : greyColor,
+                        color:
+                            selectedIndex == 2 ? whiteColor : inactiveBottomNav,
                       ),
                       onPressed: () => onItemTapped(2),
                     ),
@@ -82,7 +84,8 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
                       icon: Icon(
                         Icons.account_circle_rounded,
                         size: 30,
-                        color: selectedIndex == 3 ? whiteColor : greyColor,
+                        color:
+                            selectedIndex == 3 ? whiteColor : inactiveBottomNav,
                       ),
                       onPressed: () => onItemTapped(3),
                     ),

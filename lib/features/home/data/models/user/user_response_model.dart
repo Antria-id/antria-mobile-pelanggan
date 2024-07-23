@@ -1,10 +1,11 @@
 import 'dart:convert';
+import 'package:equatable/equatable.dart';
 
 UserModel userModelFromJson(String str) => UserModel.fromJson(json.decode(str));
 
 String userModelToJson(UserModel data) => json.encode(data.toJson());
 
-class UserModel {
+class UserModel extends Equatable {
   final int? sub;
   final String? username;
   final String? role;
@@ -34,4 +35,7 @@ class UserModel {
         "iat": iat,
         "exp": exp,
       };
+
+  @override
+  List<Object?> get props => [sub, username, role, iat, exp];
 }

@@ -1,11 +1,12 @@
 import 'dart:convert';
+import 'package:equatable/equatable.dart';
 
 ReviewsRequest reviewRequestFromJson(String str) =>
     ReviewsRequest.fromJson(json.decode(str));
 
 String reviewRequestToJson(ReviewsRequest data) => json.encode(data.toJson());
 
-class ReviewsRequest {
+class ReviewsRequest extends Equatable {
   final String? komentar;
   final int? rating;
   final int? mitraId;
@@ -31,4 +32,7 @@ class ReviewsRequest {
         "mitraId": mitraId,
         "pelangganId": pelangganId,
       };
+
+  @override
+  List<Object?> get props => [komentar, rating, mitraId, pelangganId];
 }

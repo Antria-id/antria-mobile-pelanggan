@@ -25,7 +25,8 @@ class OrderProgress extends StatelessWidget {
                 return const EmptyDataWidget();
               } else {
                 return ListTransactionProgress(
-                    transaksiList: state.transactionList);
+                  transaksiList: state.transactionList,
+                );
               }
             }
             return const Center(

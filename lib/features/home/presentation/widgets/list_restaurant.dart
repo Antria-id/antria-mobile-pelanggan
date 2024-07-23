@@ -17,7 +17,6 @@ class ListRestaurant extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Filter out null reviews and create a new sorted list
     final sortedMenuItems = List<GetRestaurantResponse>.from(menuItems)
       ..removeWhere((item) => item.review == null)
       ..sort((a, b) => b.review!.compareTo(a.review!));
@@ -32,6 +31,7 @@ class ListRestaurant extends StatelessWidget {
           top: 20,
           bottom: 70,
           left: 10,
+          right: 10,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,7 +68,8 @@ class ListRestaurant extends StatelessWidget {
                         rating:
                             menuItem.review != null ? menuItem.review! / 10 : 0,
                         onPressed: () {
-                          if (menuItem.id != null) {
+                          if (menuItem.id != null &&
+                              menuItem.statusToko != 'CLOSED') {
                             Navigator.pushNamed(
                               context,
                               '/information-restaurant',
@@ -76,6 +77,8 @@ class ListRestaurant extends StatelessWidget {
                             );
                           }
                         },
+                        statusResto: menuItem.statusToko!,
+                        isDisabled: menuItem.statusToko == 'CLOSE',
                       );
                     },
                     separatorBuilder: (context, index) =>

@@ -1,0 +1,74 @@
+{
+    "invoice": "INVCLU32RO21721566924",
+    "payment": "EWALLET",
+    "pemesanan": "ONLINE",
+    "takeaway": true,
+    "status": "SUCCESS",
+    "pelangganId": 2,
+    "mitraId": 32,
+    "antrianId": 198,
+    "created_at": "2024-07-21T13:02:57.056Z",
+    "updated_at": "2024-07-21T13:02:57.112Z",
+    "oderlist": [
+        {
+            "id": 243,
+            "quantity": 1,
+            "note": "Pakai heroin",
+            "produkId": 82,
+            "pesananId": "INVCLU32RO21721566924",
+            "produk": {
+                "id": 82,
+                "nama_produk": "GARLIC PRAWN SPAGHETTI ",
+                "deskripsi_produk": "This easy garlic prawn pasta dish has all the ingredients for a successful dinner – garlic prawn pasta. A winner dinner!",
+                "harga": 150000,
+                "gambar": "4312602d-1693-457d-a332-57a5eb18fcc2.jpg",
+                "kuantitas": 10,
+                "mitraId": 32,
+                "show_produk": true,
+                "created_at": "2024-07-21T08:56:00.304Z",
+                "updated_at": "2024-07-21T08:56:00.304Z"
+            }
+        },
+        {
+            "id": 244,
+            "quantity": 1,
+            "note": "",
+            "produkId": 83,
+            "pesananId": "INVCLU32RO21721566924",
+            "produk": {
+                "id": 83,
+                "nama_produk": "SPICY GARLIC BUTTER LINGUINI ",
+                "deskripsi_produk": "This viral garlic butter linguini recipe is so simple and incredibly delicious",
+                "harga": 100000,
+                "gambar": "5dd092c2-c9e1-4e10-b5ce-b87d7c95c0e8.jpg",
+                "kuantitas": 10,
+                "mitraId": 32,
+                "show_produk": true,
+                "created_at": "2024-07-21T08:58:56.200Z",
+                "updated_at": "2024-07-21T08:58:56.200Z"
+            }
+        }
+    ],
+    "pelanggan": {
+        "id": 2,
+        "username": "rovino",
+        "password": "$2b$10$Z022U4PS5NksQXTkiVX.VOjtDbBtVUGqI3vWK0LpebezqgoQL0/si",
+        "email": "rovino@verni.yt",
+        "emailVerified": false,
+        "profile_picture": "fea86402-094c-42c2-b791-149ae02cf5c9.jpg",
+        "nama": "rovinos",
+        "handphone": "",
+        "alamat": "",
+        "wallet": 2025000,
+        "created_at": "2024-05-01T10:35:07.243Z",
+        "updated_at": "2024-07-21T14:52:52.965Z"
+    },
+    "antrian": {
+        "id": 198,
+        "estimasi": 10,
+        "orderstatus": "WAITING",
+        "pesananId": "INVCLU32RO21721566924",
+        "created_at": "2024-07-21T13:02:57.103Z",
+        "updated_at": "2024-07-21T13:02:57.103Z"
+    }
+}

@@ -72,12 +72,6 @@ class OrderRecipt extends StatelessWidget {
                     totalPrice +=
                         (orderItem.quantity! * orderItem.produk!.harga!);
                   }
-                  String orderList = formatOrderList(transaksi.oderlist!);
-                  String formattedPrice = NumberFormat.currency(
-                    locale: 'id_ID',
-                    symbol: 'Rp ',
-                    decimalDigits: 0,
-                  ).format(totalPrice);
 
                   return Column(
                     children: [

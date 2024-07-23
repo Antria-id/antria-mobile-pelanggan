@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:equatable/equatable.dart';
 
 DetailTransactionModel detailPesananModelFromJson(String str) =>
     DetailTransactionModel.fromJson(json.decode(str));
@@ -6,7 +7,7 @@ DetailTransactionModel detailPesananModelFromJson(String str) =>
 String detailPesananModelToJson(DetailTransactionModel data) =>
     json.encode(data.toJson());
 
-class DetailTransactionModel {
+class DetailTransactionModel extends Equatable {
   final String? invoice;
   final String? payment;
   final String? pemesanan;
@@ -81,9 +82,26 @@ class DetailTransactionModel {
             ? []
             : List<dynamic>.from(oderlist!.map((x) => x.toJson())),
       };
+
+  @override
+  List<Object?> get props => [
+        invoice,
+        payment,
+        pemesanan,
+        takeaway,
+        status,
+        pelangganId,
+        mitraId,
+        antrianId,
+        createdAt,
+        updatedAt,
+        pelanggan,
+        antrian,
+        oderlist,
+      ];
 }
 
-class Antrian {
+class Antrian extends Equatable {
   final int? id;
   final int? estimasi;
   final String? orderstatus;
@@ -121,9 +139,19 @@ class Antrian {
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
       };
+
+  @override
+  List<Object?> get props => [
+        id,
+        estimasi,
+        orderstatus,
+        pesananId,
+        createdAt,
+        updatedAt,
+      ];
 }
 
-class Oderlist {
+class Oderlist extends Equatable {
   final int? id;
   final int? quantity;
   final String? note;
@@ -157,9 +185,19 @@ class Oderlist {
         "pesananId": pesananId,
         "produk": produk?.toJson(),
       };
+
+  @override
+  List<Object?> get props => [
+        id,
+        quantity,
+        note,
+        produkId,
+        pesananId,
+        produk,
+      ];
 }
 
-class Produk {
+class Produk extends Equatable {
   final int? id;
   final String? namaProduk;
   final String? deskripsiProduk;
@@ -213,9 +251,23 @@ class Produk {
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
       };
+
+  @override
+  List<Object?> get props => [
+        id,
+        namaProduk,
+        deskripsiProduk,
+        harga,
+        gambar,
+        kuantitas,
+        mitraId,
+        showProduk,
+        createdAt,
+        updatedAt,
+      ];
 }
 
-class Pelanggan {
+class Pelanggan extends Equatable {
   final int? id;
   final String? username;
   final String? password;
@@ -277,4 +329,20 @@ class Pelanggan {
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
       };
+
+  @override
+  List<Object?> get props => [
+        id,
+        username,
+        password,
+        email,
+        emailVerified,
+        profilePicture,
+        nama,
+        handphone,
+        alamat,
+        wallet,
+        createdAt,
+        updatedAt,
+      ];
 }

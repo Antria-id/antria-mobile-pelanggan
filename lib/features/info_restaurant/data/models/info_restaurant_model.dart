@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:equatable/equatable.dart';
 
 GetInfoRestaurantResponse getInfoRestaurantResponseFromJson(String str) =>
     GetInfoRestaurantResponse.fromJson(json.decode(str));
@@ -6,7 +7,7 @@ GetInfoRestaurantResponse getInfoRestaurantResponseFromJson(String str) =>
 String getInfoRestaurantResponseToJson(GetInfoRestaurantResponse data) =>
     json.encode(data.toJson());
 
-class GetInfoRestaurantResponse {
+class GetInfoRestaurantResponse extends Equatable {
   final int? review;
   final int? id;
   final String? namaToko;
@@ -77,4 +78,22 @@ class GetInfoRestaurantResponse {
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
       };
+
+  @override
+  List<Object?> get props => [
+        review,
+        id,
+        namaToko,
+        deskripsiToko,
+        alamat,
+        linkGmaps,
+        hariBuka,
+        jamBuka,
+        jamTutup,
+        gambarToko,
+        subscription,
+        statusToko,
+        createdAt,
+        updatedAt,
+      ];
 }
