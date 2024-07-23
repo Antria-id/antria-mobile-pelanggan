@@ -126,10 +126,10 @@ class RecomendationResto extends StatelessWidget {
             children: [
               const SizedBox(height: 12),
               Text(
-                statusResto == 'CLOSE' ? 'TUTUP' : 'BUKA',
+                statusResto == 'CLOSE' ? 'Tutup' : 'Buka',
                 style: blackTextStyle.copyWith(
                   fontWeight: bold,
-                  color: isDisabled ? Colors.grey : null,
+                  color: isDisabled ? redColor : Colors.green,
                 ),
               ),
               const SizedBox(height: 2),
