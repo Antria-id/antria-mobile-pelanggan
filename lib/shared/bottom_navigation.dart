@@ -58,7 +58,8 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
                       icon: Icon(
                         Icons.home,
                         size: 30,
-                        color: selectedIndex == 0 ? whiteColor : greyColor,
+                        color:
+                            selectedIndex == 0 ? whiteColor : inactiveBottomNav,
                       ),
                       onPressed: () => onItemTapped(0),
                     ),
