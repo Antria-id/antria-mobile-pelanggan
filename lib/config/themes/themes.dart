@@ -11,6 +11,7 @@ const Color darkBlueColor = Color(0xff0D1039);
 const Color redColor = Color(0xffE31C1C);
 const Color orangeColor = Color(0xffF04438);
 const Color backgroundGreyColor = Color(0xffF4F4F4);
+const Color inactiveBottomNav = Color(0xffA6A6A6);
 
 TextStyle blackTextStyle = GoogleFonts.poppins(
   color: blackColor,

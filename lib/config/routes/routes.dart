@@ -1,7 +1,5 @@
 import 'package:antria_mobile_pelanggan/features/auth/presentation/pages/login_page.dart';
 import 'package:antria_mobile_pelanggan/features/auth/presentation/pages/register_page.dart';
-import 'package:antria_mobile_pelanggan/features/chat/presentation/pages/chat_list_page.dart';
-import 'package:antria_mobile_pelanggan/features/chat/presentation/pages/chat_page.dart';
 import 'package:antria_mobile_pelanggan/features/detail_order/presentation/pages/detail_order.dart';
 import 'package:antria_mobile_pelanggan/features/detail_order/presentation/pages/success_payment.dart';
 import 'package:antria_mobile_pelanggan/features/ewallet/presentation/pages/ewallet_page.dart';
@@ -17,7 +15,6 @@ import 'package:antria_mobile_pelanggan/features/queue/presentation/pages/queue_
 import 'package:antria_mobile_pelanggan/features/rating/presentation/pages/rating_page.dart';
 import 'package:antria_mobile_pelanggan/features/search_page/presentation/pages/search_page.dart';
 import 'package:antria_mobile_pelanggan/features/success_order/presentation/pages/success_order.dart';
-import 'package:antria_mobile_pelanggan/features/taking_queue/presentation/pages/taking_queue.dart';
 import 'package:antria_mobile_pelanggan/features/thanks_page/presentation/pages/thanks_page.dart';
 import 'package:flutter/material.dart';
 
@@ -85,12 +82,6 @@ class AppRoutes {
           invoice: invoice,
         ));
 
-      case '/chat-list-page':
-        return _materialRoute(const ChatListPage());
-
-      case '/chat-page':
-        return _materialRoute(const ChatPage());
-
       case '/history-page':
         return _materialRoute(const HistoryPage());
 
@@ -101,9 +92,6 @@ class AppRoutes {
             invoice: invoice,
           ),
         );
-
-      case '/taking-queue-page':
-        return _materialRoute(const TakingQueuePage());
 
       case '/information-restaurant':
         final mitraId = settings.arguments as int;

@@ -90,7 +90,7 @@ class _SearchPageState extends State<SearchPage> {
                     ),
                   );
                 } else if (state is RestaurantLoadedState) {
-                  allRestaurants = state.response ?? [];
+                  allRestaurants = state.response;
                   return searchResults.isNotEmpty
                       ? Expanded(
                           child: SingleChildScrollView(

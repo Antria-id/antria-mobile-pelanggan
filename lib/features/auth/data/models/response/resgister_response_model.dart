@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:equatable/equatable.dart';
 
 RegisterResponse registerResponseFromJson(String str) =>
     RegisterResponse.fromJson(json.decode(str));
@@ -6,7 +7,29 @@ RegisterResponse registerResponseFromJson(String str) =>
 String registerResponseToJson(RegisterResponse data) =>
     json.encode(data.toJson());
 
-class RegisterResponse {
+class RegisterResponse extends Equatable {
+  final Pelanggan? pelanggan;
+
+  const RegisterResponse({
+    this.pelanggan,
+  });
+
+  factory RegisterResponse.fromJson(Map<String, dynamic> json) =>
+      RegisterResponse(
+        pelanggan: json["pelanggan"] == null
+            ? null
+            : Pelanggan.fromJson(json["pelanggan"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "pelanggan": pelanggan?.toJson(),
+      };
+
+  @override
+  List<Object?> get props => [pelanggan];
+}
+
+class Pelanggan extends Equatable {
   final int? id;
   final String? username;
   final String? password;
@@ -20,7 +43,7 @@ class RegisterResponse {
   final DateTime? createdAt;
   final DateTime? updatedAt;
 
-  RegisterResponse({
+  Pelanggan({
     this.id,
     this.username,
     this.password,
@@ -35,8 +58,7 @@ class RegisterResponse {
     this.updatedAt,
   });
 
-  factory RegisterResponse.fromJson(Map<String, dynamic> json) =>
-      RegisterResponse(
+  factory Pelanggan.fromJson(Map<String, dynamic> json) => Pelanggan(
         id: json["id"],
         username: json["username"],
         password: json["password"],
@@ -69,4 +91,20 @@ class RegisterResponse {
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
       };
+
+  @override
+  List<Object?> get props => [
+        id,
+        username,
+        password,
+        email,
+        emailVerified,
+        profilePicture,
+        nama,
+        handphone,
+        alamat,
+        wallet,
+        createdAt,
+        updatedAt,
+      ];
 }

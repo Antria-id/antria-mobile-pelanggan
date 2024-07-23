@@ -13,6 +13,7 @@ import 'package:equatable/equatable.dart';
 part 'auth_event.dart';
 part 'auth_state.dart';
 
+// auth_bloc.dart
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc() : super(AuthInitial()) {
     on<AuthEvent>((event, emit) async {
@@ -25,9 +26,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             emit(LoginFailed(message: failure.message));
           },
           (data) {
-            emit(
-              LoginSuccess(response: data),
-            );
+            emit(LoginSuccess(response: data));
           },
         );
       }
@@ -58,11 +57,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             emit(LogoutFailed(message: failure.message));
           },
           (data) {
-            emit(
-              const LogoutSuccess(
-                user: null,
-              ),
-            );
+            emit(const LogoutSuccess(user: null));
           },
         );
       }

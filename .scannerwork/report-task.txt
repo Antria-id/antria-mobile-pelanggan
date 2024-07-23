@@ -1,0 +1,6 @@
+projectKey=antria-pelanggan-mobile
+serverUrl=http://localhost:9000
+serverVersion=10.6.0.92116
+dashboardUrl=http://localhost:9000/dashboard?id=antria-pelanggan-mobile
+ceTaskId=4b23ec42-c9cc-4b6a-bed1-5ae22550a12e
+ceTaskUrl=http://localhost:9000/api/ce/task?id=4b23ec42-c9cc-4b6a-bed1-5ae22550a12e

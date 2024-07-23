@@ -1,6 +1,7 @@
 import 'package:antria_mobile_pelanggan/core/network/network_checker.dart';
 import 'package:antria_mobile_pelanggan/core/services/user_cache_services.dart';
 import 'package:antria_mobile_pelanggan/core/utils/request.dart';
+import 'package:antria_mobile_pelanggan/features/auth/data/datasources/auth_local_datasource.dart';
 import 'package:antria_mobile_pelanggan/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:antria_mobile_pelanggan/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:antria_mobile_pelanggan/features/auth/domain/repositories/auth_repository.dart';
@@ -27,7 +28,7 @@ import 'package:antria_mobile_pelanggan/features/home/domain/repositories/restau
 import 'package:antria_mobile_pelanggan/features/home/domain/usecases/home/check_login_status_usecase.dart';
 import 'package:antria_mobile_pelanggan/features/home/domain/usecases/home/get_local_user_usecase.dart';
 import 'package:antria_mobile_pelanggan/features/home/domain/usecases/restaurant/get_restaurant.dart';
-import 'package:antria_mobile_pelanggan/features/info_restaurant/data/datasources/info_restaurant/restaurant_remote_datasources.dart';
+import 'package:antria_mobile_pelanggan/features/info_restaurant/data/datasources/info_restaurant/inforestaurant_remote_datasources.dart';
 import 'package:antria_mobile_pelanggan/features/info_restaurant/data/datasources/menu_restaurant/menu_local_restaurant_datasource.dart';
 import 'package:antria_mobile_pelanggan/features/info_restaurant/data/datasources/menu_restaurant/menu_remote_restaurant_datasource.dart';
 import 'package:antria_mobile_pelanggan/features/info_restaurant/data/repositories/info_restaurant_repository_impl.dart';
@@ -107,6 +108,9 @@ Future<void> setUpServiceLocator() async {
   //datasource
   serviceLocator
       .registerFactory<AuthRemoteDatasource>(() => AuthRemoteDatasourceImpl());
+
+  serviceLocator
+      .registerFactory<AuthLocalDatasource>(() => AuthLocalDatasourceImpl());
 
   serviceLocator.registerFactory<RestaurantRemoteDatasource>(
       () => RestaurantRemoteDatasourceImpl());

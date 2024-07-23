@@ -7,9 +7,9 @@ import 'package:dartz/dartz.dart';
 
 class RegisterUsecase {
   Future<Either<Failure, RegisterResponse>> registerUser(
-      RegisterRequest user) async {
-    final response =
-        await serviceLocator<AuthRepository>().registerUser(user: user);
+      RegisterRequest requestUser) async {
+    final response = await serviceLocator<AuthRepository>()
+        .registerUser(requestUser: requestUser);
     return response;
   }
 }

@@ -55,6 +55,7 @@ class ListSearchRestaurant extends StatelessWidget {
                             arguments: menuItem.id,
                           );
                         },
+                        statusResto: menuItem.statusToko!,
                       );
                     },
                     separatorBuilder: (context, index) =>

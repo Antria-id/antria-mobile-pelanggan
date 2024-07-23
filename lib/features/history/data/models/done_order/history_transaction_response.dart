@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:equatable/equatable.dart';
 
 List<HistoryTransactionResponse> riwayatTransaksiResponseFromJson(String str) =>
     List<HistoryTransactionResponse>.from(
@@ -7,7 +8,7 @@ List<HistoryTransactionResponse> riwayatTransaksiResponseFromJson(String str) =>
 String riwayatTransaksiResponseToJson(List<HistoryTransactionResponse> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class HistoryTransactionResponse {
+class HistoryTransactionResponse extends Equatable {
   final String? invoice;
   final String? payment;
   final String? pemesanan;
@@ -82,9 +83,26 @@ class HistoryTransactionResponse {
         "pelanggan": pelanggan?.toJson(),
         "antrian": antrian?.toJson(),
       };
+
+  @override
+  List<Object?> get props => [
+        invoice,
+        payment,
+        pemesanan,
+        takeaway,
+        status,
+        pelangganId,
+        mitraId,
+        antrianId,
+        createdAt,
+        updatedAt,
+        oderlist,
+        pelanggan,
+        antrian,
+      ];
 }
 
-class Antrian {
+class Antrian extends Equatable {
   final int? id;
   final int? estimasi;
   final String? orderstatus;
@@ -122,9 +140,19 @@ class Antrian {
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
       };
+
+  @override
+  List<Object?> get props => [
+        id,
+        estimasi,
+        orderstatus,
+        pesananId,
+        createdAt,
+        updatedAt,
+      ];
 }
 
-class Oderlist {
+class Oderlist extends Equatable {
   final int? id;
   final int? quantity;
   final String? note;
@@ -158,9 +186,19 @@ class Oderlist {
         "pesananId": pesananId,
         "produk": produk?.toJson(),
       };
+
+  @override
+  List<Object?> get props => [
+        id,
+        quantity,
+        note,
+        produkId,
+        pesananId,
+        produk,
+      ];
 }
 
-class Produk {
+class Produk extends Equatable {
   final int? id;
   final String? namaProduk;
   final String? deskripsiProduk;
@@ -210,9 +248,22 @@ class Produk {
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
       };
+
+  @override
+  List<Object?> get props => [
+        id,
+        namaProduk,
+        deskripsiProduk,
+        harga,
+        gambar,
+        kuantitas,
+        mitraId,
+        createdAt,
+        updatedAt,
+      ];
 }
 
-class Pelanggan {
+class Pelanggan extends Equatable {
   final int? id;
   final String? username;
   final String? password;
@@ -274,4 +325,20 @@ class Pelanggan {
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
       };
+
+  @override
+  List<Object?> get props => [
+        id,
+        username,
+        password,
+        email,
+        emailVerified,
+        profilePicture,
+        nama,
+        handphone,
+        alamat,
+        wallet,
+        createdAt,
+        updatedAt,
+      ];
 }
