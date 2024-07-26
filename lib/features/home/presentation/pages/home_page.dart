@@ -158,7 +158,7 @@ class HomePage extends StatelessWidget {
                     builder: (context, state) {
                       if (state is RestaurantErrorState) {
                         return Container(
-                          height: 800,
+                          height: 700,
                           child: const ErrorFetchData(),
                         );
                       } else if (state is RestaurantLoadedState) {

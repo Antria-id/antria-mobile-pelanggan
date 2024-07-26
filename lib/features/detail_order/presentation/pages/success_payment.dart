@@ -5,6 +5,7 @@ import 'package:antria_mobile_pelanggan/features/history/presentation/bloc/detai
 import 'package:antria_mobile_pelanggan/features/history/presentation/widgets/done_order/detail_payment_recipt.dart';
 import 'package:antria_mobile_pelanggan/features/history/presentation/widgets/done_order/list_order_recipt.dart';
 import 'package:antria_mobile_pelanggan/features/profile/presentation/bloc/pelanggan_profile/pelanggan_profile_bloc.dart';
+import 'package:antria_mobile_pelanggan/shared/error_fetch_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -43,12 +44,7 @@ class SuccessPayment extends StatelessWidget {
           child: BlocBuilder<DetailTransactionBloc, DetailTransactionState>(
             builder: (context, state) {
               if (state is DetailTransactionError) {
-                return Center(
-                  child: Text(
-                    'Error: ${state.message}',
-                    style: blackTextStyle,
-                  ),
-                );
+                return ErrorFetchData();
               } else if (state is DetailTransactionLoaded) {
                 final detail = state.response;
 

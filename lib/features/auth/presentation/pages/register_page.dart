@@ -173,14 +173,10 @@ class _RegisterPageState extends State<RegisterPage> {
                                     context.read<AuthBloc>().add(
                                           RegisterButtonTapped(
                                             request: RegisterRequest(
-                                              pelangganData: PelangganData(
-                                                nama: nameController.text,
-                                                username:
-                                                    usernameController.text,
-                                                email: emailController.text,
-                                                password:
-                                                    passwordController.text,
-                                              ),
+                                              nama: nameController.text,
+                                              username: usernameController.text,
+                                              email: emailController.text,
+                                              password: passwordController.text,
                                             ),
                                           ),
                                         );

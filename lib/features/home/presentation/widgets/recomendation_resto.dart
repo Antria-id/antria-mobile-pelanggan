@@ -81,6 +81,7 @@ class RecomendationResto extends StatelessWidget {
                       fontWeight: semiBold,
                       color: isDisabled ? blackColor : null,
                     ),
+                    overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 5),
                   Row(

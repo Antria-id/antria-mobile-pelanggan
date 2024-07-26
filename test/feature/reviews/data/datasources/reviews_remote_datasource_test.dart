@@ -83,7 +83,8 @@ void main() {
             .thenAnswer((_) async => null);
 
         final result = await datasource.addReviews(
-            reviewsRequest: tReviewsRequest, mitraId: 1);
+          reviewsRequest: tReviewsRequest,
+        );
 
         expect(result, const Left(ParsingFailure('User not found')));
         verify(() => mockUserCacheService.getUser()).called(1);

@@ -33,32 +33,33 @@ void main() {
   test('should forward the call to the remote datasource', () async {
     // arrange
     when(() => mockRemoteDatasource.addReviews(
-        reviewsRequest: tReviewsRequest,
-        mitraId: tMitraId)).thenAnswer((_) async => Right(tReviewsRequest));
+          reviewsRequest: tReviewsRequest,
+        )).thenAnswer((_) async => Right(tReviewsRequest));
 
     // act
     final result = await repository.addReviews(
-        reviewsRequest: tReviewsRequest, mitraId: tMitraId);
+      reviewsRequest: tReviewsRequest,
+    );
 
     // assert
-    verify(() => mockRemoteDatasource.addReviews(
-        reviewsRequest: tReviewsRequest, mitraId: tMitraId)).called(1);
+    verify(() =>
+            mockRemoteDatasource.addReviews(reviewsRequest: tReviewsRequest))
+        .called(1);
     expect(result, Right(tReviewsRequest));
   });
 
   test('should return Failure when the remote call is unsuccessful', () async {
     // arrange
-    when(() => mockRemoteDatasource.addReviews(
-            reviewsRequest: tReviewsRequest, mitraId: tMitraId))
+    when(() => mockRemoteDatasource.addReviews(reviewsRequest: tReviewsRequest))
         .thenAnswer((_) async => Left(ConnectionFailure('')));
 
     // act
-    final result = await repository.addReviews(
-        reviewsRequest: tReviewsRequest, mitraId: tMitraId);
+    final result = await repository.addReviews(reviewsRequest: tReviewsRequest);
 
     // assert
-    verify(() => mockRemoteDatasource.addReviews(
-        reviewsRequest: tReviewsRequest, mitraId: tMitraId)).called(1);
+    verify(() =>
+            mockRemoteDatasource.addReviews(reviewsRequest: tReviewsRequest))
+        .called(1);
     expect(result, Left(ConnectionFailure('')));
   });
 }

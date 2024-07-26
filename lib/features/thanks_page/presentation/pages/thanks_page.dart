@@ -39,7 +39,7 @@ class ThanksPage extends StatelessWidget {
               height: 40,
             ),
             CustomButton(
-              title: 'Go back to Home',
+              title: 'Kembali ke beranda',
               onPressed: () {
                 Navigator.pushReplacement(
                   context,

@@ -2,12 +2,12 @@ import 'package:antria_mobile_pelanggan/config/themes/themes.dart';
 import 'package:flutter/material.dart';
 
 class ReviewField extends StatelessWidget {
-  final TextEditingController? controller;
   final ValueChanged<String> onChanged;
+  final String? initialValue;
   const ReviewField({
     super.key,
-    this.controller,
     required this.onChanged,
+    this.initialValue,
   });
 
   @override
@@ -15,8 +15,8 @@ class ReviewField extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(28),
       child: TextFormField(
-        controller: controller,
         onChanged: onChanged,
+        initialValue: initialValue,
         maxLength: 2500,
         maxLines: 5,
         decoration: const InputDecoration(

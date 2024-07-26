@@ -27,12 +27,10 @@ void main() {
   });
 
   final tRegisterRequest = RegisterRequest(
-    pelangganData: PelangganData(
-      username: "Verniyt",
-      password: "verniyt11223344",
-      email: "hibikiverniy@gmail.com",
-      nama: "Verniyt",
-    ),
+    username: "Verniyt",
+    password: "verniyt11223344",
+    email: "hibikiverniy@gmail.com",
+    nama: "Verniyt",
   );
   final tRegisterResponse = RegisterResponse(
     pelanggan: Pelanggan(

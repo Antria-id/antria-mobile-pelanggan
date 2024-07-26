@@ -95,12 +95,10 @@ void main() {
       when(
         () => mockRemoteDataSource.registerUser(
           requestUser: RegisterRequest(
-            pelangganData: PelangganData(
-              username: "rovino",
-              password: "rovino11223344",
-              email: "rovino@verni.yt",
-              nama: "rovinos",
-            ),
+            username: "rovino",
+            password: "rovino11223344",
+            email: "rovino@verni.yt",
+            nama: "rovinos",
           ),
         ),
       ).thenAnswer(
@@ -129,12 +127,11 @@ void main() {
       //arrange
       when(() => mockRemoteDataSource.registerUser(
             requestUser: RegisterRequest(
-                pelangganData: PelangganData(
               username: "rovino",
               password: "rovino11223344",
               email: "rovino@verni.yt",
               nama: "rovinos",
-            )),
+            ),
           )).thenAnswer(
         (_) async => const Left(ConnectionFailure('')),
       );

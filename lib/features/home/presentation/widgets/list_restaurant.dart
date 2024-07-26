@@ -60,13 +60,13 @@ class ListRestaurant extends StatelessWidget {
                     itemCount: isHome ? 5 : sortedMenuItems.length,
                     itemBuilder: (context, index) {
                       final menuItem = sortedMenuItems[index];
+                      final rating = menuItem.review! / 10;
                       return RecomendationResto(
                         name: menuItem.namaToko!,
                         address: menuItem.alamat!,
                         imageUrl:
                             '${APIUrl.baseUrl}${APIUrl.imagePath}${menuItem.gambarToko}',
-                        rating:
-                            menuItem.review != null ? menuItem.review! / 10 : 0,
+                        rating: rating,
                         onPressed: () {
                           if (menuItem.id != null &&
                               menuItem.statusToko != 'CLOSE') {
