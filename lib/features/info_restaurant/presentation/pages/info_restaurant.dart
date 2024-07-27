@@ -10,6 +10,7 @@ import 'package:antria_mobile_pelanggan/shared/error_fetch_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:intl/intl.dart';
 
 class InfoRestaurantPage extends StatefulWidget {
   final int mitraId;
@@ -31,9 +32,41 @@ class _InfoRestaurantPageState extends State<InfoRestaurantPage> {
       ..add(InfoRestaurantUserEvent(mitraId: widget.mitraId));
     _infoRestaurantBloc.stream.listen((state) {
       if (state is InfoRestaurantLoadedState) {
-        setState(() {
-          isClosed = state.response.statusToko == 'CLOSE';
-        });
+        final closingTime = state.response.jamTutup;
+        final openDaysString = state.response.hariBuka;
+        final openDays = openDaysString?.split(',');
+
+        if (closingTime != null) {
+          final now = DateTime.now();
+          final format = DateFormat("HH:mm");
+
+          DateTime closingDateTime = format.parse(closingTime);
+          // Adjust the date to the current date
+          closingDateTime = DateTime(now.year, now.month, now.day,
+              closingDateTime.hour, closingDateTime.minute);
+
+          // Get the current day of the week in Indonesian
+          final daysOfWeek = [
+            'Minggu',
+            'Senin',
+            'Selasa',
+            'Rabu',
+            'Kamis',
+            'Jumat',
+            'Sabtu'
+          ];
+          final currentDay = daysOfWeek[now.weekday % 7];
+
+          setState(() {
+            isClosed = now.isAfter(closingDateTime) ||
+                state.response.statusToko == 'CLOSE' ||
+                !openDays!.contains(currentDay);
+          });
+        } else {
+          setState(() {
+            isClosed = state.response.statusToko == 'CLOSE';
+          });
+        }
       }
     });
   }
