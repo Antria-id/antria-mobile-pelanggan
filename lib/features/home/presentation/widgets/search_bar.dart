@@ -25,14 +25,15 @@ class SearchBarHome extends StatelessWidget {
           vertical: 6,
           horizontal: 12,
         ),
-        child: const Row(
+        child: Row(
           children: [
-            SizedBox(width: 8),
+            SizedBox(
+              width: 8,
+            ),
             Text(
               'Search',
-              style: TextStyle(
+              style: greyTextStyle.copyWith(
                 fontSize: 14,
-                color: fontGreycolor,
               ),
             ),
             Spacer(),

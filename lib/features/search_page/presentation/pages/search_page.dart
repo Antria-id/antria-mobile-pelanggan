@@ -125,11 +125,13 @@ class _SearchPageState extends State<SearchPage> {
                     child: const ErrorFetchData(),
                   );
                 }
-                return const Expanded(
+                return Expanded(
                   child: Center(
                     child: Text(
                       'Restoran Tidak Ditemukan',
-                      style: TextStyle(fontSize: 18),
+                      style: blackTextStyle.copyWith(
+                        fontSize: 18,
+                      ),
                     ),
                   ),
                 );

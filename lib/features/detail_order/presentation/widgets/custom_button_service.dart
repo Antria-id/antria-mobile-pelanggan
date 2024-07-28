@@ -48,7 +48,7 @@ class CardButtonService extends StatelessWidget {
                 ),
                 Text(
                   label,
-                  style: TextStyle(
+                  style: whiteTextStyle.copyWith(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
                     color: isDisabled ? Colors.grey : Colors.black,

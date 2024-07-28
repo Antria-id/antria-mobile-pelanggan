@@ -134,10 +134,10 @@ class TransactionCardWidget extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: InkWell(
               onTap: onTap,
-              child: const Center(
+              child: Center(
                 child: Text(
                   'Lihat Detail',
-                  style: TextStyle(
+                  style: whiteTextStyle.copyWith(
                     color: Colors.blue,
                     fontWeight: FontWeight.bold,
                   ),

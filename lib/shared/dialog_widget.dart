@@ -56,7 +56,7 @@ class DialogWidget extends StatelessWidget {
               onPressed: onPressed,
               child: Text(
                 textConfirm,
-                style: const TextStyle(
+                style: whiteTextStyle.copyWith(
                   color: Colors.green,
                 ),
               ),

@@ -31,9 +31,8 @@ class SearchBarWidget extends StatelessWidget {
             ),
           ),
           hintText: 'Search',
-          hintStyle: const TextStyle(
+          hintStyle: greyTextStyle.copyWith(
             fontSize: 14,
-            color: fontGreycolor,
           ),
           suffixIcon: const Icon(Icons.search),
         ),

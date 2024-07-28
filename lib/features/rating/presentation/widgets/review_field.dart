@@ -19,13 +19,11 @@ class ReviewField extends StatelessWidget {
         initialValue: initialValue,
         maxLength: 2500,
         maxLines: 5,
-        decoration: const InputDecoration(
+        decoration: InputDecoration(
           fillColor: greyColor,
           filled: true,
           hintText: 'Berikan tanggapanmu',
-          hintStyle: TextStyle(
-            color: Colors.grey,
-          ),
+          hintStyle: greyTextStyle.copyWith(),
           border: OutlineInputBorder(
             borderSide: BorderSide.none,
             borderRadius: BorderRadius.all(
