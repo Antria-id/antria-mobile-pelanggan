@@ -7,7 +7,6 @@ class RecomendationResto extends StatelessWidget {
   final String imageUrl;
   final VoidCallback onPressed;
   final double rating;
-  final String statusResto;
   final bool isDisabled;
 
   const RecomendationResto({
@@ -17,12 +16,12 @@ class RecomendationResto extends StatelessWidget {
     required this.imageUrl,
     required this.onPressed,
     required this.rating,
-    required this.statusResto,
     this.isDisabled = false,
   });
 
   @override
   Widget build(BuildContext context) {
+    print('ISDISABLE $isDisabled');
     return Container(
       height: 102,
       width: 316,
@@ -81,22 +80,19 @@ class RecomendationResto extends StatelessWidget {
                       fontWeight: semiBold,
                       color: isDisabled ? blackColor : null,
                     ),
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(height: 5),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          address,
-                          style: greyTextStyle.copyWith(
-                            fontSize: 12,
-                            fontWeight: light,
-                            color: isDisabled ? blackColor : null,
-                          ),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ],
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    address,
+                    style: greyTextStyle.copyWith(
+                      fontSize: 12,
+                      fontWeight: light,
+                      color: isDisabled ? blackColor : null,
+                    ),
+                    overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 20),
                   Row(
@@ -125,12 +121,22 @@ class RecomendationResto extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 12),
-              Text(
-                statusResto == 'CLOSE' ? 'Tutup' : 'Buka',
-                style: blackTextStyle.copyWith(
-                  fontWeight: bold,
-                  color: isDisabled ? redColor : Colors.green,
-                ),
+              Row(
+                children: [
+                  Icon(
+                    Icons.access_time_filled_rounded,
+                    size: 20,
+                    color: isDisabled ? redColor : Colors.green,
+                  ),
+                  const SizedBox(width: 4),
+                  Text(
+                    isDisabled ? 'Tutup' : 'Buka',
+                    style: blackTextStyle.copyWith(
+                      fontWeight: bold,
+                      color: isDisabled ? redColor : Colors.green,
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(height: 2),
               Container(
@@ -138,7 +144,7 @@ class RecomendationResto extends StatelessWidget {
                 height: 32,
                 width: 82,
                 child: TextButton(
-                  onPressed: isDisabled ? onPressed : onPressed,
+                  onPressed: onPressed,
                   style: TextButton.styleFrom(
                     backgroundColor: isDisabled ? Colors.grey : primaryColor,
                     shape: RoundedRectangleBorder(

@@ -1,11 +1,33 @@
 part of 'reviews_bloc.dart';
 
-@freezed
-class ReviewsState with _$ReviewsState {
-  const factory ReviewsState.initial() = ReviewsInitialState;
-  const factory ReviewsState.loading() = ReviewsLoadingState;
-  const factory ReviewsState.error(String message) = ReviewsErrorState;
-  const factory ReviewsState.loaded({
-    required ReviewsRequest reviewsRequest,
-  }) = ReviewsLoadedState;
+sealed class ReviewsState extends Equatable {
+  const ReviewsState();
+
+  @override
+  List<Object> get props => [];
+}
+
+final class ReviewsInitial extends ReviewsState {}
+
+final class ReviewsLoading extends ReviewsState {}
+
+final class ReviewsLoaded extends ReviewsState {
+  final ReviewsResponse response;
+
+  const ReviewsLoaded({required this.response});
+}
+
+final class ReviewsEmpty extends ReviewsState {}
+
+class ReviewsPostTappedList extends ReviewsState {}
+
+class ReviewsUpdateTappedList extends ReviewsState {}
+
+class ReviewsError extends ReviewsState {
+  final String message;
+
+  ReviewsError({required this.message});
+
+  @override
+  List<Object> get props => [message];
 }

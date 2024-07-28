@@ -16,7 +16,7 @@ class ErrorFetchData extends StatelessWidget {
             height: 251,
           ),
           const SizedBox(
-            height: 33,
+            height: 10,
           ),
           Text(
             'Pengambilan Data Gagal',

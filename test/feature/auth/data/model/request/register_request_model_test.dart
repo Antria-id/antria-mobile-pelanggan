@@ -6,12 +6,10 @@ import '../../../../../fixture/fixture.dart';
 
 void main() {
   RegisterRequest registerRequest = RegisterRequest(
-    pelangganData: PelangganData(
-      username: "rovino",
-      password: "rovino11223344",
-      email: "rovino@verni.yt",
-      nama: "rovinos",
-    ),
+    username: "rovino",
+    password: "rovino11223344",
+    email: "rovino@verni.yt",
+    nama: "rovinos",
   );
 
   group(

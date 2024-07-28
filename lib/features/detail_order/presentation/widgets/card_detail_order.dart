@@ -121,13 +121,13 @@ class _CardDetailOrderState extends State<CardDetailOrder>
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: Container(
                     width: 100,
-                    height: 20,
+                    height: 24,
                     decoration: BoxDecoration(
                       border: Border.all(
                         width: 1.0,
                       ),
                       borderRadius: const BorderRadius.all(
-                        Radius.circular(20),
+                        Radius.circular(12),
                       ),
                     ),
                     child: Row(
@@ -136,7 +136,7 @@ class _CardDetailOrderState extends State<CardDetailOrder>
                           width: 4,
                         ),
                         const Icon(
-                          Icons.note_add_rounded,
+                          Icons.edit,
                           size: 16,
                         ),
                         const SizedBox(
@@ -145,7 +145,8 @@ class _CardDetailOrderState extends State<CardDetailOrder>
                         Text(
                           'Catatan',
                           style: blackTextStyle.copyWith(
-                              fontWeight: FontWeight.bold),
+                            fontWeight: bold,
+                          ),
                         )
                       ],
                     ),

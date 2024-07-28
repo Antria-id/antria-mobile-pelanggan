@@ -46,17 +46,16 @@ void main() {
     () async {
       // arrange
       when(() => mockReviewsRepository.addReviews(
-              reviewsRequest: any(named: 'reviewsRequest'),
-              mitraId: any(named: 'mitraId')))
-          .thenAnswer((_) async => Right(tReviewsRequest));
+            reviewsRequest: any(named: 'reviewsRequest'),
+          )).thenAnswer((_) async => Right(tReviewsRequest));
 
       // act
-      final result = await usecase.addReviews(tReviewsRequest, tMitraId);
+      final result = await usecase.addReviews(tReviewsRequest);
 
       // assert
       expect(result, Right(tReviewsRequest));
-      verify(() => mockReviewsRepository.addReviews(
-          reviewsRequest: tReviewsRequest, mitraId: tMitraId));
+      verify(() =>
+          mockReviewsRepository.addReviews(reviewsRequest: tReviewsRequest));
       verifyNoMoreInteractions(mockReviewsRepository);
     },
   );
@@ -66,17 +65,16 @@ void main() {
     () async {
       // arrange
       when(() => mockReviewsRepository.addReviews(
-              reviewsRequest: any(named: 'reviewsRequest'),
-              mitraId: any(named: 'mitraId')))
-          .thenAnswer((_) async => Left(ConnectionFailure('')));
+            reviewsRequest: any(named: 'reviewsRequest'),
+          )).thenAnswer((_) async => Left(ConnectionFailure('')));
 
       // act
-      final result = await usecase.addReviews(tReviewsRequest, tMitraId);
+      final result = await usecase.addReviews(tReviewsRequest);
 
       // assert
       expect(result, Left(ConnectionFailure('')));
-      verify(() => mockReviewsRepository.addReviews(
-          reviewsRequest: tReviewsRequest, mitraId: tMitraId));
+      verify(() =>
+          mockReviewsRepository.addReviews(reviewsRequest: tReviewsRequest));
       verifyNoMoreInteractions(mockReviewsRepository);
     },
   );

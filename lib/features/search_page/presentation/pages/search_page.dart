@@ -99,16 +99,31 @@ class _SearchPageState extends State<SearchPage> {
                             ),
                           ),
                         )
-                      : const Expanded(
+                      : Expanded(
                           child: Center(
-                            child: Text(
-                              'Cari Restoran',
-                              style: TextStyle(fontSize: 18),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  'assets/images/search_illustration.jpg',
+                                  width: 300,
+                                ),
+                                SizedBox(
+                                  height: 40,
+                                ),
+                                Text(
+                                  'Cari Restoran',
+                                  style: blackTextStyle.copyWith(fontSize: 20),
+                                ),
+                              ],
                             ),
                           ),
                         );
                 } else if (state is RestaurantErrorState) {
-                  return const ErrorFetchData();
+                  return Container(
+                    height: 600,
+                    child: const ErrorFetchData(),
+                  );
                 }
                 return const Expanded(
                   child: Center(
