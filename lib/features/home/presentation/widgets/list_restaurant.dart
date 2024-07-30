@@ -32,10 +32,19 @@ class _ListRestaurantState extends State<ListRestaurant> {
 
   @override
   Widget build(BuildContext context) {
-    // Sort menu items by review
+    // Sort menu items by review, handling null reviews
     final sortedMenuItems = List<GetRestaurantResponse>.from(widget.menuItems)
-      ..removeWhere((item) => item.review == null)
-      ..sort((a, b) => b.review!.compareTo(a.review!));
+      ..sort((a, b) {
+        if (a.review == null && b.review == null) {
+          return 0;
+        } else if (a.review == null) {
+          return 1;
+        } else if (b.review == null) {
+          return -1;
+        } else {
+          return b.review!.compareTo(a.review!);
+        }
+      });
 
     // Get current day in Indonesian locale
     final now = DateTime.now();
@@ -73,15 +82,16 @@ class _ListRestaurantState extends State<ListRestaurant> {
                     itemCount: widget.isHome ? 5 : sortedMenuItems.length,
                     itemBuilder: (context, index) {
                       final menuItem = sortedMenuItems[index];
-                      final rating = menuItem.review! / 10;
+                      final rating =
+                          menuItem.review != null ? menuItem.review! / 10 : 0.0;
 
-                      // Check if the restaurant is closed based on jamTutup and hariBuka
                       final closingTime = menuItem.jamTutup;
                       final openDaysString = menuItem.hariBuka;
                       final openDays = openDaysString?.split(',');
 
-                      bool isClosed = false;
-                      if (closingTime != null) {
+                      bool isClosed = closingTime == null || openDays == null;
+
+                      if (!isClosed) {
                         try {
                           final format = DateFormat("HH:mm");
                           DateTime closingDateTime = format.parse(closingTime);
@@ -106,13 +116,11 @@ class _ListRestaurantState extends State<ListRestaurant> {
 
                           isClosed = now.isAfter(closingDateTime) ||
                               menuItem.statusToko == 'CLOSE' ||
-                              !openDays!.contains(currentDay);
+                              !openDays.contains(currentDay);
                         } catch (e) {
                           print("Error parsing closing time: $e");
-                          isClosed = menuItem.statusToko == 'CLOSE';
+                          isClosed = true;
                         }
-                      } else {
-                        isClosed = menuItem.statusToko == 'CLOSE';
                       }
 
                       return RecomendationResto(

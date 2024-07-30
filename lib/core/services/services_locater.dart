@@ -27,6 +27,7 @@ import 'package:antria_mobile_pelanggan/features/home/domain/repositories/home_r
 import 'package:antria_mobile_pelanggan/features/home/domain/repositories/restaurant_repository/restaurant_repository.dart';
 import 'package:antria_mobile_pelanggan/features/home/domain/usecases/home/check_login_status_usecase.dart';
 import 'package:antria_mobile_pelanggan/features/home/domain/usecases/home/get_local_user_usecase.dart';
+import 'package:antria_mobile_pelanggan/features/home/domain/usecases/home/get_remote_user_usecase.dart';
 import 'package:antria_mobile_pelanggan/features/home/domain/usecases/restaurant/get_restaurant.dart';
 import 'package:antria_mobile_pelanggan/features/info_restaurant/data/datasources/info_restaurant/inforestaurant_remote_datasources.dart';
 import 'package:antria_mobile_pelanggan/features/info_restaurant/data/datasources/menu_restaurant/menu_local_restaurant_datasource.dart';
@@ -104,6 +105,9 @@ Future<void> setUpServiceLocator() async {
   serviceLocator.registerFactory<GetQueueUsecase>(() => GetQueueUsecase());
 
   serviceLocator.registerFactory<EwalletUsecase>(() => EwalletUsecase());
+
+  serviceLocator
+      .registerFactory<GetUserRemoteUsecase>(() => GetUserRemoteUsecase());
 
   //datasource
   serviceLocator

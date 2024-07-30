@@ -1,5 +1,6 @@
 import 'package:antria_mobile_pelanggan/config/themes/themes.dart';
-import 'package:antria_mobile_pelanggan/features/home/presentation/widgets/search_bar.dart';
+import 'package:antria_mobile_pelanggan/core/utils/constant.dart';
+import 'package:antria_mobile_pelanggan/features/ewallet/presentation/widgets/card_ballance.dart';
 import 'package:antria_mobile_pelanggan/features/profile/presentation/bloc/pelanggan_profile/pelanggan_profile_bloc.dart';
 import 'package:antria_mobile_pelanggan/shared/error_fetch_data.dart';
 import 'package:flutter/material.dart';
@@ -100,18 +101,14 @@ class HomePage extends StatelessWidget {
                                 children: [
                                   CircleAvatar(
                                     radius: 50,
-                                    backgroundColor: primaryColor,
-                                    child: Image.network(
-                                      profileData.profilePicture!,
-                                      errorBuilder:
-                                          (context, error, stackTrace) =>
-                                              const CircleAvatar(
-                                        radius: 50,
-                                        backgroundImage: NetworkImage(
-                                          'https://icon-library.com/images/avatar-icon-images/avatar-icon-images-4.jpg',
-                                        ),
-                                      ),
-                                    ),
+                                    backgroundImage:
+                                        profileData.profilePicture!.isNotEmpty
+                                            ? NetworkImage(
+                                                '${APIUrl.baseUrl}${APIUrl.imagePath}${profileData.profilePicture}',
+                                              )
+                                            : const NetworkImage(
+                                                'https://icon-library.com/images/avatar-icon-images/avatar-icon-images-4.jpg',
+                                              ),
                                   ),
                                 ],
                               ),
@@ -124,7 +121,11 @@ class HomePage extends StatelessWidget {
                           vertical: 24,
                         ),
                       ),
-                      const SearchBarHome(),
+                      // const SearchBarHome(),
+                      CardBallance(
+                        balance: profileData.wallet!,
+                        isHome: true,
+                      )
                     ],
                   ),
                 );
@@ -144,6 +145,7 @@ class HomePage extends StatelessWidget {
             const RestaurantUserEvent(),
           ),
         child: Scaffold(
+          backgroundColor: backgroundGreyColor,
           appBar: AppBar(
             backgroundColor: primaryColor,
             elevation: 0,

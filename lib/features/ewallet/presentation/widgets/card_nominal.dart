@@ -38,7 +38,7 @@ class CardNominal extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Text(
               formattedPrice,
-              style: TextStyle(
+              style: whiteTextStyle.copyWith(
                 fontSize: 24,
                 color: isSelected ? whiteColor : blackColor,
               ),

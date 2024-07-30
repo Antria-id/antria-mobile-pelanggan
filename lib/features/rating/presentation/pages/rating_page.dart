@@ -125,10 +125,9 @@ class _RatingPageState extends State<RatingPage> {
                                   side: BorderSide.none,
                                 ),
                               ),
-                              child: const Text(
+                              child: Text(
                                 'Kirim',
-                                style: TextStyle(
-                                  color: Colors.white,
+                                style: whiteTextStyle.copyWith(
                                   fontSize: 15,
                                 ),
                               ),
@@ -225,10 +224,9 @@ class _RatingPageState extends State<RatingPage> {
                                   side: BorderSide.none,
                                 ),
                               ),
-                              child: const Text(
+                              child: Text(
                                 'Kirim',
-                                style: TextStyle(
-                                  color: Colors.white,
+                                style: whiteTextStyle.copyWith(
                                   fontSize: 15,
                                 ),
                               ),

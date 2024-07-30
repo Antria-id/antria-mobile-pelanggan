@@ -1,3 +1,4 @@
+import 'package:antria_mobile_pelanggan/config/themes/themes.dart';
 import 'package:flutter/material.dart';
 
 class PasswordFieldWidget extends StatefulWidget {
@@ -35,9 +36,8 @@ class PasswordFieldWidgetState extends State<PasswordFieldWidget> {
         filled: true,
         floatingLabelBehavior: FloatingLabelBehavior.never,
         hintText: widget.hintText,
-        hintStyle: const TextStyle(
+        hintStyle: greyTextStyle.copyWith(
           fontSize: 14,
-          color: Colors.grey,
         ),
         contentPadding:
             const EdgeInsets.symmetric(vertical: 10.0, horizontal: 12.0),

@@ -14,7 +14,7 @@ class _EditProfileCardState extends State<EditProfileCard> {
     return Center(
       child: Padding(
         padding: const EdgeInsets.only(
-          top: 280,
+          top: 300,
         ),
         child: ElevatedButton(
           onPressed: () async {

@@ -190,10 +190,9 @@ class _RegisterPageState extends State<RegisterPage> {
                                     side: BorderSide.none,
                                   ),
                                 ),
-                                child: const Text(
+                                child: Text(
                                   'Daftar',
-                                  style: TextStyle(
-                                    color: Colors.white,
+                                  style: whiteTextStyle.copyWith(
                                     fontSize: 15,
                                   ),
                                 ),
@@ -218,13 +217,13 @@ class _RegisterPageState extends State<RegisterPage> {
                             onPressed: () {
                               Navigator.pushNamed(context, '/login-page');
                             },
-                            child: const Text(
+                            child: Text(
                               'Masuk',
-                              style: TextStyle(
-                                color: Color(0xff953684),
+                              style: whiteTextStyle.copyWith(
+                                color: primaryColor,
                                 fontSize: 12,
                                 decoration: TextDecoration.underline,
-                                decorationColor: Color(0xff953684),
+                                decorationColor: primaryColor,
                               ),
                             ),
                           ),

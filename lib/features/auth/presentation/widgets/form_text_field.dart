@@ -1,3 +1,4 @@
+import 'package:antria_mobile_pelanggan/config/themes/themes.dart';
 import 'package:flutter/material.dart';
 
 class TextFieldWidget extends StatelessWidget {
@@ -29,9 +30,8 @@ class TextFieldWidget extends StatelessWidget {
         filled: true,
         floatingLabelBehavior: FloatingLabelBehavior.never,
         hintText: hintText,
-        hintStyle: const TextStyle(
+        hintStyle: greyTextStyle.copyWith(
           fontSize: 14,
-          color: Colors.grey,
         ),
         contentPadding:
             const EdgeInsets.symmetric(vertical: 10.0, horizontal: 12.0),

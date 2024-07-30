@@ -69,7 +69,7 @@ class _LoginPageState extends State<LoginPage> {
                           }
                           return null;
                         },
-                        hintText: 'Masukan Username',
+                        hintText: 'Masukkan Username',
                       ),
                       const SizedBox(
                         height: 20,
@@ -157,13 +157,10 @@ class _LoginPageState extends State<LoginPage> {
                                     side: BorderSide.none,
                                   ),
                                 ),
-                                child: const Text(
-                                  'Masuk',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 15,
-                                  ),
-                                ),
+                                child: Text('Masuk',
+                                    style: whiteTextStyle.copyWith(
+                                      fontSize: 15,
+                                    )),
                               );
                             },
                           ),
@@ -175,23 +172,23 @@ class _LoginPageState extends State<LoginPage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Text(
+                          Text(
                             "Belum punya akun?",
-                            style: TextStyle(color: Colors.black, fontSize: 12),
+                            style: blackTextStyle.copyWith(
+                              fontSize: 12,
+                            ),
                           ),
                           TextButton(
                             onPressed: () {
                               Navigator.pushNamed(context, '/sign-up');
                             },
-                            child: const Text(
-                              'Daftar Sekarang',
-                              style: TextStyle(
-                                color: Color(0xff953684),
-                                fontSize: 12,
-                                decoration: TextDecoration.underline,
-                                decorationColor: Color(0xff953684),
-                              ),
-                            ),
+                            child: Text('Daftar Sekarang',
+                                style: whiteTextStyle.copyWith(
+                                  color: primaryColor,
+                                  fontSize: 12,
+                                  decoration: TextDecoration.underline,
+                                  decorationColor: primaryColor,
+                                )),
                           ),
                         ],
                       ),

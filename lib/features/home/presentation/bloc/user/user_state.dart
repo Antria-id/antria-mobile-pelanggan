@@ -1,11 +1,30 @@
 part of 'user_bloc.dart';
 
-@freezed
-class UserState with _$UserState {
-  const factory UserState.initial() = UserInitialState;
-  const factory UserState.loading() = UserLoadingState;
-  const factory UserState.error(String message) = UserErrorState;
-  const factory UserState.loadedState({
-    required UserModel user,
-  }) = UserLoadedState;
+sealed class UserState extends Equatable {
+  const UserState();
+
+  @override
+  List<Object> get props => [];
+}
+
+final class UserInitial extends UserState {}
+
+final class UserLoading extends UserState {}
+
+final class UserLoaded extends UserState {
+  final PelangganModel user;
+
+  const UserLoaded({required this.user});
+}
+
+final class UserLocalLoaded extends UserState {
+  final UserModel user;
+
+  const UserLocalLoaded({required this.user});
+}
+
+final class UserError extends UserState {
+  final String? message;
+
+  const UserError({required this.message});
 }

@@ -33,19 +33,30 @@ class _InfoRestaurantPageState extends State<InfoRestaurantPage> {
     _infoRestaurantBloc.stream.listen((state) {
       if (state is InfoRestaurantLoadedState) {
         final closingTime = state.response.jamTutup;
+        final openingTime = state.response.jamBuka;
         final openDaysString = state.response.hariBuka;
         final openDays = openDaysString?.split(',');
 
-        if (closingTime != null) {
-          final now = DateTime.now();
-          final format = DateFormat("HH:mm");
+        final now = DateTime.now();
+        final format = DateFormat("HH:mm");
 
-          DateTime closingDateTime = format.parse(closingTime);
-          // Adjust the date to the current date
+        bool isOpenToday = true;
+        DateTime? closingDateTime;
+        DateTime? openingDateTime;
+
+        if (closingTime != null && closingTime.isNotEmpty) {
+          closingDateTime = format.parse(closingTime);
           closingDateTime = DateTime(now.year, now.month, now.day,
               closingDateTime.hour, closingDateTime.minute);
+        }
 
-          // Get the current day of the week in Indonesian
+        if (openingTime != null && openingTime.isNotEmpty) {
+          openingDateTime = format.parse(openingTime);
+          openingDateTime = DateTime(now.year, now.month, now.day,
+              openingDateTime.hour, openingDateTime.minute);
+        }
+
+        if (openDaysString != null && openDaysString.isNotEmpty) {
           final daysOfWeek = [
             'Minggu',
             'Senin',
@@ -56,17 +67,21 @@ class _InfoRestaurantPageState extends State<InfoRestaurantPage> {
             'Sabtu'
           ];
           final currentDay = daysOfWeek[now.weekday % 7];
-
-          setState(() {
-            isClosed = now.isAfter(closingDateTime) ||
-                state.response.statusToko == 'CLOSE' ||
-                !openDays!.contains(currentDay);
-          });
+          isOpenToday = openDays!.contains(currentDay);
         } else {
-          setState(() {
-            isClosed = state.response.statusToko == 'CLOSE';
-          });
+          isOpenToday = false;
         }
+
+        setState(() {
+          isClosed = !isOpenToday ||
+              state.response.statusToko == 'CLOSE' ||
+              (closingDateTime != null && now.isAfter(closingDateTime)) ||
+              (openingDateTime != null && now.isBefore(openingDateTime)) ||
+              closingTime == null ||
+              closingTime.isEmpty ||
+              openDaysString == null ||
+              openDaysString.isEmpty;
+        });
       }
     });
   }

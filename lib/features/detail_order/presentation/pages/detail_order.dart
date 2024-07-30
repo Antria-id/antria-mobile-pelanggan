@@ -411,7 +411,7 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
       bottomNavigationBar: MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (context) => UserBloc()..add(const UserFetchDataEvent()),
+            create: (context) => UserBloc()..add(UserFetchData()),
           ),
           BlocProvider(
             create: (context) => InfoRestaurantBloc()
@@ -437,8 +437,8 @@ class _DetailOrderPageState extends State<DetailOrderPage> {
                       state.response.namaToko!.substring(0, 2).toUpperCase();
                   return BlocBuilder<UserBloc, UserState>(
                     builder: (context, state) {
-                      if (state is UserLoadedState) {
-                        final id = state.user.sub;
+                      if (state is UserLoaded) {
+                        final id = state.user.id;
                         final name =
                             state.user.username!.substring(0, 2).toUpperCase();
                         return TextButton(
