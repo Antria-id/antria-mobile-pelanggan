@@ -1,11 +1,12 @@
 import 'dart:convert';
 import 'package:equatable/equatable.dart';
 
-GetRestaurantResponse getRestaurantResponseFromJson(String str) =>
-    GetRestaurantResponse.fromJson(json.decode(str));
+List<GetRestaurantResponse> getRestaurantResponseFromJson(String str) =>
+    List<GetRestaurantResponse>.from(
+        json.decode(str).map((x) => GetRestaurantResponse.fromJson(x)));
 
-String getRestaurantResponseToJson(GetRestaurantResponse data) =>
-    json.encode(data.toJson());
+String getRestaurantResponseToJson(List<GetRestaurantResponse> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class GetRestaurantResponse extends Equatable {
   final int? review;
@@ -13,11 +14,13 @@ class GetRestaurantResponse extends Equatable {
   final String? namaToko;
   final String? deskripsiToko;
   final String? alamat;
+  final String? linkGmaps;
   final String? hariBuka;
   final String? jamBuka;
   final String? jamTutup;
-  String? statusToko;
   final String? gambarToko;
+  final bool? subscription;
+  final StatusToko? statusToko;
   final DateTime? createdAt;
   final DateTime? updatedAt;
 
@@ -27,11 +30,13 @@ class GetRestaurantResponse extends Equatable {
     this.namaToko,
     this.deskripsiToko,
     this.alamat,
+    this.linkGmaps,
     this.hariBuka,
     this.jamBuka,
     this.jamTutup,
-    this.statusToko,
     this.gambarToko,
+    this.subscription,
+    this.statusToko,
     this.createdAt,
     this.updatedAt,
   });
@@ -43,11 +48,13 @@ class GetRestaurantResponse extends Equatable {
         namaToko: json["nama_toko"],
         deskripsiToko: json["deskripsi_toko"],
         alamat: json["alamat"],
+        linkGmaps: json["linkGmaps"],
         hariBuka: json["hari_buka"],
         jamBuka: json["jam_buka"],
         jamTutup: json["jam_tutup"],
-        statusToko: json["status_toko"],
         gambarToko: json["gambar_toko"],
+        subscription: json["subscription"],
+        statusToko: statusTokoValues.map[json["status_toko"]],
         createdAt: json["created_at"] == null
             ? null
             : DateTime.parse(json["created_at"]),
@@ -62,11 +69,13 @@ class GetRestaurantResponse extends Equatable {
         "nama_toko": namaToko,
         "deskripsi_toko": deskripsiToko,
         "alamat": alamat,
+        "linkGmaps": linkGmaps,
         "hari_buka": hariBuka,
         "jam_buka": jamBuka,
         "jam_tutup": jamTutup,
-        "status_toko": statusToko,
         "gambar_toko": gambarToko,
+        "subscription": subscription,
+        "status_toko": statusTokoValues.reverse[statusToko],
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
       };
@@ -78,12 +87,34 @@ class GetRestaurantResponse extends Equatable {
         namaToko,
         deskripsiToko,
         alamat,
+        linkGmaps,
         hariBuka,
         jamBuka,
         jamTutup,
-        statusToko,
         gambarToko,
+        subscription,
+        statusToko,
         createdAt,
         updatedAt,
       ];
+}
+
+enum StatusToko { CLOSE, OPEN, FULL }
+
+final statusTokoValues = EnumValues({
+  "CLOSE": StatusToko.CLOSE,
+  "OPEN": StatusToko.OPEN,
+  "FULL": StatusToko.FULL
+});
+
+class EnumValues<T> {
+  Map<String, T> map;
+  late Map<T, String> reverseMap;
+
+  EnumValues(this.map);
+
+  Map<T, String> get reverse {
+    reverseMap = map.map((k, v) => MapEntry(v, k));
+    return reverseMap;
+  }
 }

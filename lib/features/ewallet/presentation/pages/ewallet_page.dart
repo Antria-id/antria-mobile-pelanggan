@@ -9,6 +9,7 @@ import 'package:antria_mobile_pelanggan/shared/custom_button.dart';
 import 'package:antria_mobile_pelanggan/shared/error_fetch_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 
 class EwalletPage extends StatefulWidget {
@@ -57,9 +58,14 @@ class _EwalletPageState extends State<EwalletPage> {
         child: BlocListener<EwalletBloc, EwalletState>(
           listener: (context, state) {
             if (state is EwalletSuccess) {
-              // Menampilkan pesan sukses atau memperbarui saldo
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Saldo berhasil diperbarui')),
+              Fluttertoast.showToast(
+                msg: "Saldo berhasil ditambah",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.TOP,
+                timeInSecForIosWeb: 1,
+                backgroundColor: Colors.green,
+                textColor: Colors.white,
+                fontSize: 16.0,
               );
               context
                   .read<PelangganProfileBloc>()
