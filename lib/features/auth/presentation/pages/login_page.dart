@@ -69,7 +69,7 @@ class _LoginPageState extends State<LoginPage> {
                           }
                           return null;
                         },
-                        hintText: 'Masukan Username',
+                        hintText: 'Masukkan Username',
                       ),
                       const SizedBox(
                         height: 20,

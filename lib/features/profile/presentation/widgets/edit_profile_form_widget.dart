@@ -328,7 +328,7 @@ class _EditProfileFormWidgetState extends State<EditProfileFormWidget> {
         bottomNavigationBar:
             BlocConsumer<UpdatePelangganBloc, UpdatePelangganState>(
           listener: (context, state) {
-            if (state is UpdatePelangganLoading) {
+            if (state is UpdatePelangganFailed) {
               const Center(
                 child: CircularProgressIndicator(),
               );

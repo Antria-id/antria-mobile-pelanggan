@@ -89,7 +89,10 @@ class _EwalletPageState extends State<EwalletPage> {
                       Center(
                         child: Column(
                           children: [
-                            CardBallance(balance: currentBalance),
+                            CardBallance(
+                              balance: currentBalance,
+                              isHome: false,
+                            ),
                             const SizedBox(
                               height: 10,
                             ),

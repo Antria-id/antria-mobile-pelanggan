@@ -47,6 +47,7 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundGreyColor,
       appBar: AppBar(
         backgroundColor: primaryColor,
         elevation: 0,
@@ -105,10 +106,10 @@ class _SearchPageState extends State<SearchPage> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Image.asset(
-                                  'assets/images/search_illustration.jpg',
+                                  'assets/images/search_illustration.png',
                                   width: 300,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 40,
                                 ),
                                 Text(

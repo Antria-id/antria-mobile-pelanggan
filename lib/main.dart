@@ -52,6 +52,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => EwalletBloc()),
       ],
       child: const MaterialApp(
+        title: 'Antria',
         onGenerateRoute: AppRoutes.onGenerateRoutes,
         debugShowCheckedModeBanner: false,
       ),
