@@ -345,7 +345,26 @@ class _EditProfileFormWidgetState extends State<EditProfileFormWidget> {
                         context.read<PelangganProfileBloc>().state;
                     if (currentState is PelangganProfileLoaded) {
                       final existingModel = currentState.pelangganModel;
-                      if (existingModel.profilePicture!.isNotEmpty) {
+                      bool isImageUpdated = selectedImage != null;
+                      bool isTextFieldsUpdated = email.isNotEmpty ||
+                          username.isNotEmpty ||
+                          name.isNotEmpty ||
+                          phone.isNotEmpty ||
+                          address.isNotEmpty;
+
+                      if (isImageUpdated && !isTextFieldsUpdated) {
+                        final updateEvent = UpdatePelangganTapped(
+                          requestUser: UpdatePelangganRequestModel(
+                            profilePicture: selectedImage!.path,
+                            email: existingModel.email,
+                            username: existingModel.username,
+                            nama: existingModel.nama,
+                            handphone: existingModel.handphone,
+                            alamat: existingModel.alamat,
+                          ),
+                        );
+                        context.read<UpdatePelangganBloc>().add(updateEvent);
+                      } else if (!isImageUpdated && isTextFieldsUpdated) {
                         final updateEvent = UpdatePelangganTapped(
                           requestUser: UpdatePelangganRequestModel(
                             email:
@@ -363,11 +382,10 @@ class _EditProfileFormWidgetState extends State<EditProfileFormWidget> {
                           ),
                         );
                         context.read<UpdatePelangganBloc>().add(updateEvent);
-                      } else {
+                      } else if (isImageUpdated && isTextFieldsUpdated) {
                         final updateEvent = UpdatePelangganTapped(
                           requestUser: UpdatePelangganRequestModel(
-                            profilePicture: selectedImage?.path ??
-                                existingModel.profilePicture,
+                            profilePicture: selectedImage!.path,
                             email:
                                 email.isNotEmpty ? email : existingModel.email,
                             username: username.isNotEmpty

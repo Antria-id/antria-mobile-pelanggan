@@ -9,12 +9,12 @@ import 'package:antria_mobile_pelanggan/features/home/presentation/bloc/get_rest
 import 'package:antria_mobile_pelanggan/features/home/presentation/widgets/recomendation_resto.dart';
 
 class ListRestaurant extends StatefulWidget {
-  final List<GetRestaurantResponse> menuItems;
+  final List<GetRestaurantResponse> restoItems;
   final bool isHome;
 
   const ListRestaurant({
     super.key,
-    required this.menuItems,
+    required this.restoItems,
     required this.isHome,
   });
 
@@ -33,7 +33,7 @@ class _ListRestaurantState extends State<ListRestaurant> {
   @override
   Widget build(BuildContext context) {
     // Sort menu items by review, handling null reviews
-    final sortedMenuItems = List<GetRestaurantResponse>.from(widget.menuItems)
+    final sortedresto = List<GetRestaurantResponse>.from(widget.restoItems)
       ..sort((a, b) {
         if (a.review == null && b.review == null) {
           return 0;
@@ -79,22 +79,35 @@ class _ListRestaurantState extends State<ListRestaurant> {
                   );
                 } else if (state is RestaurantLoadedState) {
                   return ListView.separated(
-                    itemCount: widget.isHome ? 5 : sortedMenuItems.length,
+                    itemCount: widget.isHome ? 5 : sortedresto.length,
                     itemBuilder: (context, index) {
-                      final menuItem = sortedMenuItems[index];
+                      final menuItem = sortedresto[index];
                       final rating =
                           menuItem.review != null ? menuItem.review! / 10 : 0.0;
 
+                      final openingTime = menuItem.jamBuka;
                       final closingTime = menuItem.jamTutup;
                       final openDaysString = menuItem.hariBuka;
                       final openDays = openDaysString?.split(',');
 
-                      bool isClosed = closingTime == null || openDays == null;
+                      bool isClosed = openingTime == null ||
+                          closingTime == null ||
+                          openDays == null ||
+                          menuItem.statusToko == 'CLOSE';
 
                       if (!isClosed) {
                         try {
                           final format = DateFormat("HH:mm");
+                          DateTime openingDateTime = format.parse(openingTime);
                           DateTime closingDateTime = format.parse(closingTime);
+
+                          openingDateTime = DateTime(
+                            now.year,
+                            now.month,
+                            now.day,
+                            openingDateTime.hour,
+                            openingDateTime.minute,
+                          );
                           closingDateTime = DateTime(
                             now.year,
                             now.month,
@@ -114,11 +127,11 @@ class _ListRestaurantState extends State<ListRestaurant> {
                           ];
                           final currentDay = daysOfWeek[now.weekday % 7];
 
-                          isClosed = now.isAfter(closingDateTime) ||
-                              menuItem.statusToko == 'CLOSE' ||
+                          isClosed = now.isBefore(openingDateTime) ||
+                              now.isAfter(closingDateTime) ||
                               !openDays.contains(currentDay);
                         } catch (e) {
-                          print("Error parsing closing time: $e");
+                          print("Error parsing time: $e");
                           isClosed = true;
                         }
                       }

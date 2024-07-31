@@ -96,7 +96,7 @@ class _SearchPageState extends State<SearchPage> {
                       ? Expanded(
                           child: SingleChildScrollView(
                             child: ListSearchRestaurant(
-                              menuItems: searchResults,
+                              restoItems: searchResults,
                             ),
                           ),
                         )
