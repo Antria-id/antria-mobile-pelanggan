@@ -17,12 +17,6 @@ final class PelangganProfileLoaded extends PelangganProfileState {
   const PelangganProfileLoaded({required this.pelangganModel});
 }
 
-final class UserLocalLoaded extends PelangganProfileState {
-  final UserModel user;
-
-  const UserLocalLoaded({required this.user});
-}
-
 final class PelangganProfileError extends PelangganProfileState {
   final String? message;
 
