@@ -5,7 +5,6 @@ import 'package:antria_mobile_pelanggan/features/profile/presentation/bloc/pelan
 import 'package:antria_mobile_pelanggan/shared/error_fetch_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../bloc/get_restaurant/get_restaurant_bloc.dart';
 import '../widgets/list_restaurant.dart';
 
@@ -169,7 +168,7 @@ class HomePage extends StatelessWidget {
                             header(),
                             ListRestaurant(
                               isHome: true,
-                              menuItems: state.response,
+                              restoItems: state.response,
                             ),
                           ],
                         );

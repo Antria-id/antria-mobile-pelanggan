@@ -39,7 +39,7 @@ class CardNominal extends StatelessWidget {
             child: Text(
               formattedPrice,
               style: whiteTextStyle.copyWith(
-                fontSize: 24,
+                fontSize: 20,
                 color: isSelected ? whiteColor : blackColor,
               ),
             ),

@@ -249,7 +249,7 @@ class _InfoRestaurantPageState extends State<InfoRestaurantPage> {
           ),
         ),
         title: Text(
-          'Restaurant',
+          'Restoran',
           style: whiteTextStyle.copyWith(fontWeight: bold),
         ),
         centerTitle: true,

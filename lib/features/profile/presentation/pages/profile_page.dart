@@ -1,5 +1,5 @@
 import 'package:antria_mobile_pelanggan/config/themes/themes.dart';
-import 'package:antria_mobile_pelanggan/features/profile/presentation/bloc/pelanggan_profile/pelanggan_profile_bloc.dart';
+import 'package:antria_mobile_pelanggan/features/home/presentation/bloc/user/user_bloc.dart';
 import 'package:antria_mobile_pelanggan/features/profile/presentation/widgets/card_profile_header.dart';
 import 'package:antria_mobile_pelanggan/features/profile/presentation/widgets/logout_button_widget.dart';
 import 'package:antria_mobile_pelanggan/features/profile/presentation/widgets/profile_button_widget.dart';
@@ -12,9 +12,9 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => PelangganProfileBloc()
+      create: (context) => UserBloc()
         ..add(
-          PelangganProfileFetchData(),
+          UserFetchData(),
         ),
       child: Scaffold(
         backgroundColor: backgroundGreyColor,

@@ -9,11 +9,11 @@ import 'package:antria_mobile_pelanggan/features/home/presentation/bloc/get_rest
 import 'package:antria_mobile_pelanggan/features/home/presentation/widgets/recomendation_resto.dart';
 
 class ListSearchRestaurant extends StatefulWidget {
-  final List<GetRestaurantResponse> menuItems;
+  final List<GetRestaurantResponse> restoItems;
 
   const ListSearchRestaurant({
     super.key,
-    required this.menuItems,
+    required this.restoItems,
   });
 
   @override
@@ -30,7 +30,7 @@ class _ListSearchRestaurantState extends State<ListSearchRestaurant> {
   @override
   Widget build(BuildContext context) {
     // Sort menu items by review, handling null reviews
-    final sortedMenuItems = List<GetRestaurantResponse>.from(widget.menuItems)
+    final sortedrestoItems = List<GetRestaurantResponse>.from(widget.restoItems)
       ..sort((a, b) {
         if (a.review == null && b.review == null) {
           return 0;
@@ -68,9 +68,9 @@ class _ListSearchRestaurantState extends State<ListSearchRestaurant> {
                   return const ErrorFetchData();
                 } else if (state is RestaurantLoadedState) {
                   return ListView.separated(
-                    itemCount: sortedMenuItems.length,
+                    itemCount: sortedrestoItems.length,
                     itemBuilder: (context, index) {
-                      final menuItem = sortedMenuItems[index];
+                      final menuItem = sortedrestoItems[index];
                       final rating =
                           menuItem.review != null ? menuItem.review! / 10 : 0.0;
 

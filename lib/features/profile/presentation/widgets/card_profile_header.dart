@@ -1,6 +1,7 @@
 import 'package:antria_mobile_pelanggan/config/themes/themes.dart';
 import 'package:antria_mobile_pelanggan/core/utils/constant.dart';
-import 'package:antria_mobile_pelanggan/features/profile/presentation/bloc/pelanggan_profile/pelanggan_profile_bloc.dart';
+import 'package:antria_mobile_pelanggan/features/home/presentation/bloc/user/user_bloc.dart';
+import 'package:antria_mobile_pelanggan/features/profile/presentation/bloc/update_profile/update_pelanggan_bloc.dart';
 import 'package:antria_mobile_pelanggan/features/profile/presentation/widgets/edit_profile_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,9 +24,9 @@ class CardProfileHeader extends StatelessWidget {
             ),
           ),
           child: SafeArea(
-            child: BlocBuilder<PelangganProfileBloc, PelangganProfileState>(
+            child: BlocBuilder<UserBloc, UserState>(
               builder: (context, state) {
-                if (state is PelangganProfileError) {
+                if (state is UserError) {
                   return Container(
                     height: 800,
                     child: const Center(
@@ -34,8 +35,8 @@ class CardProfileHeader extends StatelessWidget {
                       ),
                     ),
                   );
-                } else if (state is PelangganProfileLoaded) {
-                  final profileData = state.pelangganModel;
+                } else if (state is UserLoaded) {
+                  final profileData = state.user;
                   return Column(
                     children: [
                       Padding(
@@ -153,7 +154,16 @@ class CardProfileHeader extends StatelessWidget {
             ),
           ),
         ),
-        const EditProfileCard(),
+        BlocListener<UpdatePelangganBloc, UpdatePelangganState>(
+          listener: (context, state) {
+            if (state is UpdatePelangganSuccess) {
+              context.read<UserBloc>().add(
+                    UserFetchData(),
+                  );
+            }
+          },
+          child: const EditProfileCard(),
+        ),
       ],
     );
   }

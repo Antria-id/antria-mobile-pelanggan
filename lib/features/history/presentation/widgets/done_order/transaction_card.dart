@@ -49,7 +49,7 @@ class TransactionCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     String formattedPrice = NumberFormat.currency(
       locale: 'id_ID',
-      symbol: '+Rp ',
+      symbol: '-Rp ',
       decimalDigits: 0,
     ).format(income);
 
@@ -112,7 +112,7 @@ class TransactionCardWidget extends StatelessWidget {
             Text(
               formattedPrice,
               style: blackTextStyle.copyWith(
-                color: Colors.green,
+                color: redColor,
                 fontWeight: bold,
               ),
             ),

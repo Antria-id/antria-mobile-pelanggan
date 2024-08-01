@@ -66,11 +66,11 @@ class _RegisterPageState extends State<RegisterPage> {
                         },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Masukkan Username Anda';
+                            return 'Masukkan Nama Anda';
                           }
                           return null;
                         },
-                        hintText: 'Masukan Nama',
+                        hintText: 'Nama',
                       ),
                       const SizedBox(
                         height: 20,
@@ -88,7 +88,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           }
                           return null;
                         },
-                        hintText: 'Masukan Username',
+                        hintText: 'Username',
                       ),
                       const SizedBox(
                         height: 20,
@@ -108,7 +108,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           }
                           return null;
                         },
-                        hintText: 'Masukan Email',
+                        hintText: 'Email',
                       ),
                       const SizedBox(
                         height: 20,
@@ -126,7 +126,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           }
                           return null;
                         },
-                        hintText: 'Masukkan Password',
+                        hintText: 'Password',
                       ),
                       const SizedBox(
                         height: 22,

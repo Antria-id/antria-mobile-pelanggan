@@ -20,7 +20,7 @@ class CardBallance extends StatelessWidget {
     }
 
     return Container(
-      height: 78,
+      height: 90,
       width: 356,
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.all(
