@@ -3,6 +3,9 @@ import 'package:antria_mobile_pelanggan/features/auth/presentation/pages/registe
 import 'package:antria_mobile_pelanggan/features/detail_order/presentation/pages/detail_order.dart';
 import 'package:antria_mobile_pelanggan/features/detail_order/presentation/pages/success_payment.dart';
 import 'package:antria_mobile_pelanggan/features/ewallet/presentation/pages/ewallet_page.dart';
+import 'package:antria_mobile_pelanggan/features/forgot_password/presentation/pages/forgot_password_page.dart';
+import 'package:antria_mobile_pelanggan/features/forgot_password/presentation/pages/new_password_page.dart';
+import 'package:antria_mobile_pelanggan/features/forgot_password/presentation/pages/verify_otp_page.dart';
 import 'package:antria_mobile_pelanggan/features/history/presentation/pages/history_page.dart';
 import 'package:antria_mobile_pelanggan/features/history/presentation/pages/order_recipt_page.dart';
 import 'package:antria_mobile_pelanggan/features/home/presentation/pages/home_page.dart';
@@ -35,6 +38,15 @@ class AppRoutes {
 
       case '/splash-page':
         return _materialRoute(const SplashPage());
+
+      case '/forgot-password-page':
+        return _materialRoute(const ForgotPasswordPage());
+
+      case '/verify-otp-page':
+        return _materialRoute(const VerifyPage());
+
+      case '/new-password-page':
+        return _materialRoute(const NewPasswordPage());
 
       case '/home-page':
         return _materialRoute(const HomePage());
