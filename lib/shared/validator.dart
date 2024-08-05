@@ -5,7 +5,7 @@ class ValidatorForm {
     if (value == null || value.isEmpty) {
       return 'Email Tidak Boleh Kosong!';
     } else if (!emailRegex.hasMatch(value)) {
-      return 'Masukkan Alamat Email Dengan Benar!';
+      return 'Masukan Alamat Email Dengan Benar!';
     }
     return null;
   }

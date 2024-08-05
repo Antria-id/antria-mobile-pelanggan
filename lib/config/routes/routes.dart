@@ -1,5 +1,7 @@
+import 'package:antria_mobile_pelanggan/features/auth/presentation/pages/forgot_password_page.dart';
 import 'package:antria_mobile_pelanggan/features/auth/presentation/pages/login_page.dart';
 import 'package:antria_mobile_pelanggan/features/auth/presentation/pages/register_page.dart';
+import 'package:antria_mobile_pelanggan/features/auth/presentation/pages/verify_otp_page.dart';
 import 'package:antria_mobile_pelanggan/features/detail_order/presentation/pages/detail_order.dart';
 import 'package:antria_mobile_pelanggan/features/detail_order/presentation/pages/success_payment.dart';
 import 'package:antria_mobile_pelanggan/features/ewallet/presentation/pages/ewallet_page.dart';
@@ -35,6 +37,17 @@ class AppRoutes {
 
       case '/splash-page':
         return _materialRoute(const SplashPage());
+
+      case '/forgot-password-page':
+        return _materialRoute(const ForgotPasswordPage());
+
+      case '/verify-otp-page':
+        final email = settings.arguments as String;
+        return _materialRoute(
+          VerifyOTPPage(
+            email: email,
+          ),
+        );
 
       case '/home-page':
         return _materialRoute(const HomePage());

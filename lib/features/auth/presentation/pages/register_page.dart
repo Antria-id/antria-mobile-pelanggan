@@ -104,7 +104,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           if (value == null || value.isEmpty) {
                             return 'Email Tidak Boleh Kosong!';
                           } else if (!emailRegex.hasMatch(value)) {
-                            return 'Masukkan Alamat Email Dengan Benar!';
+                            return 'Masukan Alamat Email Dengan Benar!';
                           }
                           return null;
                         },
@@ -120,7 +120,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Masukkan Password Anda';
+                            return 'Masukan Password Anda';
                           } else if (value.length < 6) {
                             return 'Password harus terdiri dari 6 karakter!';
                           }
@@ -209,9 +209,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         children: [
                           Text(
                             "Sudah punya akun?",
-                            style: blackTextStyle.copyWith(
-                              fontSize: 12,
-                            ),
+                            style: blackTextStyle,
                           ),
                           TextButton(
                             onPressed: () {
@@ -219,12 +217,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             },
                             child: Text(
                               'Masuk',
-                              style: whiteTextStyle.copyWith(
-                                color: primaryColor,
-                                fontSize: 12,
-                                decoration: TextDecoration.underline,
-                                decorationColor: primaryColor,
-                              ),
+                              style: blueTextStyle,
                             ),
                           ),
                         ],

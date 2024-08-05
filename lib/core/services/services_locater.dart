@@ -6,7 +6,9 @@ import 'package:antria_mobile_pelanggan/features/auth/data/datasources/auth_remo
 import 'package:antria_mobile_pelanggan/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:antria_mobile_pelanggan/features/auth/domain/repositories/auth_repository.dart';
 import 'package:antria_mobile_pelanggan/features/auth/domain/usecases/login/login_usecase.dart';
+import 'package:antria_mobile_pelanggan/features/auth/domain/usecases/otp_usecase.dart';
 import 'package:antria_mobile_pelanggan/features/auth/domain/usecases/register/register_ucecase.dart';
+import 'package:antria_mobile_pelanggan/features/auth/domain/usecases/reset_password_usecase.dart';
 import 'package:antria_mobile_pelanggan/features/ewallet/data/datasources/ewallet_remote_datasource.dart';
 import 'package:antria_mobile_pelanggan/features/ewallet/data/repositories/ewallet_repository_impl.dart';
 import 'package:antria_mobile_pelanggan/features/ewallet/domain/repositories/ewallet_repository.dart';
@@ -108,6 +110,11 @@ Future<void> setUpServiceLocator() async {
 
   serviceLocator
       .registerFactory<GetUserRemoteUsecase>(() => GetUserRemoteUsecase());
+
+  serviceLocator.registerFactory<OTPUsecase>(() => OTPUsecase());
+
+  serviceLocator
+      .registerFactory<ResetPasswordUsecase>(() => ResetPasswordUsecase());
 
   //datasource
   serviceLocator
