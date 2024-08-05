@@ -67,7 +67,10 @@ class CardBallance extends StatelessWidget {
                       title: 'Top up',
                       sizeFont: 12,
                       onPressed: () {
-                        Navigator.pushNamed(context, '/ewallet-page');
+                        Navigator.pushNamed(
+                          context,
+                          '/ewallet-page',
+                        );
                       },
                     ),
                   )

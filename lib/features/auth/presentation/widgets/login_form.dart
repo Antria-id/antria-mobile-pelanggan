@@ -95,7 +95,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                                   },
                                   child: Text(
                                     'Lupa Password?',
-                                    style: purpleTextStyle.copyWith(),
+                                    style: blueTextStyle.copyWith(),
                                   ),
                                 ),
                                 Spacer(),
@@ -145,10 +145,12 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                                           side: BorderSide.none,
                                         ),
                                       ),
-                                      child: Text('Masuk',
-                                          style: whiteTextStyle.copyWith(
-                                            fontSize: 15,
-                                          )),
+                                      child: Text(
+                                        'Masuk',
+                                        style: whiteTextStyle.copyWith(
+                                          fontSize: 15,
+                                        ),
+                                      ),
                                     );
                                   },
                                 ),
@@ -172,8 +174,8 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                                     );
                                   },
                                   child: Text(
-                                    'Daftar',
-                                    style: purpleTextStyle,
+                                    'Daftar Sekarang',
+                                    style: blueTextStyle,
                                   ),
                                 ),
                               ],

@@ -24,4 +24,36 @@ final class RegisterButtonTapped extends AuthEvent {
   List<Object> get props => [request];
 }
 
+final class SendEmailTapped extends AuthEvent {
+  final String email;
+
+  SendEmailTapped({required this.email});
+
+  @override
+  List<Object> get props => [email];
+}
+
+final class VerifyOTPTapped extends AuthEvent {
+  final String email;
+
+  final int otp;
+
+  VerifyOTPTapped({required this.email, required this.otp});
+
+  @override
+  List<Object> get props => [email, otp];
+}
+
+class UpdatePasswordTapped extends AuthEvent {
+  final int id;
+  final String password;
+  final String token;
+
+  const UpdatePasswordTapped(
+      {required this.id, required this.password, required this.token});
+
+  @override
+  List<Object> get props => [id, password, token];
+}
+
 final class LogoutTapped extends AuthEvent {}

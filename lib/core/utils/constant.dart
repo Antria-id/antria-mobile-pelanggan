@@ -2,6 +2,10 @@ class APIUrl {
   static String get baseUrl => 'https://antriaapi.verni.yt';
   static String get loginUserPath => '/auth/login/pelanggan';
   static String get registerUserPath => '/pelanggan';
+  static String postForgotPasswordPath(String email) =>
+      '/auth/forgot/pelanggan/$email';
+  static String postVerifyOTPPath(String email, int otp) =>
+      '/auth/verify-otp/pelanggan/$email/$otp';
   static String get getRestaurantPath => '/mitra';
   static String getPelangganPath(int id) => '/pelanggan/$id';
   static String getInfoRestaurantPath(int mitraId) => '/mitra/$mitraId';

@@ -50,3 +50,51 @@ final class LogoutFailed extends AuthState {
 
   const LogoutFailed({required this.message});
 }
+
+final class SendOTPLoading extends AuthState {}
+
+final class SendOTPSuccess extends AuthState {
+  final String email;
+
+  SendOTPSuccess({required this.email});
+}
+
+final class SendOTPFailed extends AuthState {
+  final String? message;
+
+  const SendOTPFailed({required this.message});
+}
+
+final class VerifyOTPLoading extends AuthState {}
+
+final class VerifyOTPSuccess extends AuthState {
+  final VerifyOtpResponse response;
+
+  VerifyOTPSuccess({required this.response});
+}
+
+final class VerifyOTPFailed extends AuthState {
+  final String? message;
+
+  VerifyOTPFailed({required this.message});
+}
+
+final class UpdatePasswordLoading extends AuthState {}
+
+final class UpdatePasswordSuccess extends AuthState {
+  final String password;
+
+  const UpdatePasswordSuccess({required this.password});
+
+  @override
+  List<Object> get props => [password];
+}
+
+final class UpdatePasswordFailed extends AuthState {
+  final String message;
+
+  const UpdatePasswordFailed({required this.message});
+
+  @override
+  List<Object> get props => [message];
+}
