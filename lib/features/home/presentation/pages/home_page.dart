@@ -1,5 +1,6 @@
 import 'package:antria_mobile_pelanggan/config/themes/themes.dart';
 import 'package:antria_mobile_pelanggan/core/utils/constant.dart';
+import 'package:antria_mobile_pelanggan/features/ewallet/presentation/bloc/ewallet_bloc.dart';
 import 'package:antria_mobile_pelanggan/features/ewallet/presentation/widgets/card_ballance.dart';
 import 'package:antria_mobile_pelanggan/features/profile/presentation/bloc/pelanggan_profile/pelanggan_profile_bloc.dart';
 import 'package:antria_mobile_pelanggan/shared/error_fetch_data.dart';
@@ -121,9 +122,18 @@ class HomePage extends StatelessWidget {
                         ),
                       ),
                       // const SearchBarHome(),
-                      CardBallance(
-                        balance: profileData.wallet!,
-                        isHome: true,
+                      BlocListener<EwalletBloc, EwalletState>(
+                        listener: (context, state) {
+                          if (state is EwalletSuccess) {
+                            context.read<PelangganProfileBloc>().add(
+                                  PelangganProfileFetchData(),
+                                );
+                          }
+                        },
+                        child: CardBallance(
+                          balance: profileData.wallet!,
+                          isHome: true,
+                        ),
                       )
                     ],
                   ),
