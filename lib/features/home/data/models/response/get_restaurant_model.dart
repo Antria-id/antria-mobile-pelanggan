@@ -20,7 +20,7 @@ class GetRestaurantResponse extends Equatable {
   final String? jamTutup;
   final String? gambarToko;
   final bool? subscription;
-  final StatusToko? statusToko;
+  final String? statusToko;
   final DateTime? createdAt;
   final DateTime? updatedAt;
 
@@ -54,7 +54,7 @@ class GetRestaurantResponse extends Equatable {
         jamTutup: json["jam_tutup"],
         gambarToko: json["gambar_toko"],
         subscription: json["subscription"],
-        statusToko: statusTokoValues.map[json["status_toko"]],
+        statusToko: json["status_toko"],
         createdAt: json["created_at"] == null
             ? null
             : DateTime.parse(json["created_at"]),

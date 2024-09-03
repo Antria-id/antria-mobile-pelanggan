@@ -22,18 +22,18 @@ class ListRestaurant extends StatefulWidget {
   _ListRestaurantState createState() => _ListRestaurantState();
 }
 
+// ...
+
 class _ListRestaurantState extends State<ListRestaurant> {
   @override
   void initState() {
     super.initState();
-    // Initialize locale data for Indonesian
     initializeDateFormatting('id_ID', null);
   }
 
   @override
   Widget build(BuildContext context) {
-    // Sort menu items by review, handling null reviews
-    final sortedresto = List<GetRestaurantResponse>.from(widget.restoItems)
+    final sortedResto = List<GetRestaurantResponse>.from(widget.restoItems)
       ..sort((a, b) {
         if (a.review == null && b.review == null) {
           return 0;
@@ -46,7 +46,6 @@ class _ListRestaurantState extends State<ListRestaurant> {
         }
       });
 
-    // Get current day in Indonesian locale
     final now = DateTime.now();
 
     return BlocProvider<GetRestaurantBloc>(
@@ -79,9 +78,9 @@ class _ListRestaurantState extends State<ListRestaurant> {
                   );
                 } else if (state is RestaurantLoadedState) {
                   return ListView.separated(
-                    itemCount: widget.isHome ? 5 : sortedresto.length,
+                    itemCount: widget.isHome ? 5 : sortedResto.length,
                     itemBuilder: (context, index) {
-                      final menuItem = sortedresto[index];
+                      final menuItem = sortedResto[index];
                       final rating =
                           menuItem.review != null ? menuItem.review! / 10 : 0.0;
 
@@ -89,7 +88,6 @@ class _ListRestaurantState extends State<ListRestaurant> {
                       final closingTime = menuItem.jamTutup;
                       final openDaysString = menuItem.hariBuka;
                       final openDays = openDaysString?.split(',');
-
                       bool isClosed = openingTime == null ||
                           closingTime == null ||
                           openDays == null ||
@@ -108,13 +106,25 @@ class _ListRestaurantState extends State<ListRestaurant> {
                             openingDateTime.hour,
                             openingDateTime.minute,
                           );
-                          closingDateTime = DateTime(
-                            now.year,
-                            now.month,
-                            now.day,
-                            closingDateTime.hour,
-                            closingDateTime.minute,
-                          );
+
+                          // Adjust closing time if it is past midnight
+                          if (closingTime.compareTo(openingTime) < 0) {
+                            closingDateTime = DateTime(
+                              now.year,
+                              now.month,
+                              now.day + 1, // Move to the next day
+                              closingDateTime.hour,
+                              closingDateTime.minute,
+                            );
+                          } else {
+                            closingDateTime = DateTime(
+                              now.year,
+                              now.month,
+                              now.day,
+                              closingDateTime.hour,
+                              closingDateTime.minute,
+                            );
+                          }
 
                           final daysOfWeek = [
                             'Minggu',
@@ -160,7 +170,7 @@ class _ListRestaurantState extends State<ListRestaurant> {
                 }
                 return const Center(child: CircularProgressIndicator());
               },
-            ),
+            )
           ],
         ),
       ),
