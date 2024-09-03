@@ -74,23 +74,48 @@ class _ListSearchRestaurantState extends State<ListSearchRestaurant> {
                       final rating =
                           menuItem.review != null ? menuItem.review! / 10 : 0.0;
 
+                      final openingTime = menuItem.jamBuka;
                       final closingTime = menuItem.jamTutup;
                       final openDaysString = menuItem.hariBuka;
                       final openDays = openDaysString?.split(',');
 
-                      bool isClosed = closingTime == null || openDays == null;
+                      bool isClosed = openingTime == null ||
+                          closingTime == null ||
+                          openDays == null ||
+                          menuItem.statusToko == 'CLOSE';
 
                       if (!isClosed) {
                         try {
                           final format = DateFormat("HH:mm");
+                          DateTime openingDateTime = format.parse(openingTime);
                           DateTime closingDateTime = format.parse(closingTime);
-                          closingDateTime = DateTime(
+
+                          openingDateTime = DateTime(
                             now.year,
                             now.month,
                             now.day,
-                            closingDateTime.hour,
-                            closingDateTime.minute,
+                            openingDateTime.hour,
+                            openingDateTime.minute,
                           );
+
+                          // Adjust closing time if it is past midnight
+                          if (closingTime.compareTo(openingTime) < 0) {
+                            closingDateTime = DateTime(
+                              now.year,
+                              now.month,
+                              now.day + 1, // Move to the next day
+                              closingDateTime.hour,
+                              closingDateTime.minute,
+                            );
+                          } else {
+                            closingDateTime = DateTime(
+                              now.year,
+                              now.month,
+                              now.day,
+                              closingDateTime.hour,
+                              closingDateTime.minute,
+                            );
+                          }
 
                           final daysOfWeek = [
                             'Minggu',
@@ -103,11 +128,11 @@ class _ListSearchRestaurantState extends State<ListSearchRestaurant> {
                           ];
                           final currentDay = daysOfWeek[now.weekday % 7];
 
-                          isClosed = now.isAfter(closingDateTime) ||
-                              menuItem.statusToko == 'CLOSE' ||
+                          isClosed = now.isBefore(openingDateTime) ||
+                              now.isAfter(closingDateTime) ||
                               !openDays.contains(currentDay);
                         } catch (e) {
-                          print("Error parsing closing time: $e");
+                          print("Error parsing time: $e");
                           isClosed = true;
                         }
                       }

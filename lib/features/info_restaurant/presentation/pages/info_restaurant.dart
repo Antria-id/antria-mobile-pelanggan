@@ -44,16 +44,22 @@ class _InfoRestaurantPageState extends State<InfoRestaurantPage> {
         DateTime? closingDateTime;
         DateTime? openingDateTime;
 
-        if (closingTime != null && closingTime.isNotEmpty) {
-          closingDateTime = format.parse(closingTime);
-          closingDateTime = DateTime(now.year, now.month, now.day,
-              closingDateTime.hour, closingDateTime.minute);
-        }
-
         if (openingTime != null && openingTime.isNotEmpty) {
           openingDateTime = format.parse(openingTime);
           openingDateTime = DateTime(now.year, now.month, now.day,
               openingDateTime.hour, openingDateTime.minute);
+        }
+
+        if (closingTime != null && closingTime.isNotEmpty) {
+          closingDateTime = format.parse(closingTime);
+          // Jika jam tutup lebih awal dari jam buka, tambahkan satu hari ke jam tutup
+          if (closingTime.compareTo(openingTime!) < 0) {
+            closingDateTime = DateTime(now.year, now.month, now.day + 1,
+                closingDateTime.hour, closingDateTime.minute);
+          } else {
+            closingDateTime = DateTime(now.year, now.month, now.day,
+                closingDateTime.hour, closingDateTime.minute);
+          }
         }
 
         if (openDaysString != null && openDaysString.isNotEmpty) {
@@ -75,8 +81,10 @@ class _InfoRestaurantPageState extends State<InfoRestaurantPage> {
         setState(() {
           isClosed = !isOpenToday ||
               state.response.statusToko == 'CLOSE' ||
-              (closingDateTime != null && now.isAfter(closingDateTime)) ||
-              (openingDateTime != null && now.isBefore(openingDateTime)) ||
+              (openingDateTime != null &&
+                  closingDateTime != null &&
+                  !(now.isAfter(openingDateTime) &&
+                      now.isBefore(closingDateTime))) ||
               closingTime == null ||
               closingTime.isEmpty ||
               openDaysString == null ||
@@ -135,7 +143,9 @@ class _InfoRestaurantPageState extends State<InfoRestaurantPage> {
                       ),
                       Expanded(
                         child: Container(
-                          margin: const EdgeInsets.only(top: 10),
+                          margin: const EdgeInsets.only(
+                            top: 2,
+                          ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.start,
